@@ -1,0 +1,2540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<records>
+	<record bibcode="2011A&amp;A...525A..45H" pubtype="article">
+		<metadata origin="EDP Sciences" timestamp="1317933003">
+			<bibcode>2011A&amp;A...525A..45H</bibcode>
+			<keywords type="Astronomy">
+				<keyword channel="">gamma rays: general</keyword>
+				<keyword channel="">X-rays: general</keyword>
+			</keywords>
+			<keywords type="Normalized">
+				<keyword channel="">gamma rays</keyword>
+				<keyword channel="">astronomy x rays</keyword>
+			</keywords>
+			<title>Discovery and follow-up studies of the extended, off-plane, VHE gamma-ray source HESS J1507-622</title>
+			<author nr="1">
+				<name>
+					<western>HESS Collaboration</western>
+					<normalized>HESS Collaboration</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="2">
+				<name>
+					<western>Acero, F.</western>
+					<normalized>Acero, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="3">
+				<name>
+					<western>Aharonian, F.</western>
+					<normalized>Aharonian, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="4">
+				<name>
+					<western>Akhperjanian, A. G.</western>
+					<normalized>Akhperjanian, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="5">
+				<name>
+					<western>Anton, G.</western>
+					<normalized>Anton, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="6">
+				<name>
+					<western>Barres de Almeida, U.</western>
+					<normalized>Barres de Almeida, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="7">
+				<name>
+					<western>Bazer-Bachi, A. R.</western>
+					<normalized>Bazer-Bachi, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="8">
+				<name>
+					<western>Becherini, Y.</western>
+					<normalized>Becherini, Y</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="9">
+				<name>
+					<western>Behera, B.</western>
+					<normalized>Behera, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="10">
+				<name>
+					<western>Bernlöhr, K.</western>
+					<normalized>Bernloehr, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="11">
+				<name>
+					<western>Bochow, A.</western>
+					<normalized>Bochow, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="12">
+				<name>
+					<western>Boisson, C.</western>
+					<normalized>Boisson, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="13">
+				<name>
+					<western>Bolmont, J.</western>
+					<normalized>Bolmont, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="14">
+				<name>
+					<western>Borrel, V.</western>
+					<normalized>Borrel, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="15">
+				<name>
+					<western>Brucker, J.</western>
+					<normalized>Brucker, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="16">
+				<name>
+					<western>Brun, F.</western>
+					<normalized>Brun, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="17">
+				<name>
+					<western>Brun, P.</western>
+					<normalized>Brun, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="18">
+				<name>
+					<western>Bühler, R.</western>
+					<normalized>Buehler, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="19">
+				<name>
+					<western>Bulik, T.</western>
+					<normalized>Bulik, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="20">
+				<name>
+					<western>Büsching, I.</western>
+					<normalized>Buesching, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="21">
+				<name>
+					<western>Boutelier, T.</western>
+					<normalized>Boutelier, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="22">
+				<name>
+					<western>Chadwick, P. M.</western>
+					<normalized>Chadwick, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="23">
+				<name>
+					<western>Charbonnier, A.</western>
+					<normalized>Charbonnier, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="24">
+				<name>
+					<western>Chaves, R. C. G.</western>
+					<normalized>Chaves, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="25">
+				<name>
+					<western>Cheesebrough, A.</western>
+					<normalized>Cheesebrough, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="26">
+				<name>
+					<western>Chounet, L. -M.</western>
+					<normalized>Chounet, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="27">
+				<name>
+					<western>Clapson, A. C.</western>
+					<normalized>Clapson, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="28">
+				<name>
+					<western>Coignet, G.</western>
+					<normalized>Coignet, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="29">
+				<name>
+					<western>Dalton, M.</western>
+					<normalized>Dalton, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="30">
+				<name>
+					<western>Daniel, M. K.</western>
+					<normalized>Daniel, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="31">
+				<name>
+					<western>Davids, I. D.</western>
+					<normalized>Davids, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="32">
+				<name>
+					<western>Degrange, B.</western>
+					<normalized>Degrange, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="33">
+				<name>
+					<western>Deil, C.</western>
+					<normalized>Deil, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="34">
+				<name>
+					<western>Dickinson, H. J.</western>
+					<normalized>Dickinson, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="35">
+				<name>
+					<western>Djannati-Ataï, A.</western>
+					<normalized>Djannati-Atai, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="36">
+				<name>
+					<western>Domainko, W.</western>
+					<normalized>Domainko, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="37">
+				<name>
+					<western>Drury, L. O'C.</western>
+					<normalized>Drury, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="38">
+				<name>
+					<western>Dubois, F.</western>
+					<normalized>Dubois, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="39">
+				<name>
+					<western>Dubus, G.</western>
+					<normalized>Dubus, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="40">
+				<name>
+					<western>Dyks, J.</western>
+					<normalized>Dyks, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="41">
+				<name>
+					<western>Dyrda, M.</western>
+					<normalized>Dyrda, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="42">
+				<name>
+					<western>Egberts, K.</western>
+					<normalized>Egberts, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="43">
+				<name>
+					<western>Emmanoulopoulos, D.</western>
+					<normalized>Emmanoulopoulos, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="44">
+				<name>
+					<western>Espigat, P.</western>
+					<normalized>Espigat, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="45">
+				<name>
+					<western>Farnier, C.</western>
+					<normalized>Farnier, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="46">
+				<name>
+					<western>Feinstein, F.</western>
+					<normalized>Feinstein, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="47">
+				<name>
+					<western>Fiasson, A.</western>
+					<normalized>Fiasson, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="48">
+				<name>
+					<western>Förster, A.</western>
+					<normalized>Foerster, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="49">
+				<name>
+					<western>Fontaine, G.</western>
+					<normalized>Fontaine, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="50">
+				<name>
+					<western>Füßling, M.</western>
+					<normalized>Fuessling, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="51">
+				<name>
+					<western>Gabici, S.</western>
+					<normalized>Gabici, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="52">
+				<name>
+					<western>Gallant, Y. A.</western>
+					<normalized>Gallant, Y</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="53">
+				<name>
+					<western>Gérard, L.</western>
+					<normalized>Gerard, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="54">
+				<name>
+					<western>Gerbig, D.</western>
+					<normalized>Gerbig, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="55">
+				<name>
+					<western>Giebels, B.</western>
+					<normalized>Giebels, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="56">
+				<name>
+					<western>Glicenstein, J. F.</western>
+					<normalized>Glicenstein, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="57">
+				<name>
+					<western>Glück, B.</western>
+					<normalized>Glueck, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="58">
+				<name>
+					<western>Goret, P.</western>
+					<normalized>Goret, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="59">
+				<name>
+					<western>Göring, D.</western>
+					<normalized>Goering, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="60">
+				<name>
+					<western>Hauser, D.</western>
+					<normalized>Hauser, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="61">
+				<name>
+					<western>Hauser, M.</western>
+					<normalized>Hauser, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="62">
+				<name>
+					<western>Heinz, S.</western>
+					<normalized>Heinz, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="63">
+				<name>
+					<western>Heinzelmann, G.</western>
+					<normalized>Heinzelmann, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="64">
+				<name>
+					<western>Henri, G.</western>
+					<normalized>Henri, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="65">
+				<name>
+					<western>Hermann, G.</western>
+					<normalized>Hermann, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="66">
+				<name>
+					<western>Hinton, J. A.</western>
+					<normalized>Hinton, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="67">
+				<name>
+					<western>Hoffmann, A.</western>
+					<normalized>Hoffmann, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="68">
+				<name>
+					<western>Hofmann, W.</western>
+					<normalized>Hofmann, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="69">
+				<name>
+					<western>Holleran, M.</western>
+					<normalized>Holleran, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="70">
+				<name>
+					<western>Hoppe, S.</western>
+					<normalized>Hoppe, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="71">
+				<name>
+					<western>Horns, D.</western>
+					<normalized>Horns, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="72">
+				<name>
+					<western>Jacholkowska, A.</western>
+					<normalized>Jacholkowska, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="73">
+				<name>
+					<western>de Jager, O. C.</western>
+					<normalized>de Jager, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="74">
+				<name>
+					<western>Jahn, C.</western>
+					<normalized>Jahn, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="75">
+				<name>
+					<western>Jung, I.</western>
+					<normalized>Jung, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="76">
+				<name>
+					<western>Katarzyński, K.</western>
+					<normalized>Katarzynski, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="77">
+				<name>
+					<western>Katz, U.</western>
+					<normalized>Katz, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="78">
+				<name>
+					<western>Kaufmann, S.</western>
+					<normalized>Kaufmann, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="79">
+				<name>
+					<western>Kerschhaggl, M.</western>
+					<normalized>Kerschhaggl, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="80">
+				<name>
+					<western>Khangulyan, D.</western>
+					<normalized>Khangulyan, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="81">
+				<name>
+					<western>Khélifi, B.</western>
+					<normalized>Khelifi, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="82">
+				<name>
+					<western>Keogh, D.</western>
+					<normalized>Keogh, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="83">
+				<name>
+					<western>Klochkov, D.</western>
+					<normalized>Klochkov, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="84">
+				<name>
+					<western>Kluźniak, W.</western>
+					<normalized>Kluzniak, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="85">
+				<name>
+					<western>Kneiske, T.</western>
+					<normalized>Kneiske, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="86">
+				<name>
+					<western>Komin, Nu.</western>
+					<normalized>Komin, N</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="87">
+				<name>
+					<western>Kosack, K.</western>
+					<normalized>Kosack, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="88">
+				<name>
+					<western>Kossakowski, R.</western>
+					<normalized>Kossakowski, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="89">
+				<name>
+					<western>Lamanna, G.</western>
+					<normalized>Lamanna, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="90">
+				<name>
+					<western>Lenain, J. -P.</western>
+					<normalized>Lenain, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="91">
+				<name>
+					<western>Lohse, T.</western>
+					<normalized>Lohse, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="92">
+				<name>
+					<western>Marandon, V.</western>
+					<normalized>Marandon, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="93">
+				<name>
+					<western>Martineau-Huynh, O.</western>
+					<normalized>Martineau-Huynh, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="94">
+				<name>
+					<western>Marcowith, A.</western>
+					<normalized>Marcowith, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="95">
+				<name>
+					<western>Masbou, J.</western>
+					<normalized>Masbou, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="96">
+				<name>
+					<western>Maurin, D.</western>
+					<normalized>Maurin, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="97">
+				<name>
+					<western>McComb, T. J. L.</western>
+					<normalized>McComb, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="98">
+				<name>
+					<western>Medina, M. C.</western>
+					<normalized>Medina, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="99">
+				<name>
+					<western>Méhault, J.</western>
+					<normalized>Mehault, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="100">
+				<name>
+					<western>Moderski, R.</western>
+					<normalized>Moderski, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="101">
+				<name>
+					<western>Moulin, E.</western>
+					<normalized>Moulin, E</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="102">
+				<name>
+					<western>Naumann-Godo, M.</western>
+					<normalized>Naumann-Godo, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="103">
+				<name>
+					<western>de Naurois, M.</western>
+					<normalized>de Naurois, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="104">
+				<name>
+					<western>Nedbal, D.</western>
+					<normalized>Nedbal, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="105">
+				<name>
+					<western>Nekrassov, D.</western>
+					<normalized>Nekrassov, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="106">
+				<name>
+					<western>Nicholas, B.</western>
+					<normalized>Nicholas, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="107">
+				<name>
+					<western>Niemiec, J.</western>
+					<normalized>Niemiec, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="108">
+				<name>
+					<western>Nolan, S. J.</western>
+					<normalized>Nolan, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="109">
+				<name>
+					<western>Ohm, S.</western>
+					<normalized>Ohm, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="110">
+				<name>
+					<western>Olive, J. -F.</western>
+					<normalized>Olive, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="111">
+				<name>
+					<western>de Oña Wilhelmi, E.</western>
+					<normalized>de Ona Wilhelmi, E</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="112">
+				<name>
+					<western>Orford, K. J.</western>
+					<normalized>Orford, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="113">
+				<name>
+					<western>Ostrowski, M.</western>
+					<normalized>Ostrowski, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="114">
+				<name>
+					<western>Panter, M.</western>
+					<normalized>Panter, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="115">
+				<name>
+					<western>Paz Arribas, M.</western>
+					<normalized>Paz Arribas, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="116">
+				<name>
+					<western>Pedaletti, G.</western>
+					<normalized>Pedaletti, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="117">
+				<name>
+					<western>Pelletier, G.</western>
+					<normalized>Pelletier, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="118">
+				<name>
+					<western>Petrucci, P. -O.</western>
+					<normalized>Petrucci, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="119">
+				<name>
+					<western>Pita, S.</western>
+					<normalized>Pita, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="120">
+				<name>
+					<western>Pühlhofer, G.</western>
+					<normalized>Puehlhofer, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="121">
+				<name>
+					<western>Punch, M.</western>
+					<normalized>Punch, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="122">
+				<name>
+					<western>Quirrenbach, A.</western>
+					<normalized>Quirrenbach, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="123">
+				<name>
+					<western>Raubenheimer, B. C.</western>
+					<normalized>Raubenheimer, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="124">
+				<name>
+					<western>Raue, M.</western>
+					<normalized>Raue, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="125">
+				<name>
+					<western>Rayner, S. M.</western>
+					<normalized>Rayner, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="126">
+				<name>
+					<western>Reimer, O.</western>
+					<normalized>Reimer, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="127">
+				<name>
+					<western>Renaud, M.</western>
+					<normalized>Renaud, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="128">
+				<name>
+					<western>Rieger, F.</western>
+					<normalized>Rieger, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="129">
+				<name>
+					<western>Ripken, J.</western>
+					<normalized>Ripken, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="130">
+				<name>
+					<western>Rob, L.</western>
+					<normalized>Rob, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="131">
+				<name>
+					<western>Rosier-Lees, S.</western>
+					<normalized>Rosier-Lees, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="132">
+				<name>
+					<western>Rowell, G.</western>
+					<normalized>Rowell, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="133">
+				<name>
+					<western>Rudak, B.</western>
+					<normalized>Rudak, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="134">
+				<name>
+					<western>Rulten, C. B.</western>
+					<normalized>Rulten, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="135">
+				<name>
+					<western>Ruppel, J.</western>
+					<normalized>Ruppel, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="136">
+				<name>
+					<western>Sahakian, V.</western>
+					<normalized>Sahakian, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="137">
+				<name>
+					<western>Santangelo, A.</western>
+					<normalized>Santangelo, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="138">
+				<name>
+					<western>Schlickeiser, R.</western>
+					<normalized>Schlickeiser, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="139">
+				<name>
+					<western>Schöck, F. M.</western>
+					<normalized>Schoeck, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="140">
+				<name>
+					<western>Schwanke, U.</western>
+					<normalized>Schwanke, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="141">
+				<name>
+					<western>Schwarzburg, S.</western>
+					<normalized>Schwarzburg, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="142">
+				<name>
+					<western>Schwemmer, S.</western>
+					<normalized>Schwemmer, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="143">
+				<name>
+					<western>Shalchi, A.</western>
+					<normalized>Shalchi, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="144">
+				<name>
+					<western>Sikora, M.</western>
+					<normalized>Sikora, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="145">
+				<name>
+					<western>Skilton, J. L.</western>
+					<normalized>Skilton, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="146">
+				<name>
+					<western>Sol, H.</western>
+					<normalized>Sol, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="147">
+				<name>
+					<western>Stawarz, Ł.</western>
+					<normalized>Stawarz, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="148">
+				<name>
+					<western>Steenkamp, R.</western>
+					<normalized>Steenkamp, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="149">
+				<name>
+					<western>Stegmann, C.</western>
+					<normalized>Stegmann, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="150">
+				<name>
+					<western>Stinzing, F.</western>
+					<normalized>Stinzing, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="151">
+				<name>
+					<western>Superina, G.</western>
+					<normalized>Superina, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="152">
+				<name>
+					<western>Szostek, A.</western>
+					<normalized>Szostek, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="153">
+				<name>
+					<western>Tam, P. H.</western>
+					<normalized>Tam, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="154">
+				<name>
+					<western>Tavernet, J. -P.</western>
+					<normalized>Tavernet, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="155">
+				<name>
+					<western>Terrier, R.</western>
+					<normalized>Terrier, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="156">
+				<name>
+					<western>Tibolla, O.</western>
+					<normalized>Tibolla, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="157">
+				<name>
+					<western>Tluczykont, M.</western>
+					<normalized>Tluczykont, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="158">
+				<name>
+					<western>van Eldik, C.</western>
+					<normalized>van Eldik, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="159">
+				<name>
+					<western>Vasileiadis, G.</western>
+					<normalized>Vasileiadis, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="160">
+				<name>
+					<western>Venter, C.</western>
+					<normalized>Venter, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="161">
+				<name>
+					<western>Venter, L.</western>
+					<normalized>Venter, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="162">
+				<name>
+					<western>Vialle, J. P.</western>
+					<normalized>Vialle, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="163">
+				<name>
+					<western>Vincent, P.</western>
+					<normalized>Vincent, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="164">
+				<name>
+					<western>Vivier, M.</western>
+					<normalized>Vivier, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="165">
+				<name>
+					<western>Völk, H. J.</western>
+					<normalized>Voelk, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="166">
+				<name>
+					<western>Volpe, F.</western>
+					<normalized>Volpe, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="167">
+				<name>
+					<western>Wagner, S. J.</western>
+					<normalized>Wagner, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="168">
+				<name>
+					<western>Ward, M.</western>
+					<normalized>Ward, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="169">
+				<name>
+					<western>Zdziarski, A. A.</western>
+					<normalized>Zdziarski, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="170">
+				<name>
+					<western>Zech, A.</western>
+					<normalized>Zech, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="171">
+				<name>
+					<western>H. E. S. S. Collaboration</western>
+					<normalized>H. E. S. S. Collaboration</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<journal>Astronomy and Astrophysics, Volume 525, id.A45</journal>
+			<volume>525</volume>
+			<pubdate>Jan 2011</pubdate>
+			<numpubdate>01-2011</numpubdate>
+			<page>45</page>
+			<origin>EDP Sciences</origin>
+			<abstract lang="en">Context. The detection of gamma-rays in the very-high-energy (VHE) range (100 GeV-100 TeV) offers the possibility of studying the parent population of ultrarelativistic particles found in astrophysical sources, so it is useful for understanding the underlying astrophysical processes in nonthermal sources. &lt;BR /&gt; Aims: The discovery of the VHE gamma-ray source HESS J1507-622 is reported and possibilities regarding its nature are investigated. &lt;BR /&gt; Methods: The H.E.S.S. array of imaging atmospheric Cherenkov telescopes (IACTs) has a high sensitivity compared with previous instruments (~1% of the Crab flux in 25 h observation time for a 5σ point-source detection) and has a large field of view (~5° in diameter). HESS J1507-622 was discovered within the ongoing H.E.S.S. survey of the inner Galaxy, and the source was also studied by means of dedicated multiwavelength observations. &lt;BR /&gt; Results: A Galactic gamma-ray source, HESS J1507-622, located ~3.5° from the Galactic plane was detected with a statistical significance 〉9σ. Its energy spectrum is well fitted by a power law with spectral index Γ = 2.24 ± 0.16_stat ± 0.20_sys and a flux above 1 TeV of (1.5 ± 0.4_stat ± 0.3_sys) × 10&lt;SUP&gt;-12&lt;/SUP&gt; cm&lt;SUP&gt;-2&lt;/SUP&gt; s&lt;SUP&gt;-1&lt;/SUP&gt;. Possible interpretations (considering both hadronic and leptonic models) of the VHE gamma-ray emission are discussed in the absence of an obvious counterpart.</abstract>
+			<DOI>10.1051/0004-6361/201015187</DOI>
+		</metadata>
+		<metadata origin="SIMBAD" timestamp="1305298685">
+			<bibcode>2011A&amp;A...525A..45A</bibcode>
+			<title>Discovery and follow-up studies of the extended, off-plane, VHE gamma-ray  source HESS J1507-622.</title>
+			<author nr="1">
+				<name>
+					<western>Acero, F.</western>
+					<normalized>Acero, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="2">
+				<name>
+					<western>Aharonian, F.</western>
+					<normalized>Aharonian, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="3">
+				<name>
+					<western>Akhperjanian, A. G.</western>
+					<normalized>Akhperjanian, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="4">
+				<name>
+					<western>Anton, G.</western>
+					<normalized>Anton, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="5">
+				<name>
+					<western>Barres de Almeida, U.</western>
+					<normalized>Barres de Almeida, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="6">
+				<name>
+					<western>Bazer-Bachi, A. R.</western>
+					<normalized>Bazer-Bachi, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="7">
+				<name>
+					<western>Becherini, Y.</western>
+					<normalized>Becherini, Y</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="8">
+				<name>
+					<western>Behera, B.</western>
+					<normalized>Behera, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="9">
+				<name>
+					<western>Bernloehr, K.</western>
+					<normalized>Bernloehr, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="10">
+				<name>
+					<western>Bochow, A.</western>
+					<normalized>Bochow, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="11">
+				<name>
+					<western>Boisson, C.</western>
+					<normalized>Boisson, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="12">
+				<name>
+					<western>Bolmont, J.</western>
+					<normalized>Bolmont, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="13">
+				<name>
+					<western>Borrel, V.</western>
+					<normalized>Borrel, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="14">
+				<name>
+					<western>Brucker, J.</western>
+					<normalized>Brucker, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="15">
+				<name>
+					<western>Brun, F.</western>
+					<normalized>Brun, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="16">
+				<name>
+					<western>Brun, P.</western>
+					<normalized>Brun, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="17">
+				<name>
+					<western>Buehler, R.</western>
+					<normalized>Buehler, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="18">
+				<name>
+					<western>Bulik, T.</western>
+					<normalized>Bulik, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="19">
+				<name>
+					<western>Buesching, I.</western>
+					<normalized>Buesching, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="20">
+				<name>
+					<western>Boutelier, T.</western>
+					<normalized>Boutelier, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="21">
+				<name>
+					<western>Chadwick, P. M.</western>
+					<normalized>Chadwick, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="22">
+				<name>
+					<western>Charbonnier, A.</western>
+					<normalized>Charbonnier, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="23">
+				<name>
+					<western>Chaves, R. C. G.</western>
+					<normalized>Chaves, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="24">
+				<name>
+					<western>Cheesebrough, A.</western>
+					<normalized>Cheesebrough, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="25">
+				<name>
+					<western>Chounet, L. -M.</western>
+					<normalized>Chounet, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="26">
+				<name>
+					<western>Clapson, A. C.</western>
+					<normalized>Clapson, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="27">
+				<name>
+					<western>Coignet, G.</western>
+					<normalized>Coignet, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="28">
+				<name>
+					<western>Dalton, M.</western>
+					<normalized>Dalton, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="29">
+				<name>
+					<western>Daniel, M. K.</western>
+					<normalized>Daniel, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="30">
+				<name>
+					<western>Davids, I. D.</western>
+					<normalized>Davids, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="31">
+				<name>
+					<western>Degrange, B.</western>
+					<normalized>Degrange, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="32">
+				<name>
+					<western>Deil, C.</western>
+					<normalized>Deil, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="33">
+				<name>
+					<western>Dickinson, H. J.</western>
+					<normalized>Dickinson, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="34">
+				<name>
+					<western>Djannati-Ataie, A.</western>
+					<normalized>Djannati-Ataie, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="35">
+				<name>
+					<western>Domainko, W.</western>
+					<normalized>Domainko, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="36">
+				<name>
+					<western>Drury, L. O'c.</western>
+					<normalized>Drury, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="37">
+				<name>
+					<western>Dubois, F.</western>
+					<normalized>Dubois, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="38">
+				<name>
+					<western>Dubus, G.</western>
+					<normalized>Dubus, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="39">
+				<name>
+					<western>Dyks, J.</western>
+					<normalized>Dyks, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="40">
+				<name>
+					<western>Dyrda, M.</western>
+					<normalized>Dyrda, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="41">
+				<name>
+					<western>Egberts, K.</western>
+					<normalized>Egberts, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="42">
+				<name>
+					<western>Emmanoulopoulos, D.</western>
+					<normalized>Emmanoulopoulos, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="43">
+				<name>
+					<western>Espigat, P.</western>
+					<normalized>Espigat, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="44">
+				<name>
+					<western>Farnier, C.</western>
+					<normalized>Farnier, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="45">
+				<name>
+					<western>Feinstein, F.</western>
+					<normalized>Feinstein, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="46">
+				<name>
+					<western>Fiasson, A.</western>
+					<normalized>Fiasson, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="47">
+				<name>
+					<western>Foerster, A.</western>
+					<normalized>Foerster, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="48">
+				<name>
+					<western>Fontaine, G.</western>
+					<normalized>Fontaine, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="49">
+				<name>
+					<western>Fuesling, M.</western>
+					<normalized>Fuesling, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="50">
+				<name>
+					<western>Gabici, S.</western>
+					<normalized>Gabici, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="51">
+				<name>
+					<western>Gallant, Y. A.</western>
+					<normalized>Gallant, Y</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="52">
+				<name>
+					<western>Gerard, L.</western>
+					<normalized>Gerard, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="53">
+				<name>
+					<western>Gerbig, D.</western>
+					<normalized>Gerbig, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="54">
+				<name>
+					<western>Giebels, B.</western>
+					<normalized>Giebels, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="55">
+				<name>
+					<western>Glicenstein, J. F.</western>
+					<normalized>Glicenstein, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="56">
+				<name>
+					<western>Glueck, B.</western>
+					<normalized>Glueck, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="57">
+				<name>
+					<western>Goret, P.</western>
+					<normalized>Goret, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="58">
+				<name>
+					<western>Goering, D.</western>
+					<normalized>Goering, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="59">
+				<name>
+					<western>Hauser, D.</western>
+					<normalized>Hauser, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="60">
+				<name>
+					<western>Hauser, M.</western>
+					<normalized>Hauser, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="61">
+				<name>
+					<western>Heinz, S.</western>
+					<normalized>Heinz, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="62">
+				<name>
+					<western>Heinzelmann, G.</western>
+					<normalized>Heinzelmann, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="63">
+				<name>
+					<western>Henri, G.</western>
+					<normalized>Henri, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="64">
+				<name>
+					<western>Hermann, G.</western>
+					<normalized>Hermann, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="65">
+				<name>
+					<western>Hinton, J. A.</western>
+					<normalized>Hinton, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="66">
+				<name>
+					<western>Hoffmann, A.</western>
+					<normalized>Hoffmann, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="67">
+				<name>
+					<western>Hofmann, W.</western>
+					<normalized>Hofmann, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="68">
+				<name>
+					<western>Holleran, M.</western>
+					<normalized>Holleran, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="69">
+				<name>
+					<western>Hoppe, S.</western>
+					<normalized>Hoppe, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="70">
+				<name>
+					<western>Horns, D.</western>
+					<normalized>Horns, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="71">
+				<name>
+					<western>Jacholkowska, A.</western>
+					<normalized>Jacholkowska, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="72">
+				<name>
+					<western>de Jager, O. C.</western>
+					<normalized>de Jager, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="73">
+				<name>
+					<western>Jahn, C.</western>
+					<normalized>Jahn, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="74">
+				<name>
+					<western>Jung, I.</western>
+					<normalized>Jung, I</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="75">
+				<name>
+					<western>Katarzynski, K.</western>
+					<normalized>Katarzynski, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="76">
+				<name>
+					<western>Katz, U.</western>
+					<normalized>Katz, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="77">
+				<name>
+					<western>Kaufmann, S.</western>
+					<normalized>Kaufmann, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="78">
+				<name>
+					<western>Kerschhaggl, M.</western>
+					<normalized>Kerschhaggl, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="79">
+				<name>
+					<western>Khangulyan, D.</western>
+					<normalized>Khangulyan, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="80">
+				<name>
+					<western>Khelifi, B.</western>
+					<normalized>Khelifi, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="81">
+				<name>
+					<western>Keogh, D.</western>
+					<normalized>Keogh, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="82">
+				<name>
+					<western>Klochkov, D.</western>
+					<normalized>Klochkov, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="83">
+				<name>
+					<western>Kluzniak, W.</western>
+					<normalized>Kluzniak, W</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="84">
+				<name>
+					<western>Kneiske, T.</western>
+					<normalized>Kneiske, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="85">
+				<name>
+					<western>Komin, Nu.</western>
+					<normalized>Komin, N</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="86">
+				<name>
+					<western>Kosack, K.</western>
+					<normalized>Kosack, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="87">
+				<name>
+					<western>Kossakowski, R.</western>
+					<normalized>Kossakowski, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="88">
+				<name>
+					<western>Lamanna, G.</western>
+					<normalized>Lamanna, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="89">
+				<name>
+					<western>Lenain, J. -P.</western>
+					<normalized>Lenain, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="90">
+				<name>
+					<western>Lohse, T.</western>
+					<normalized>Lohse, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="91">
+				<name>
+					<western>Marandon, V.</western>
+					<normalized>Marandon, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="92">
+				<name>
+					<western>Martineau-Huynh, O.</western>
+					<normalized>Martineau-Huynh, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="93">
+				<name>
+					<western>Marcowith, A.</western>
+					<normalized>Marcowith, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="94">
+				<name>
+					<western>Masbou, J.</western>
+					<normalized>Masbou, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="95">
+				<name>
+					<western>Maurin, D.</western>
+					<normalized>Maurin, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="96">
+				<name>
+					<western>McComb, T. J. L.</western>
+					<normalized>McComb, T</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="97">
+				<name>
+					<western>Medina, M. C.</western>
+					<normalized>Medina, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="98">
+				<name>
+					<western>Mehault, J.</western>
+					<normalized>Mehault, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="99">
+				<name>
+					<western>Moderski, R.</western>
+					<normalized>Moderski, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="100">
+				<name>
+					<western>Moulin, E.</western>
+					<normalized>Moulin, E</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="101">
+				<name>
+					<western>Naumann-Godo, M.</western>
+					<normalized>Naumann-Godo, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="102">
+				<name>
+					<western>de Naurois, M.</western>
+					<normalized>de Naurois, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="103">
+				<name>
+					<western>Nedbal, D.</western>
+					<normalized>Nedbal, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="104">
+				<name>
+					<western>Nekrassov, D.</western>
+					<normalized>Nekrassov, D</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="105">
+				<name>
+					<western>Nicholas, B.</western>
+					<normalized>Nicholas, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="106">
+				<name>
+					<western>Niemiec, J.</western>
+					<normalized>Niemiec, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="107">
+				<name>
+					<western>Nolan, S. J.</western>
+					<normalized>Nolan, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="108">
+				<name>
+					<western>Ohm, S.</western>
+					<normalized>Ohm, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="109">
+				<name>
+					<western>Olive, J. -F.</western>
+					<normalized>Olive, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="110">
+				<name>
+					<western>de Ona Wilhelmi, E.</western>
+					<normalized>de Ona Wilhelmi, E</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="111">
+				<name>
+					<western>Orford, K. J.</western>
+					<normalized>Orford, K</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="112">
+				<name>
+					<western>Ostrowski, M.</western>
+					<normalized>Ostrowski, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="113">
+				<name>
+					<western>Panter, M.</western>
+					<normalized>Panter, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="114">
+				<name>
+					<western>Paz Arribas, M.</western>
+					<normalized>Paz Arribas, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="115">
+				<name>
+					<western>Pedaletti, G.</western>
+					<normalized>Pedaletti, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="116">
+				<name>
+					<western>Pelletier, G.</western>
+					<normalized>Pelletier, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="117">
+				<name>
+					<western>Petrucci, P. -O.</western>
+					<normalized>Petrucci, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="118">
+				<name>
+					<western>Pita, S.</western>
+					<normalized>Pita, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="119">
+				<name>
+					<western>Puehlhofer, G.</western>
+					<normalized>Puehlhofer, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="120">
+				<name>
+					<western>Punch, M.</western>
+					<normalized>Punch, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="121">
+				<name>
+					<western>Quirrenbach, A.</western>
+					<normalized>Quirrenbach, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="122">
+				<name>
+					<western>Raubenheimer, B. C.</western>
+					<normalized>Raubenheimer, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="123">
+				<name>
+					<western>Raue, M.</western>
+					<normalized>Raue, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="124">
+				<name>
+					<western>Rayner, S. M.</western>
+					<normalized>Rayner, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="125">
+				<name>
+					<western>Reimer, O.</western>
+					<normalized>Reimer, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="126">
+				<name>
+					<western>Renaud, M.</western>
+					<normalized>Renaud, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="127">
+				<name>
+					<western>Rieger, F.</western>
+					<normalized>Rieger, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="128">
+				<name>
+					<western>Ripken, J.</western>
+					<normalized>Ripken, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="129">
+				<name>
+					<western>Rob, L.</western>
+					<normalized>Rob, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="130">
+				<name>
+					<western>Rosier-Lees, S.</western>
+					<normalized>Rosier-Lees, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="131">
+				<name>
+					<western>Rowell, G.</western>
+					<normalized>Rowell, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="132">
+				<name>
+					<western>Rudak, B.</western>
+					<normalized>Rudak, B</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="133">
+				<name>
+					<western>Rulten, C. B.</western>
+					<normalized>Rulten, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="134">
+				<name>
+					<western>Ruppel, J.</western>
+					<normalized>Ruppel, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="135">
+				<name>
+					<western>Sahakian, V.</western>
+					<normalized>Sahakian, V</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="136">
+				<name>
+					<western>Santangelo, A.</western>
+					<normalized>Santangelo, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="137">
+				<name>
+					<western>Schlickeiser, R.</western>
+					<normalized>Schlickeiser, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="138">
+				<name>
+					<western>Schoeck, F. M.</western>
+					<normalized>Schoeck, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="139">
+				<name>
+					<western>Schwanke, U.</western>
+					<normalized>Schwanke, U</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="140">
+				<name>
+					<western>Schwarzburg, S.</western>
+					<normalized>Schwarzburg, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="141">
+				<name>
+					<western>Schwemmer, S.</western>
+					<normalized>Schwemmer, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="142">
+				<name>
+					<western>Shalchi, A.</western>
+					<normalized>Shalchi, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="143">
+				<name>
+					<western>Sikora, M.</western>
+					<normalized>Sikora, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="144">
+				<name>
+					<western>Skilton, J. L.</western>
+					<normalized>Skilton, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="145">
+				<name>
+					<western>Sol, H.</western>
+					<normalized>Sol, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="146">
+				<name>
+					<western>Stawarz, L.</western>
+					<normalized>Stawarz, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="147">
+				<name>
+					<western>Steenkamp, R.</western>
+					<normalized>Steenkamp, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="148">
+				<name>
+					<western>Stegmann, C.</western>
+					<normalized>Stegmann, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="149">
+				<name>
+					<western>Stinzing, F.</western>
+					<normalized>Stinzing, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="150">
+				<name>
+					<western>Superina, G.</western>
+					<normalized>Superina, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="151">
+				<name>
+					<western>Szostek, A.</western>
+					<normalized>Szostek, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="152">
+				<name>
+					<western>Tam, P. H.</western>
+					<normalized>Tam, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="153">
+				<name>
+					<western>Tavernet, J. -P.</western>
+					<normalized>Tavernet, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="154">
+				<name>
+					<western>Terrier, R.</western>
+					<normalized>Terrier, R</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="155">
+				<name>
+					<western>Tibolla, O.</western>
+					<normalized>Tibolla, O</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="156">
+				<name>
+					<western>Tluczykont, M.</western>
+					<normalized>Tluczykont, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="157">
+				<name>
+					<western>van Eldik, C.</western>
+					<normalized>van Eldik, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="158">
+				<name>
+					<western>Vasileiadis, G.</western>
+					<normalized>Vasileiadis, G</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="159">
+				<name>
+					<western>Venter, C.</western>
+					<normalized>Venter, C</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="160">
+				<name>
+					<western>Venter, L.</western>
+					<normalized>Venter, L</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="161">
+				<name>
+					<western>Vialle, J. P.</western>
+					<normalized>Vialle, J</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="162">
+				<name>
+					<western>Vincent, P.</western>
+					<normalized>Vincent, P</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="163">
+				<name>
+					<western>Vivier, M.</western>
+					<normalized>Vivier, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="164">
+				<name>
+					<western>Voelk, H. J.</western>
+					<normalized>Voelk, H</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="165">
+				<name>
+					<western>Volpe, F.</western>
+					<normalized>Volpe, F</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="166">
+				<name>
+					<western>Wagner, S. J.</western>
+					<normalized>Wagner, S</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="167">
+				<name>
+					<western>Ward, M.</western>
+					<normalized>Ward, M</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="168">
+				<name>
+					<western>Zdziarski, A. A.</western>
+					<normalized>Zdziarski, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="169">
+				<name>
+					<western>Zech, A.</western>
+					<normalized>Zech, A</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<author nr="170">
+				<name>
+					<western>(The Hess Collaboration)</western>
+					<normalized>(The Hess Collaboration)</normalized>
+				</name>
+				<type>regular</type>
+			</author>
+			<journal>Astron. Astrophys., 525A, 45-45 (2011)</journal>
+			<volume>525</volume>
+			<pubdate>Jan 2011</pubdate>
+			<numpubdate>01-2011</numpubdate>
+			<page>45</page>
+			<origin>SIMBAD</origin>
+			<abstract lang="en">Not Available</abstract>
+		</metadata>
+		<properties type="article" databases="AST" refereed="1" DOI="10.1051/0004-6361/201015187"
+			preprint="arXiv:1010.4907" collection="0" ocrabstract="0" private="0"
+			openaccess="0" nonarticle="0" bibgroups="CXC"/>
+		<references origin="EDP" source="iss.nlm3.xml" timestamp="1318886256">
+			<reference bibcode="2007ApJ...664L..91A" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R1"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Abdo&lt;/surname&gt;, &lt;given-names&gt;A. A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Allen&lt;/surname&gt;, &lt;given-names&gt;B.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Berley&lt;/surname&gt;, &lt;given-names&gt;D.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(MILAGRO Collaboration)&lt;/collab&gt;&lt;year&gt;2007&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;664&lt;/volume&gt;, &lt;fpage&gt;L91&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2004APh....22..109A" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R2"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Aye&lt;/surname&gt;, &lt;given-names&gt;K.-M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2004&lt;/year&gt;, &lt;source&gt;Astropart. Phys.&lt;/source&gt;, &lt;volume&gt;22&lt;/volume&gt;, &lt;fpage&gt;109&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2005Sci...307.1938A" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R3"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Aye&lt;/surname&gt;, &lt;given-names&gt;K.-M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2005&lt;/year&gt;, &lt;source&gt;Science&lt;/source&gt;, &lt;volume&gt;307&lt;/volume&gt;, &lt;fpage&gt;1938&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006ApJ...636..777A" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R4"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bazer-Bachi&lt;/surname&gt;, &lt;given-names&gt;A. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration) &lt;/collab&gt;&lt;year&gt;2006&lt;/year&gt;a, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;636&lt;/volume&gt;, &lt;fpage&gt;777&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006A&amp;amp;A...448L..43A" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R5"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bazer-Bachi&lt;/surname&gt;, &lt;given-names&gt;A. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;comment&gt;(H.E.S.S. Collaboration)&lt;/comment&gt;&lt;year&gt;2006&lt;/year&gt;b, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;448&lt;/volume&gt;, &lt;fpage&gt;L43&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006A&amp;amp;A...457..899A" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R6"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bazer-Bachi&lt;/surname&gt;, &lt;given-names&gt;A. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2006&lt;/year&gt;c, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;457&lt;/volume&gt;, &lt;fpage&gt;899&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006A&amp;amp;A...460..365A" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R7"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bazer-Bachi&lt;/surname&gt;, &lt;given-names&gt;A. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2006&lt;/year&gt;d, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;460&lt;/volume&gt;, &lt;fpage&gt;365&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008A&amp;amp;A...477..353A" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R8"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Aharonian&lt;/surname&gt;, &lt;given-names&gt;F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Akhperjanian&lt;/surname&gt;, &lt;given-names&gt;A. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Barres de Almeida&lt;/surname&gt;, &lt;given-names&gt;U.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;477&lt;/volume&gt;, &lt;fpage&gt;353&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006ApJ...642L.153A" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R9"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Atoyan&lt;/surname&gt;, &lt;given-names&gt;A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Buckley&lt;/surname&gt;, &lt;given-names&gt;J.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Krawcynski&lt;/surname&gt;, &lt;given-names&gt;H.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;642&lt;/volume&gt;, &lt;fpage&gt;L153&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2005AAS...207.6307B" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R10"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Benjamin&lt;/surname&gt;, &lt;given-names&gt;R. A.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2005&lt;/year&gt;, &lt;source&gt;AAS&lt;/source&gt;, &lt;volume&gt;207&lt;/volume&gt;, &lt;fpage&gt;6307B&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2007A&amp;amp;A...466.1219B" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R11"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Berge&lt;/surname&gt;, &lt;given-names&gt;D.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Funk&lt;/surname&gt;, &lt;given-names&gt;S.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Hinton&lt;/surname&gt;, &lt;given-names&gt;J.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2007&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;466&lt;/volume&gt;, &lt;fpage&gt;1219&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1992Natur.357..306B" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R12"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Bertsch&lt;/surname&gt;, &lt;given-names&gt;D. L.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Brazier&lt;/surname&gt;, &lt;given-names&gt;K. T. S.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Fichtel&lt;/surname&gt;, &lt;given-names&gt;C. E.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;1992&lt;/year&gt;, &lt;source&gt;Nature&lt;/source&gt;, &lt;volume&gt;357&lt;/volume&gt;, &lt;fpage&gt;306&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1996ApJ...461L..91C" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R13"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Caraveo&lt;/surname&gt;, &lt;given-names&gt;P. A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bignami&lt;/surname&gt;, &lt;given-names&gt;G. F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Mignani&lt;/surname&gt;, &lt;given-names&gt;R.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Taff&lt;/surname&gt;, &lt;given-names&gt;L. G.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1996&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;461&lt;/volume&gt;, &lt;fpage&gt;L91&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2001ApJ...561..930C" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R14"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Caraveo&lt;/surname&gt;, &lt;given-names&gt;P. A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;De Luca&lt;/surname&gt;, &lt;given-names&gt;A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Mignani&lt;/surname&gt;, &lt;given-names&gt;R. P.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Bignami&lt;/surname&gt;, &lt;given-names&gt;G. F.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2001&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;561&lt;/volume&gt;, &lt;fpage&gt;930&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1989ApJ...344..332C" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R15"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Chevalier&lt;/surname&gt;, &lt;given-names&gt;R. A.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Liang&lt;/surname&gt;, &lt;given-names&gt;P.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1989&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;344&lt;/volume&gt;, &lt;fpage&gt;332&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2003tmc..book.....C" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R16"&gt;&lt;mixed-citation publication-type="other"&gt; Cutri, R. M., et al. 2003, 2MASS All Sky Catalog of point sources &lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2001ApJ...547..792D" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R17"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Dame&lt;/surname&gt;, &lt;given-names&gt;T. M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Hartmann&lt;/surname&gt;, &lt;given-names&gt;Dap&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Thaddeus&lt;/surname&gt;, &lt;given-names&gt;P.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2001&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;547&lt;/volume&gt;, &lt;fpage&gt;792&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008ApJ...678L.113D" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R18"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;de Jager&lt;/surname&gt;, &lt;given-names&gt;O. C.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;678&lt;/volume&gt;, &lt;fpage&gt;L113&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2009arXiv0906.2644D" doi="" arxid="0906.2644"
+				score="1" source="EDP">&lt;ref id="R19"&gt;&lt;mixed-citation publication-type="conf-proc"&gt; de Jager, O. C., Ferreira, S. E. S., Djannati-Ata&amp;iuml;, A., et al. 2009, in the 31st International Cosmic Ray Conference proceedings [arXiv:0906.2644] &lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006astro.ph..7247D" doi="" arxid="astro-ph/0607247"
+				score="1" source="EDP">&lt;ref id="R20"&gt;&lt;mixed-citation publication-type="other"&gt; de Naurois, M. 2006, unpublished [arXiv:astro-ph/0607247] &lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2005A&amp;amp;A...444L..33D" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R21"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Domainko&lt;/surname&gt;, &lt;given-names&gt;W.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Ruffert&lt;/surname&gt;, &lt;given-names&gt;M.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2005&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;444&lt;/volume&gt;, &lt;fpage&gt;L33&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008AdSpR..41..518D" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R22"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Domainko&lt;/surname&gt;, &lt;given-names&gt;W.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Ruffert&lt;/surname&gt;, &lt;given-names&gt;M.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;AdSpR&lt;/source&gt;, &lt;volume&gt;41&lt;/volume&gt;, &lt;fpage&gt;518&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1995MNRAS.277...36D" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R23"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Duncan&lt;/surname&gt;, &lt;given-names&gt;A. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Stewart&lt;/surname&gt;, &lt;given-names&gt;R. T.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Haynes&lt;/surname&gt;, &lt;given-names&gt;R. F.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Jones&lt;/surname&gt;, &lt;given-names&gt;K. L.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1995&lt;/year&gt;, &lt;source&gt;MNRAS&lt;/source&gt;, &lt;volume&gt;277&lt;/volume&gt;, &lt;fpage&gt;36&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008A&amp;amp;A...478...17F" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R24"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Ferreira&lt;/surname&gt;, &lt;given-names&gt;S. E. S.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;de Jager&lt;/surname&gt;, &lt;given-names&gt;O. C.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;478&lt;/volume&gt;, &lt;fpage&gt;17&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="" doi="" arxid="" score="0" source="EDP">&lt;ref id="R25"&gt;&lt;mixed-citation publication-type="conf-proc"&gt; Fujinaga, T., et al. 2009, in The Energetic Cosmos: from Suzaku to ASTRO-H conference &lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006ARA&amp;amp;A..44...17G" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R26"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Gaensler&lt;/surname&gt;, &lt;given-names&gt;B. M.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Slane&lt;/surname&gt;, &lt;given-names&gt;P. O.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;ARA__amp__amp;A&lt;/source&gt;, &lt;volume&gt;44&lt;/volume&gt;, &lt;fpage&gt;17&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1999ApJS..122..207G" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R27"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Green&lt;/surname&gt;, &lt;given-names&gt;A. J.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Cram&lt;/surname&gt;, &lt;given-names&gt;L. E.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Large&lt;/surname&gt;, &lt;given-names&gt;M. I.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Ye&lt;/surname&gt;, &lt;given-names&gt;Taisheng&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1999&lt;/year&gt;, &lt;source&gt;ApJS&lt;/source&gt;, &lt;volume&gt;122&lt;/volume&gt;, &lt;fpage&gt;207&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006A&amp;amp;A...453..823G" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R28"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Guetta&lt;/surname&gt;, &lt;given-names&gt;D.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Piran&lt;/surname&gt;, &lt;given-names&gt;T.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;453&lt;/volume&gt;, &lt;fpage&gt;823&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1998A&amp;amp;AS..133..431H" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R29"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Harris&lt;/surname&gt;, &lt;given-names&gt;D. E.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Silverman&lt;/surname&gt;, &lt;given-names&gt;J. D.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Hasinger&lt;/surname&gt;, &lt;given-names&gt;G.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Lehmann&lt;/surname&gt;, &lt;given-names&gt;I.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1998&lt;/year&gt;, &lt;source&gt;A__amp__amp;AS&lt;/source&gt;, &lt;volume&gt;133&lt;/volume&gt;, &lt;fpage&gt;431&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006ApJS..167..230H" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R30"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Haverkorn&lt;/surname&gt;, &lt;given-names&gt;M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Gaensler&lt;/surname&gt;, &lt;given-names&gt;B. M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;McClure-Griffiths&lt;/surname&gt;, &lt;given-names&gt;N. M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Dickey&lt;/surname&gt;, &lt;given-names&gt;J. M.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Green&lt;/surname&gt;, &lt;given-names&gt;A. J.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;ApJS&lt;/source&gt;, &lt;volume&gt;167&lt;/volume&gt;, &lt;fpage&gt;230&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2000A&amp;amp;A...355L..27H" doi="" arxid=""
+				score="1" source="EDP">&lt;ref id="R31"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Hog&lt;/surname&gt;, &lt;given-names&gt;E.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Fabricius&lt;/surname&gt;, &lt;given-names&gt;C.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Makarov&lt;/surname&gt;, &lt;given-names&gt;V. V.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2000&lt;/year&gt;, &lt;source&gt;A__amp__amp;A&lt;/source&gt;, &lt;volume&gt;355&lt;/volume&gt;, &lt;fpage&gt;L27&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2004ApJ...601L.179K" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R32"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Kalogera&lt;/surname&gt;, &lt;given-names&gt;V.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Kim&lt;/surname&gt;, &lt;given-names&gt;C.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Lorimer&lt;/surname&gt;, &lt;given-names&gt;D. R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2004&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;601&lt;/volume&gt;, &lt;fpage&gt;L179&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;mixed-citation publication-type="journal"&gt;; erratum: &lt;year&gt;2004&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;614&lt;/volume&gt;, &lt;fpage&gt;L137&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2010AIPC.1248...25K" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R33"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Kargaltsev&lt;/surname&gt;, &lt;given-names&gt;O.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Pavlov&lt;/surname&gt;, &lt;given-names&gt;P. O.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2010&lt;/year&gt;, &lt;source&gt;AIP Conf. Ser.&lt;/source&gt;, &lt;volume&gt;1248&lt;/volume&gt;, &lt;fpage&gt;25&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1984ApJ...283..710K" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R34"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Kennel&lt;/surname&gt;, &lt;given-names&gt;C. F.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Coroniti&lt;/surname&gt;, &lt;given-names&gt;F. V.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1984&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;283&lt;/volume&gt;, &lt;fpage&gt;710&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1995Natur.378..255K" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R35"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Koyama&lt;/surname&gt;, &lt;given-names&gt;K.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;1996&lt;/year&gt;, &lt;source&gt;Nature&lt;/source&gt;, &lt;volume&gt;378&lt;/volume&gt;, &lt;fpage&gt;255&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008AJ....136..735L" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R36"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Lasker&lt;/surname&gt;, &lt;given-names&gt;B. M.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;AJ&lt;/source&gt;, &lt;volume&gt;136&lt;/volume&gt;, &lt;fpage&gt;735&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1983ApJ...272..317L" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R37"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Li&lt;/surname&gt;, &lt;given-names&gt;T.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Ma&lt;/surname&gt;, &lt;given-names&gt;Y.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1983&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;272&lt;/volume&gt;, &lt;fpage&gt;317&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1984ApJ...283...90L" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R38"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Lockman&lt;/surname&gt;, &lt;given-names&gt;F. J.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1984&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;283&lt;/volume&gt;, &lt;fpage&gt;90&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2007PASJ...59S.199M" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R39"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Matsumoto&lt;/surname&gt;, &lt;given-names&gt;H.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Ueno&lt;/surname&gt;, &lt;given-names&gt;M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bamba&lt;/surname&gt;, &lt;given-names&gt;A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2007&lt;/year&gt;, &lt;source&gt;PASJ&lt;/source&gt;, &lt;volume&gt;59&lt;/volume&gt;, &lt;fpage&gt;S199&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2007PhR...442..166N" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R40"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Nakar&lt;/surname&gt;, &lt;given-names&gt;E.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2007&lt;/year&gt;, &lt;source&gt;PhR&lt;/source&gt;, &lt;volume&gt;442&lt;/volume&gt;, &lt;fpage&gt;166&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2008AIPC.1085..285R" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R41"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Renaud&lt;/surname&gt;, &lt;given-names&gt;M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Hoppe&lt;/surname&gt;, &lt;given-names&gt;S.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Komin&lt;/surname&gt;, &lt;given-names&gt;N.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(H.E.S.S. Collaboration)&lt;/collab&gt;&lt;year&gt;2008&lt;/year&gt;, &lt;source&gt;AIPC&lt;/source&gt;, &lt;volume&gt;1085&lt;/volume&gt;, &lt;fpage&gt;285&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006ApJ...639..227S" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R42"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Simon&lt;/surname&gt;, &lt;given-names&gt;R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Jackson&lt;/surname&gt;, &lt;given-names&gt;J. M.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Rathborne&lt;/surname&gt;, &lt;given-names&gt;J. M.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Chambers&lt;/surname&gt;, &lt;given-names&gt;E. T.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;639&lt;/volume&gt;, &lt;fpage&gt;227&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2000IAUC.7432....3V" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R43"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Voges&lt;/surname&gt;, &lt;given-names&gt;W.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Aschenbach&lt;/surname&gt;, &lt;given-names&gt;B.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Boller&lt;/surname&gt;, &lt;given-names&gt;T.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2000&lt;/year&gt;, &lt;source&gt;IAU Circ.&lt;/source&gt;, &lt;volume&gt;7432&lt;/volume&gt;, &lt;fpage&gt;1&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1989ApJ...342..379W" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R44"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Weekes&lt;/surname&gt;, &lt;given-names&gt;T. C.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Cawley&lt;/surname&gt;, &lt;given-names&gt;M. F.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Fegan&lt;/surname&gt;, &lt;given-names&gt;D. J.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;collab&gt;(Whipple Collaboration)&lt;/collab&gt;&lt;year&gt;1989&lt;/year&gt;, &lt;source&gt;ApJ&lt;/source&gt;, &lt;volume&gt;342&lt;/volume&gt;, &lt;fpage&gt;379&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="1996MNRAS.278..749W" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R45"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Willingale&lt;/surname&gt;, &lt;given-names&gt;R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;West&lt;/surname&gt;, &lt;given-names&gt;R. G.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Pye&lt;/surname&gt;, &lt;given-names&gt;J. P.&lt;/given-names&gt;&lt;/string-name&gt;, __amp__amp; &lt;string-name&gt;&lt;surname&gt;Stewart&lt;/surname&gt;, &lt;given-names&gt;G. C.&lt;/given-names&gt;&lt;/string-name&gt;&lt;year&gt;1996&lt;/year&gt;, &lt;source&gt;MNRAS&lt;/source&gt;, &lt;volume&gt;278&lt;/volume&gt;, &lt;fpage&gt;749&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2006MNRAS.371.1975Y" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R46"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Yamazaki&lt;/surname&gt;, &lt;given-names&gt;R.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Kohri&lt;/surname&gt;, &lt;given-names&gt;K.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Bamba&lt;/surname&gt;, &lt;given-names&gt;A.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2006&lt;/year&gt;, &lt;source&gt;MNRAS&lt;/source&gt;, &lt;volume&gt;371&lt;/volume&gt;, &lt;fpage&gt;1975&lt;/fpage&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+			<reference bibcode="2010AJ....139.2184Z" doi="" arxid="" score="1"
+				source="EDP">&lt;ref id="R47"&gt;&lt;mixed-citation publication-type="journal"&gt;&lt;string-name&gt;&lt;surname&gt;Zacharias&lt;/surname&gt;, &lt;given-names&gt;N.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Finch&lt;/surname&gt;, &lt;given-names&gt;C.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;string-name&gt;&lt;surname&gt;Girard&lt;/surname&gt;, &lt;given-names&gt;T.&lt;/given-names&gt;&lt;/string-name&gt;, &lt;etal&gt;et al.&lt;/etal&gt;&lt;year&gt;2010&lt;/year&gt;, &lt;source&gt;AJ&lt;/source&gt;, &lt;volume&gt;139&lt;/volume&gt;, &lt;fpage&gt;2184&lt;/fpage&gt;&lt;comment&gt;(UCAC3 Catalogue)&lt;/comment&gt;&lt;/mixed-citation&gt;&lt;/ref&gt;</reference>
+		</references>
+		<relations>
+			<preprintid ecode="2010arXiv1010.4907H">arXiv:1010.4907</preprintid>
+			<alternates>
+				<alternate type="alternate">2011A&amp;A...525A..45A</alternate>
+				<alternate type="deleted">2011A&amp;A...525A..45A</alternate>
+				<alternate type="eprint">2010arXiv1010.4907H</alternate>
+			</alternates>
+			<links>
+				<link type="preprint" url="1010.4907"/>
+				<link type="postscript" url="http://www.aanda.org/htbin/resolve?bibcode=2011A%26A...525A..45HPS"/>
+				<link type="electr" url="http://dx.doi.org/10.1051/0004-6361/201015187"/>
+				<link type="simbad" url="http://$SIMBAD$/simbo.pl?bibcode=2011A%26A...525A..45A"
+					count="61"/>
+				<link type="pdf" url="http://www.aanda.org/htbin/resolve?bibcode=2011A%26A...525A..45HPDF"/>
+				<link type="data" url="http://cda.harvard.edu/chaser/ocatList.do?obsid=9975"
+					title="Chandra Data Archive ObsId 9975"/>
+				<link type="ADSlink" url="http://adsabs.harvard.edu/abs/2011A%26A...525A..45H"/>
+			</links>
+		</relations>
+	</record>
+</records>

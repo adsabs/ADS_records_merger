@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<records>
+  <record bibcode="1995ApJ...445..666A">
+    <metadata type="general" origin="STI">
+      <creation_time>2011-07-22T14:00:01</creation_time>
+      <modification_time>2011-07-22T14:00:01</modification_time>
+      <bibcode>1995ApJ...445..666A</bibcode>
+      <keywords type="NASA/STI">
+        <keyword>DATA REDUCTION</keyword>
+        <keyword>H ALPHA LINE</keyword>
+        <keyword>ROSAT MISSION</keyword>
+        <keyword>STARBURST GALAXIES</keyword>
+        <keyword>WIND EFFECTS</keyword>
+        <keyword>X RAY ASTRONOMY</keyword>
+        <keyword>EMISSION SPECTRA</keyword>
+        <keyword>HIGH RESOLUTION</keyword>
+        <keyword>IMAGING SPECTROMETERS</keyword>
+        <keyword>LUMINOSITY</keyword>
+        <keyword>MORPHOLOGY</keyword>
+        <keyword>PRESSURE EFFECTS</keyword>
+        <keyword>PROPORTIONAL COUNTERS</keyword>
+        <keyword>TEMPERATURE</keyword>
+      </keywords>
+      <keywords type="Normalized">
+        <keyword>methods data analysis</keyword>
+        <keyword>line identification</keyword>
+        <keyword>space vehicles</keyword>
+        <keyword>galaxies starburst</keyword>
+        <keyword>winds</keyword>
+        <keyword>astronomy x rays</keyword>
+        <keyword>emission</keyword>
+        <keyword>high resolution</keyword>
+        <keyword>techniques image processing</keyword>
+        <keyword>stars luminosity function;mass function</keyword>
+        <keyword>morphology</keyword>
+        <keyword>hydrodynamics</keyword>
+        <keyword>instrumentation detectors</keyword>
+        <keyword>temperature</keyword>
+      </keywords>
+      <title>ROSAT observations of NGC 2146: Evidence for a starburst-driven superwind</title>
+      <author nr="1">
+        <name>
+          <western>Armus, L.</western>
+          <normalized>Armus, L</normalized>
+        </name>
+        <affiliations>
+          <affiliation>Palomar Observatory, California Institute of Technology, Pasadena, CA, US</affiliation>
+        </affiliations>
+        <type>regular</type>
+      </author>
+      <author nr="2">
+        <name>
+          <western>Heckman, T. M.</western>
+          <normalized>Heckman, T</normalized>
+        </name>
+        <affiliations>
+          <affiliation>Palomar Observatory, California Institute of Technology, Pasadena, CA, US</affiliation>
+        </affiliations>
+        <type>regular</type>
+      </author>
+      <author nr="3">
+        <name>
+          <western>Weaver, K. A.</western>
+          <normalized>Weaver, K</normalized>
+        </name>
+        <affiliations>
+          <affiliation>Pennsylvania State University, University Park, PA, US</affiliation>
+        </affiliations>
+        <type>regular</type>
+      </author>
+      <author nr="4">
+        <name>
+          <western>Lehnert, M. D.</western>
+          <normalized>Lehnert, M</normalized>
+        </name>
+        <affiliations>
+          <affiliation>Pennsylvania State University, University Park, PA, US</affiliation>
+        </affiliations>
+        <type>regular</type>
+      </author>
+      <ADSaffiliation>AA(Palomar Observatory, California Institute of Technology, Pasadena, CA, US), AB(Palomar Observatory, California Institute of Technology, Pasadena, CA, US), AC(Pennsylvania State University, University Park, PA, US), AD(Pennsylvania State University, University Park, PA, US)</ADSaffiliation>
+      <journal>Astrophysical Journal, Part 1 (ISSN 0004-637X), vol. 445, no. 2, p. 666-679</journal>
+      <volume>445</volume>
+      <issue>2</issue>
+      <numpubdate>06-1995</numpubdate>
+      <page>666</page>
+      <lastpage>679</lastpage>
+      <category>Astronomy</category>
+      <abstract lang="en">We have imaged the edge-on starburst galaxy NGC 2146 with the Position Sensitive Proportional Counter (PSPC) and the High Resolution Imager (HRI) on board ROSAT and have compared these data to optical images and long-slit spectra. NGC 2146 possesses a very large X-ray nebula with a half-light radius of 1 min (4 kpc) and a maximum diameter of approximately 4 min, or 17 kpc. The X-ray emission is resolved by the PSPC and preferentially oriented along the minor axis, with a total flux of 1.1 x 10&lt;SUP&gt;-12&lt;/SUP&gt; ergs/sq cm/s over 0.2 - 2.4 keV and a luminosity of approximately 3 x 10&lt;SUP&gt;40&lt;/SUP&gt; ergs/s. The inner X-ray nebula is resolved by the HRI into at least four bright knots together with strong diffuse emission responsible for at least 50% of the flux within a radius of 0.5 min (approximately 2 kpc). The brightest knot has a luminosity of (2 - 3) x 10&lt;SUP&gt;39&lt;/SUP&gt; ergs/s. The X-ray nebula has a spatial extent much larger than the starburst ridge seen at centimeter wavelengths by Kronberg &amp; Biermann (1981) and is oriented in a `X-like' pattern along the galaxy minor axis at a position angle of approximately 30 degrees. This minor-axis X-ray emission is associated with a region of H alpha and dust filaments seen in optical images. Optical spectra show that the emission-line gas along the minor axis is characterized by relatively broad lines (approximately 250 km/s full width half-maximum (FWHM)) and by `shocklike' emission-line flux ratios. Together with the blue-asymmetric nuclear emission-line and NaD interstellar absorption-line profiles, these optical data strongly suggest the presence of a starburst-driven superwind. The X-ray spectrum extracted from the central 5 min contains a strong Fe L emission-line complex at 0.6 - 1.0 keV and a hard excess above 1.0 keV. The spectrum is best described with a two-component model, containing a soft (kT approximately 400 - 500 eV) Raymond-Smith thermal plasma together with either a Gamma = 1.7 power-law or a kT greater than 2.2 keV bremsstrahlung component. The soft thermal component provides approximately 30% of the total luminosity over 0.2 - 2.4 keV, or approximately 10&lt;SUP&gt;40&lt;/SUP&gt; ergs/s. The pressure derived from the soft component of the X-ray spectrum is consistent with that predicted from a starburst-driven superwind if the filling factor of the warm gas is approximately 1% - 10 %. If the hard X-ray component is thermal gas associated with the galactic outflow, the filling factor must be close to unity. Predictions of the luminosity, temperature, and size of an adiabatic starburst-generated windblown bubble are consistent with those measured for the soft thermal X-ray emission in NGC 2146. The hard X-ray component, however, has a luminosity much larger than predicted by the superwind model if this component is thermal emission from gas heated by an internal shock in the expanding bubble. We briefly review various possibilities as to the nature of the hard X-ray component in NGC 2146.</abstract>
+      <DOI>10.1086/175729</DOI>
+    </metadata>
+    <metadata type="general" origin="APJ; KNUDSEN; NED">
+      <creation_time>2011-10-06T18:11:12</creation_time>
+      <modification_time>2011-10-06T18:11:12</modification_time>
+      <bibcode>1995ApJ...445..666A</bibcode>
+      <keywords type="Astronomy">
+        <keyword>GALAXIES: INDIVIDUAL NGC NUMBER: NGC 2146</keyword>
+        <keyword>GALAXIES: STARBURST</keyword>
+        <keyword>X-RAYS: GALAXIES</keyword>
+      </keywords>
+      <keywords type="Normalized">
+        <keyword>galaxies</keyword>
+        <keyword>galaxies starburst</keyword>
+        <keyword>astronomy x rays</keyword>
+      </keywords>
+      <title>ROSAT Observations of NGC 2146: Evidence for a Starburst-driven Superwind</title>
+      <author nr="1">
+        <name>
+          <western>Armus, L.</western>
+          <normalized>Armus, L</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="2">
+        <name>
+          <western>Heckman, T. M.</western>
+          <normalized>Heckman, T</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="3">
+        <name>
+          <western>Weaver, K. A.</western>
+          <normalized>Weaver, K</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="4">
+        <name>
+          <western>Lehnert, M. D.</western>
+          <normalized>Lehnert, M</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <journal>Astrophysical Journal v.445, p.666</journal>
+      <volume>445</volume>
+      <numpubdate>06-1995</numpubdate>
+      <page>666</page>
+      <abstract lang="en">We have imaged the edge-on starburst galaxy NGC 2146 with the Position Sensitive Proportional Counter (PSPC) and the High Resolution Imager (HRI) on board ROSAT and have compared these data to optical images and long-slit spectra. NGC 2146 possesses a very large X-ray nebula with a half-light radius of 1' (4 kpc) and a maximum diameter of ~4', or 17 kpc. The X-ray emission is resolved by the PSPC and preferentially oriented along the minor axis, with a total flux of 1.1 x 10^-12^ ergs cm^-2^ s^- 1^ over 0.2-2.4 keV and a luminosity of ~3 x 10^40^ ergs s^-1^. The inner X-ray nebula is resolved by the HRI into at least four bright knots together with strong diffuse emission responsible for at least 50% of the flux within a radius of 0.5' (~2 kpc). The brightest knot has a luminosity of (2-3) x 10^39^ ergs s^-1^. The X-ray nebula has a spatial extent much larger than the starburst ridge seen at centimeter wavelengths by Kronberg &amp; Biermann (1981) and is oriented in a "X-like" pattern along the galaxy minor axis at a position angle of ~30^deg^. This minor-axis X-ray emission is associated with a region of Hα and dust filaments seen in optical images. Optical spectra show that the emission-line gas along the minor axis is characterized by relatively broad lines (~250 km s^-1^ FWHM) and by "shocklike" emission-line flux ratios. Together with the blue-asymmetric nuclear emission-line and NaD interstellar absorption-line profiles, these optical data strongly suggest the presence of a starburst-driven superwind. The X-ray spectrum extracted from the central 5' contains a strong Fe L emission-line complex at 0.6-1.0 keV and a hard excess above 1.0 keV. The spectrum is best described with a two-component model, containing a soft (kT~400-500 eV) Raymond-Smith thermal plasma together with either a {GAMMA} = 1.7 power-law or a kT 〉 2.2 keV bremsstrahlung component. The soft thermal component provides 30% of the total luminosity over 0.2-2.4 keV, or ~10^40^ ergs s^-1^. The pressure derived from the soft component of the X-ray spectrum is consistent with that predicted from a starburst-driven superwind if the filling factor of the warm gas is ~1%-10%. If the hard X-ray component is thermal gas associated with the galactic outflow, the filling factor must be close to unity. Predictions of the luminosity, temperature, and size of an adiabatic starburst-generated windblown bubble are consistent with those measured for the soft thermal X-ray emission in NGC 2146. The hard X-ray component, however, has a luminosity much larger than predicted by the superwind model if this component is thermal emission from gas heated by an internal shock in the expanding bubble. We briefly review various possibilities as to the nature of the hard X-ray component in NGC 2146.</abstract>
+    </metadata>
+    <metadata type="general" origin="SIMBAD">
+      <creation_time>2011-02-23T14:35:06</creation_time>
+      <modification_time>2011-02-23T14:35:06</modification_time>
+      <bibcode>1995ApJ...445..666A</bibcode>
+      <title>ROSAT observations of NGC 2146 : evidence for a starburst-driven superwind.</title>
+      <author nr="1">
+        <name>
+          <western>Armus, L.</western>
+          <normalized>Armus, L</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="2">
+        <name>
+          <western>Heckman, T. M.</western>
+          <normalized>Heckman, T</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="3">
+        <name>
+          <western>Weaver, K. A.</western>
+          <normalized>Weaver, K</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <author nr="4">
+        <name>
+          <western>Lehnert, M. D.</western>
+          <normalized>Lehnert, M</normalized>
+        </name>
+        <type>regular</type>
+      </author>
+      <journal>Astrophys. J., 445, 666-679 (1995)</journal>
+      <volume>445</volume>
+      <numpubdate>06-1995</numpubdate>
+      <page>666</page>
+      <abstract lang="en">Not Available</abstract>
+    </metadata>
+    <metadata type="properties" origin="">
+      <JSON_timestamp>{'refs': [{'p': '/proj/ads/references/resolved/ApJ/0445/1995ApJ...445..666A.ref.ocr.txt.result', 't': 1316020829}, {'p': '/proj/ads/references/resolved/ISI/ApJ/ApJ0445.isi.pairs.result', 't': 1302279890}], 'abs': [{'p': '/proj/ads/abstracts/ast/text/A95/A95-93282.abs', 't': '1311357601'}, {'p': '/proj/ads/abstracts/ast/text/J95/J95-93282.abs', 't': '1317939072'}, {'p': '/proj/ads/abstracts/ast/text/S95/S95-93282.abs', 't': '1298489706'}], 'links': {'simbad': [{'c': '4', 'u': 'http://$SIMBAD$/simbo.pl?bibcode=1995ApJ...445..666A'}], 'ned': [{'c': '1', 'u': 'http://$NED$/cgi-bin/nph-objsearch?search_type=Search&amp;refcode=1995ApJ...445..666A'}], 'data': [{'u': 'http://heasarc.gsfc.nasa.gov/cgi-bin/W3Browse/biblink.pl?code=1995ApJ...445..666A'}]}, 'full': {'p': '/proj/ads/fulltext/extracted/19/95/Ap/J,/,,/44/5,/,6/66/A//body.txt', 't': 1313691075}, 'prop': ['article', 'bibgroup: ROSAT', 'refereed']}</JSON_timestamp>
+      <publication_type>article</publication_type>
+      <pubtype>article</pubtype>
+      <databases>
+        <database>AST</database>
+      </databases>
+      <refereed>1</refereed>
+      <preprint/>
+      <collection>0</collection>
+      <ocrabstract>0</ocrabstract>
+      <private>0</private>
+      <article>1</article>
+      <openaccess>1</openaccess>
+      <nonarticle>0</nonarticle>
+      <bibgroups>
+        <bibgroup>ROSAT</bibgroup>
+      </bibgroups>
+    </metadata>
+    <metadata type="references" origin="" source="1995ApJ...445..666A.ref.ocr.txt">
+      <creation_time>2011-09-14T13:20:29</creation_time>
+      <modification_time>2011-09-14T13:20:29</modification_time>
+      <reference bibcode="1989ApJ...347..727A" doi="" arxid="" score="1" source="">Armus, L., Heckman, T. M., &amp; Miley, 0. K. 1989, ApJ, 347,727 (AHM89)</reference>
+      <reference bibcode="1990ApJ...364..471A" doi="" arxid="" score="1" source="">---.1990, ApJ, 364,471</reference>
+      <reference bibcode="1975A&amp;amp;A....41...91B" doi="" arxid="" score="1" source="">Benvenuti, P., Capaccioli, M., &amp; D Odorico, S. 1975, A&amp;A, 41,91</reference>
+      <reference bibcode="1993A&amp;amp;A...268...25B" doi="" arxid="" score="1" source="">Bernlohr, K. 1993a, A&amp;A, 268,25</reference>
+      <reference bibcode="1993A&amp;amp;A...270...20B" doi="" arxid="" score="1" source="">---1993b, A&amp;A, 270,20</reference>
+      <reference bibcode="1969drea.book.....B" doi="" arxid="" score="1" source="">Bevington, P. R. 1969, Data Reduction and Error Analysis for the Physical Sciences (New York: McGraw-Hill)</reference>
+      <reference bibcode="1982AJ.....87.1165B" doi="" arxid="" score="1" source="">Burstein, D., &amp; Heiles, C. 1982, AJ, 87, 1165</reference>
+      <reference bibcode="1975ApJ...200L.107C" doi="" arxid="" score="1" source="">Castor, J., McCray, R., &amp; Weaver, R. 1975, ApJ, 200, L107</reference>
+      <reference bibcode="1985Natur.317...44C" doi="" arxid="" score="1" source="">Chevalier, R. A., &amp; Clegg, A. W. 1985, Nature, 317,44</reference>
+      <reference bibcode="" doi="" arxid="" score="0" source="">Dahlem, M., Heckman, T. M., Fabbiano, 0., &amp; Gilmore, D. 1995, in preparation</reference>
+      <reference bibcode="1988ApJ...330..672F" doi="" arxid="" score="1" source="">Fabbiano, 0. 1988, ApJ, 330, 672</reference>
+      <reference bibcode="1990ApJ...355..442F" doi="" arxid="" score="1" source="">Fabbiano, 0., Heckman, T. M., &amp; Keel, W. C. 1990, ApJ, 355,442</reference>
+      <reference bibcode="1984ApJ...286..491F" doi="" arxid="" score="1" source="">Fabbiano, 0., &amp; Trinchieri, 0. 1984, ApJ, 286,491</reference>
+      <reference bibcode="" doi="" arxid="" score="0" source="">Hasinger, 0., Turner, T. J., George, I. M., &amp; Boese, 0. 1992, Legacy, 2,77</reference>
+      <reference bibcode="1990ApJS...74..833H" doi="" arxid="" score="1" source="">Heckman, T. M., Armus, L., &amp; Miley, 0. K. 1990, ApJS, 74,833</reference>
+      <reference bibcode="" doi="" arxid="" score="0" source="">Heckman, T. M., Lehnert, M. D., &amp; Armus, L. 1993, in The Evolution of Galaxies and Their Environments, ed. S. M. Shull &amp; H. Thronson (Dordrecht: Kluwer), 455 (HLA93)</reference>
+      <reference bibcode="1990AJ....100...60H" doi="" arxid="" score="1" source="">Hutchings, J. B., Neff, S. 0., Stanford, S. A., Lo, E., &amp; Unger, S. W. 1990, AJ, 100,60</reference>
+      <reference bibcode="1992ApJ...393..134K" doi="" arxid="" score="1" source="">Kim, D.-W., Fabbiano, 0., &amp; Trinchieri, 0. 1992, ApJ, 393, 134</reference>
+      <reference bibcode="1992ApJ...388..103K" doi="" arxid="" score="1" source="">Koo, B.-C. &amp; McKee, C. 1992, ApJ, 388, 103</reference>
+      <reference bibcode="1981ApJ...243...89K" doi="" arxid="" score="1" source="">Kronberg, P. P., &amp; Biermann, P. 1981, ApJ, 243,89</reference>
+      <reference bibcode="1995ApJS...97...89L" doi="" arxid="" score="1" source="">Lehnert, M. D., &amp; Heckman, T. M. 1995, ApJS, 97,89</reference>
+      <reference bibcode="" doi="" arxid="" score="0" source="">Lehnert, M. D., et al. 1995, in preparation</reference>
+      <reference bibcode="1995ApJS...96....9L" doi="" arxid="" score="1" source="">Leitherer, C., &amp; Heckman, T. M. 1995, ApJS, 96,9</reference>
+      <reference bibcode="1989agna.book.....O" doi="" arxid="" score="1" source="">Osterbrock, D. E. 1989, Astrophysics, ofGaseous Nebulae and Active Galactic Nuclei (Mill Valley: University Science)</reference>
+      <reference bibcode="1992pngn.conf...67P" doi="" arxid="" score="1" source="">Peitsch, W. 1993, in The Physics of Nearby Galaxies: Nurture or Nature? ed. T. X. Thuan, C. Balkowski, &amp; J. T. T. Van (Paris: Editions Frontieres), 67</reference>
+      <reference bibcode="1993nag..conf..117P" doi="" arxid="" score="1" source="">Petre, R. 1993, in The Nearest Active Galaxies, ed. J. Beckman, L. Colina, &amp; H. Netzer (Madrid: Consejo Superior de Investigaciones Cientificas), 117</reference>
+      <reference bibcode="1993AJ....105..486P" doi="" arxid="" score="1" source="">Phillips, A. C. 1993, AJ, 105,486</reference>
+      <reference bibcode="1994ApJ...423L..35P" doi="" arxid="" score="1" source="">Prada, F., Beckman, J. E., McKeith, C. D., Castles, J., &amp; Greve, A. 1994, ApJ, 423, L35</reference>
+      <reference bibcode="1977ApJS...35..419R" doi="" arxid="" score="1" source="">Raymond, J. C., &amp; Smith, B. 1977, ApJS, 35,419</reference>
+      <reference bibcode="1993ApJ...412...99R" doi="" arxid="" score="1" source="">Rieke, 0. H., Loken, K., Rieke, M. J., &amp; Tamblyn, P. 1993, ApJ, 412,99</reference>
+      <reference bibcode="1989ApJ...336..722S" doi="" arxid="" score="1" source="">Schaaf, R., Petisch, P., Biermann, P., Kronberg, P. P., &amp; Schmutzler, T. 1989, ApJ, 336, 732</reference>
+      <reference bibcode="1994ApJ...424L..99S" doi="" arxid="" score="1" source="">Schlegel, E. M. 1994, ApJ, 424, L99</reference>
+      <reference bibcode="1991ApJ...369..320S" doi="" arxid="" score="1" source="">Seaquist, E., &amp; Odegrad, N. 1991, ApJ, 369, 320</reference>
+      <reference bibcode="" doi="" arxid="" score="5" source="">Shafer, R. A., Haberl, F., &amp; Arnaud, K. A. 1989, in XSPEC: An X-Ray Spectral Fitting Package (ESA TM-09; Paris: ESA)</reference>
+      <reference bibcode="1994ApJ...430..511S" doi="" arxid="" score="1" source="">Suchkov, A., Balsara, D., Heckman, T. M., &amp; Leitherer, C. 1994, ApJ, 430,511</reference>
+      <reference bibcode="1987ApJS...63..295V" doi="" arxid="" score="1" source="">Veilleux, S., &amp; Osterbrock, D. E. 1987, ApJS, 63, 295</reference>
+      <reference bibcode="1984ApJ...286..144W" doi="" arxid="" score="1" source="">Watson, M., Stanger, V., &amp; Griffiths, R. 1984, ApJ, 286, 144</reference>
+      <reference bibcode="1988ApJ...331L..81Y" doi="" arxid="" score="1" source="">Young, J. S., Claussen, M. J., Kleinmann, S. 0., Rubin, V. C., &amp; Scoville, N. 1988, ApJ, 331, L81</reference>
+    </metadata>
+    <metadata type="references" origin="" source="ApJ0445.isi.pairs">
+      <creation_time>2011-04-08T12:24:50</creation_time>
+      <modification_time>2011-04-08T12:24:50</modification_time>
+      <reference bibcode="1981ApJ...243...89K" doi="" arxid="" score="1" source="">1981ApJ...243...89K</reference>
+      <reference bibcode="1982AJ.....87.1165B" doi="" arxid="" score="1" source="">1982AJ.....87.1165B</reference>
+      <reference bibcode="1984ApJ...286..144W" doi="" arxid="" score="1" source="">1984ApJ...286..144W</reference>
+      <reference bibcode="1984ApJ...286..491F" doi="" arxid="" score="1" source="">1984ApJ...286..491F</reference>
+      <reference bibcode="1985Natur.317...44C" doi="" arxid="" score="1" source="">1985Natur.317...44C</reference>
+      <reference bibcode="1987ApJS...63..295V" doi="" arxid="" score="1" source="">1987ApJS...63..295V</reference>
+      <reference bibcode="1988ApJ...330..672F" doi="" arxid="" score="1" source="">1988ApJ...330..672F</reference>
+      <reference bibcode="1988ApJ...331L..81Y" doi="" arxid="" score="1" source="">1988ApJ...331L..81Y</reference>
+      <reference bibcode="1989ApJ...347..727A" doi="" arxid="" score="1" source="">1989ApJ...347..727A</reference>
+      <reference bibcode="1990AJ....100...60H" doi="" arxid="" score="1" source="">1990AJ....100...60H</reference>
+      <reference bibcode="1990ApJ...355..442F" doi="" arxid="" score="1" source="">1990ApJ...355..442F</reference>
+      <reference bibcode="1990ApJ...364..471A" doi="" arxid="" score="1" source="">1990ApJ...364..471A</reference>
+      <reference bibcode="1990ApJS...74..833H" doi="" arxid="" score="1" source="">1990ApJS...74..833H</reference>
+      <reference bibcode="1991ApJ...369..320S" doi="" arxid="" score="1" source="">1991ApJ...369..320S</reference>
+      <reference bibcode="1992ApJ...388..103K" doi="" arxid="" score="1" source="">1992ApJ...388..103K</reference>
+      <reference bibcode="1992ApJ...393..134K" doi="" arxid="" score="1" source="">1992ApJ...393..134K</reference>
+      <reference bibcode="1993A&amp;amp;A...268...25B" doi="" arxid="" score="1" source="">1993A&amp;A...268...25B</reference>
+      <reference bibcode="1993A&amp;amp;A...270...20B" doi="" arxid="" score="1" source="">1993A&amp;A...270...20B</reference>
+      <reference bibcode="1993AJ....105..486P" doi="" arxid="" score="1" source="">1993AJ....105..486P</reference>
+      <reference bibcode="1993ApJ...412...99R" doi="" arxid="" score="1" source="">1993ApJ...412...99R</reference>
+      <reference bibcode="1994ApJ...423L..35P" doi="" arxid="" score="1" source="">1994ApJ...423L..35P</reference>
+      <reference bibcode="1994ApJ...424L..99S" doi="" arxid="" score="1" source="">1994ApJ...424L..99S</reference>
+      <reference bibcode="1994ApJ...430..511S" doi="" arxid="" score="1" source="">1994ApJ...430..511S</reference>
+      <reference bibcode="1995ApJS...96....9L" doi="" arxid="" score="1" source="">1995ApJS...96....9L</reference>
+      <reference bibcode="1995ApJS...97...89L" doi="" arxid="" score="1" source="">1995ApJS...97...89L</reference>
+    </metadata>
+    <metadata type="relations" origin="x">
+      <links>
+        <link type="simbad" url="http://$SIMBAD$/simbo.pl?bibcode=1995ApJ...445..666A" count="4"/>
+        <link type="ned" url="http://$NED$/cgi-bin/nph-objsearch?search_type=Search&amp;refcode=1995ApJ...445..666A" count="1"/>
+        <link type="data" url="http://heasarc.gsfc.nasa.gov/cgi-bin/W3Browse/biblink.pl?code=1995ApJ...445..666A"/>
+        <link type="ADSlink" url="http://adsabs.harvard.edu/abs/1995ApJ...445..666A"/>
+      </links>
+    </metadata>
+  </record>
+</records>

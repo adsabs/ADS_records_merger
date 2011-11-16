@@ -19,8 +19,10 @@ File containing all the functions to apply after a merging rule has been applied
 All this functions are necessary to create warnings and errors based on the result of a merge
 '''
 
+import basic_functions
+
 def string_with_unicode_not_selected():
-    """"""
+    """Function that checks if a string without unicode has been selected instead of one containing unicode"""
 
 def longer_string_not_selected():
     """"""
