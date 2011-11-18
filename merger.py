@@ -14,22 +14,92 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia
+@author: Giovanni Di Milia, 
 The ads merger is a tool that combines two elements and returns 
 the combined element.
 '''
 
 import merger_settings
+from errors import ErrorsInBibrecord
 
 def merger(record):
     """Main function: takes in input a whole record containing the 
     different flavors of metadata"""
-    
-    
-def merge_field(field1, field2, field_type):
-    """Function that merges two fields based on the field type"""
+    #the record I get is in "bibrecord" format (mix of tuples and dictionaries)
+    #then I check if there were errors in the conversion to bibrecord format and I extract only the metadata from the tuples
+    metadata = []
+    for elem in record:
+        if elem[1] == 0:
+            #if there are errors I raise an exception for this record
+            raise ErrorsInBibrecord('Errors in bibrecord')
+        else:
+            metadata.append(elem[0])
+    #if the lenght of metadata is 1 then I have only one flavour of metadata and I don't have to merge anything
+    if len(metadata) == 1:
+        return record[0][0]
+    #otherwise I have to merge the single records
+    #first of all I group the data per field
+    grouped_record = group_fields(metadata)
+    #then I pass each field to the function that takes care of merge all the versions together
+    #and I append the result to the main metadata container
+    final_metadata = {}
+    for field in grouped_record:
+        final_metadata[field] = merger_field_manager(field, grouped_record[field])
+    #############
+    # TODO: Before returning the merged record, probably we have to reassign the order for the single tags
+    #############
+    return final_metadata
 
+def merger_field_manager(field, subfields):
+    """function that manages the merging of multiple version of a field taking care of combining all the versions"""
     #I retrieve the merging function (that is a representation of the merging rule) for the specified field
-    merging_func = merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[field_type]]
+    merging_func = merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[field]]
+    # I group the subfields per different indicators to merge the subfields inside the different groups
+    grouped_subfields = group_subfields_per_indicator(subfields)
+    #for each group I merge the subfields in it
+    merged_fields = []
+    for grp in grouped_subfields:
+        cur_subfields = grouped_subfields[grp]
+        #if I have more than one version I have to merge the different versions
+        if len(cur_subfields) > 1:
+            #current version of the field initially is the first version of the record
+            current_version = cur_subfields[0]
+            for subfield in cur_subfields:
+                current_version = merge_field(current_version, subfield, merging_func)
+            merged_fields.append(current_version)
+        #if I have only one version of the field, I don't have to do anything
+        else:
+            merged_fields.append(cur_subfields[0])
+    return merged_fields
+    
+def merge_field(field1, field2, merging_func):
+    """Function that merges two fields with a merging function"""
     #I apply the merging rule
     return merging_func(field1, field2)
+
+
+def group_fields(record):
+    """Function that groups together the fields from different version of record
+    i.e. if there are 2 version of field 100 there will be in the dictionary 
+    {'100':[[__version 1__], [__version 2__]]}"""
+    #final dictionary
+    grouped_fields = {}
+    for elem in record:
+        for field in elem:
+            grouped_fields.setdefault(field, []).append(elem[field])
+    return grouped_fields
+
+def group_subfields_per_indicator(subfields):
+    """Function that groups a bunch of subfield per indicator"""
+    grouped_subfields = {}
+    for subfield in subfields:
+        #I extract the indicators
+        indicator1 = subfield[0][1]
+        if indicator1 == ' ':
+            indicator1 = '_'
+        indicator2 = subfield[0][2]
+        if indicator2 == ' ':
+            indicator2 = '_'
+        grouped_subfields.setdefault(indicator1+indicator2, []).append(subfield)
+    return grouped_subfields
+    

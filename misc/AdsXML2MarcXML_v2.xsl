@@ -32,14 +32,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<xsl:if test="DOI">
 				            	<datafield tag="024" ind1="7" ind2="">
 				                    <subfield code="a"><xsl:value-of select="DOI"/></subfield>
+				                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                </datafield>
 				            </xsl:if>
 							<!-- Bibcode -->
 							<datafield tag="970" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
+			                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                </datafield>
 			                <datafield tag="035" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
+			                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                    <subfield code="9">ADS bibcode</subfield>
 			                </datafield>
 			                <!-- Alternate bibcodes -->
@@ -48,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            		<xsl:if test=". != $canonical_bibcode">
 					            		<datafield tag="035" ind1="" ind2="">
 						                    <subfield code="a"><xsl:value-of select="."/></subfield>
+						                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 						                    <subfield code="9"><xsl:value-of select="@type"/></subfield>
 					                	</datafield>
 					                </xsl:if>
@@ -57,6 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                <xsl:if test="preprintid">
 				            	<datafield tag="035" ind1="" ind2="">
 				                    <subfield code="a"><xsl:value-of select="preprintid"/></subfield>
+				                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                    <subfield code="9">arXiv</subfield>
 				                </datafield>
 				            </xsl:if>
@@ -67,6 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	            						<xsl:if test="title/@lang">
 	            							<datafield tag="041" ind1="" ind2="">
 				                    			<subfield code="a"><xsl:value-of select="title/@lang"/></subfield>
+				                    			<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                    		</datafield>
 				                    	</xsl:if>
 				            		</xsl:when>
@@ -79,6 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            							<xsl:if test="@lang">
 						            							<datafield tag="041" ind1="" ind2="">
 									                    			<subfield code="a"><xsl:value-of select="@lang"/></subfield>
+									                    			<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									                    		</datafield>
 									                    	</xsl:if>
 					            						</xsl:when>
@@ -92,6 +99,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            							<xsl:if test="@lang">
 						            							<datafield tag="041" ind1="" ind2="">
 									                    			<subfield code="a"><xsl:value-of select="@lang"/></subfield>
+									                    			<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									                    		</datafield>
 									                    	</xsl:if>
 					            						</xsl:when>
@@ -134,6 +142,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                		<subfield code="m"><xsl:value-of select="."/></subfield>
 				                                	</xsl:for-each>
 				                                </xsl:if>
+				                                <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                            </datafield>
 				                        </xsl:when>
 				                        <xsl:otherwise>
@@ -163,6 +172,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                		<subfield code="m"><xsl:value-of select="."/></subfield>
 				                                	</xsl:for-each>
 				                                </xsl:if>
+				                                <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                            </datafield>
 				                        </xsl:otherwise>
 				                    </xsl:choose>
@@ -177,6 +187,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                    	<xsl:if test="@lang">
 					                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 					                    	</xsl:if>
+					                    	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                	</datafield>
 				            		</xsl:when>
 				            		<!-- In case I have more then one title -->
@@ -193,12 +204,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            							<datafield tag="245" ind1="" ind2="">
 									                    		<subfield code="a"><xsl:value-of select="."/></subfield>
 									                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
+									                    		<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 							                				</datafield>
 					            						</xsl:when>
 					            						<xsl:otherwise>
 					            							<datafield tag="242" ind1="" ind2="">
 									                    		<subfield code="a"><xsl:value-of select="."/></subfield>
 									                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
+									                    		<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 							                				</datafield>
 					            						</xsl:otherwise>
 					            					</xsl:choose>
@@ -209,6 +222,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							                    		<xsl:if test="(@lang) and (@lang != '')">
 						                    				<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    			</xsl:if>
+						                    			<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 							                		</datafield>
 					            				</xsl:for-each>
 				            				</xsl:when>
@@ -222,6 +236,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									                    		<xsl:if test="@lang">
 						                    						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    					</xsl:if>
+						                    					<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 							                				</datafield>
 					            						</xsl:when>
 					            						<xsl:otherwise>
@@ -230,6 +245,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									                    		<xsl:if test="@lang">
 						                    						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    					</xsl:if>
+						                    					<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 							                				</datafield>
 					            						</xsl:otherwise>
 					            					</xsl:choose>
@@ -243,6 +259,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<xsl:if test="numpubdate">
 			                    <datafield tag="260" ind1="" ind2="">
 			                       <subfield code="c"><xsl:value-of select="substring(numpubdate, 4, 4)"/><xsl:text>-</xsl:text><xsl:value-of select="substring(numpubdate, 1, 2)"/><xsl:text>-00</xsl:text></subfield>
+			                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                    </datafield>
 							</xsl:if>
 							
@@ -253,6 +270,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<xsl:if test="comment">
 								<datafield tag="500" ind1="" ind2="">
 									<subfield code="a"><xsl:value-of select="comment"/></subfield>
+									<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									<subfield code="9"><xsl:value-of select="comment/@origin"/></subfield>
 								</datafield>
 							</xsl:if>
@@ -268,6 +286,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                        <xsl:if test="(@lang) and (@lang != '')">
 		                  						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 		                  					</xsl:if>
+		                  					<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                    </datafield>
 				                    </xsl:if>
 			                    </xsl:for-each>
@@ -275,8 +294,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                
 			                <!-- Copyright -->
 			                <xsl:if test="copyright">
-			                    <datafield tag="598" ind1="" ind2="">
+			                    <datafield tag="540" ind1="" ind2="">
 			                        <subfield code="a"><xsl:value-of select="copyright"/></subfield>
+			                        <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                    </datafield>
 			                </xsl:if>
 							<!-- Associate papers -->
@@ -285,6 +305,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                		<datafield tag="591" ind1="" ind2="">
 			                            <subfield code="a"><xsl:value-of select="."/></subfield>
 			                            <subfield code="c"><xsl:value-of select="@comment"/></subfield>
+			                            <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
@@ -318,6 +339,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                       </xsl:if>
 			                       <!-- Full string of the journal -->
 			                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
+			                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                	</datafield>
 							</xsl:if>
 							<!-- Links -->
@@ -326,6 +348,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                    <datafield tag="856" ind1="4" ind2="">
 			                            <subfield code="u"><xsl:value-of select="@url"/></subfield>
 			                            <subfield code="y"><xsl:value-of select="@type"/></subfield>
+			                            <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield> 
 				                </xsl:for-each>
 			                </xsl:if>
@@ -334,6 +357,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                	<xsl:for-each select="origin">
 			                		<datafield tag="907" ind1="" ind2="">
 			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
+			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
@@ -343,6 +367,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									<datafield tag="961" ind1="" ind2="">
 										<subfield code="c"><xsl:value-of select="modification_time"/></subfield>
 										<subfield code="x"><xsl:value-of select="creation_time"/></subfield>
+										<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									</datafield>
 								</xsl:if>
 							</xsl:if>
@@ -369,6 +394,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 												<subfield code="a"><xsl:value-of select="." /></subfield>
 											</xsl:otherwise>
 										</xsl:choose>
+										<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									</datafield>
 								</xsl:for-each>
 							</xsl:if>
@@ -376,31 +402,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            <xsl:if test="collection = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">COLLECTION</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="nonarticle = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">NONARTICLE</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="ocrabstract = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">OCRABSTRACT</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="openaccess = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">OPENACCESS</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="private = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">PRIVATE</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="refereed = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">REFEREED</subfield>
+				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <!-- Special collection "pubtype" -->
@@ -408,6 +440,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            <xsl:if test="translate(pubtype, $smallcase, $uppercase) != 'EPRINT'">
 						             <datafield tag="980" ind1="" ind2="">
 						             	<subfield code="a"><xsl:value-of select="translate(pubtype, $smallcase, $uppercase)" /></subfield>
+						             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 						             </datafield>
 					            </xsl:if>
 					        </xsl:if>
@@ -415,6 +448,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<xsl:if test="JSON_timestamp">
 								<datafield tag="995" ind1="" ind2="">
 									<subfield code="a"><xsl:value-of select="JSON_timestamp"/></subfield>
+									<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 								</datafield>
 							</xsl:if>
 							<!-- References -->
@@ -440,6 +474,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                        	<xsl:if test="not(string-length(.) = 0)">
 			                        		<subfield code="m"><xsl:value-of select="."/></subfield>
 			                        	</xsl:if>
+			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield>
 			               		</xsl:for-each>
 			                </xsl:if>

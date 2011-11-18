@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia
+@author: Giovanni Di Milia, 
 File containing all the settings for the merger: priority lists and other
 '''
 

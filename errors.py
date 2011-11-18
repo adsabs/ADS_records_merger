@@ -15,24 +15,24 @@
 
 '''
 @author: Giovanni Di Milia, 
-File containing all the functions to merge 
+List of exceptions
 '''
 
-def priority_based_merger():
-    """basic function that merges based on priority"""
+class Error(Exception):
+    """Base class for custom exceptions"""
+    pass
+
+class GenericError(Error):
+    """Generic error to raise with a custom message"""
+    def __init__(self, field_desc):
+        """ Constructor: initialize the variable containing the \
+        description of the field with errors"""
+        super(GenericError, self).__init__()
+        self.field_desc = field_desc
+    def __str__(self):
+        message = "ERROR: %s \n" % self.field_desc
+        return message
     
-    
-def take_all():
-    """function that takes all the different fields 
-    and returns an unique list"""
-    
-def author_merger():
-    """function that merges the author lists and return the first author or
-     all the other authors"""
-     
-def title_merger():
-    """function that chooses the titles and returns the main title or 
-    the list of alternate titles"""
-    
-def abstract_merger():
-    """function that chooses the abstracts based on the languages and priority"""
+class ErrorsInBibrecord(Exception):
+    """Class for the error raised in case of error in the bibrecord"""
+    pass
