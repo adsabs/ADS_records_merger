@@ -36,3 +36,15 @@ class GenericError(Error):
 class ErrorsInBibrecord(Exception):
     """Class for the error raised in case of error in the bibrecord"""
     pass
+
+class OriginNotFound(Exception):
+    """Error raise in case of origin missing for a field"""
+    pass
+class OriginValueNotFound(Exception):
+    """Error raised in case of value missing for an origin"""
+    pass
+
+###### NOT USED
+class WrongParameter(Exception):
+    """Error that is raised when there is a wrong parameter passed"""
+    pass

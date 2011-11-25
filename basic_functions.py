@@ -18,6 +18,17 @@
 File containing all the basic functions 
 '''
 
+import sys
+import time
+
+import merger_settings
+from errors import OriginNotFound, OriginValueNotFound
+
+def printmsg(verbose, msg):
+    """function to print debug messages"""
+    if verbose:
+        sys.stdout.write(time.strftime("%Y-%m-%d %H:%M:%S") + ' ' + msg)
+        
 def is_unicode(s):
     """function that checks if a string contains unicode or not"""
     try:
@@ -53,3 +64,41 @@ def month_in_date(date):
             return False
     else:
         return False
+
+def get_origin(field):
+    """function that extracts the origin of a field"""
+    for subfield in field[0][0]:
+        #for each subfield I search for the one containing the origin
+        if subfield[0] == merger_settings.ORIGIN_SUBFIELD:
+            return subfield[1]
+        else:
+            pass
+    #if I don't find it I raise an exception
+    raise OriginNotFound(str(field))
+
+def get_origin_value(field, origins):
+    """function that returns the value of the importace of an origin
+    if multiple origin are present, the one with the highest value is returned"""
+    #I split the string in a list of origins
+    origin_list = origins.split('; ')
+    #default value
+    value = 0
+    for origin in origin_list:
+        #first of all I try to see if there is a specific list
+        #otherwise I use the default one
+        try:
+            priority_list_name = merger_settings.FIELDS_PRIORITY_LIST[merger_settings.MARC_TO_FIELD[field]]
+        except KeyError:
+            priority_list_name = merger_settings.DEFAULT_PRIORITY_LIST
+        
+        priority_list = merger_settings.PRIORITY_LISTS[priority_list_name]
+
+        try:
+            cur_value = priority_list[origin]
+        except KeyError:
+            raise OriginValueNotFound('Priority value not found for origin "%s" %s' % (origin, str(origin_list)))
+        
+        if cur_value > value:
+            value = cur_value
+    return value
+

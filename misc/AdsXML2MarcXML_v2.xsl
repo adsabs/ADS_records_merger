@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
 	<xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'"/>
 	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
+	<xsl:variable name="adsmetadata" select="'ADS metadata'"/>
 	<xsl:template match="/">
 		<collections>
 			<xsl:for-each select="/records/record">
@@ -38,11 +39,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<!-- Bibcode -->
 							<datafield tag="970" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
-			                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    <subfield code="8"><xsl:value-of select="$adsmetadata"/></subfield>
 			                </datafield>
 			                <datafield tag="035" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
-			                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    <subfield code="8"><xsl:value-of select="$adsmetadata"/></subfield>
 			                    <subfield code="9">ADS bibcode</subfield>
 			                </datafield>
 			                <!-- Alternate bibcodes -->

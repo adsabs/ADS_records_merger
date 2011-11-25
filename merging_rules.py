@@ -18,21 +18,41 @@
 File containing all the functions to merge 
 '''
 
-def priority_based_merger():
+from basic_functions import get_origin, get_origin_value, printmsg
+from settings import VERBOSE
+
+def priority_based_merger(subfield_list1, subfield_list2, field_code):
     """basic function that merges based on priority"""
     
+    origin_val1 = get_origin_value(field_code, get_origin(subfield_list1))
+    origin_val2 = get_origin_value(field_code, get_origin(subfield_list2))
     
-def take_all():
+    if origin_val1 > origin_val2:
+        return subfield_list1
+    elif origin_val2 > origin_val1:
+        return subfield_list2
+    else:
+        #in case the two values are the same, I return the first one and I print a worning
+        #warning
+        printmsg(VERBOSE, 'Same field with origin having the same importance.')
+        return subfield_list1
+    
+def take_all(subfield_list1, subfield_list2, field_code):
     """function that takes all the different fields 
     and returns an unique list"""
     
-def author_merger():
+def author_merger(subfield_list1, subfield_list2, field_code):
     """function that merges the author lists and return the first author or
      all the other authors"""
      
-def title_merger():
+def title_merger(subfield_list1, subfield_list2, field_code):
     """function that chooses the titles and returns the main title or 
     the list of alternate titles"""
     
-def abstract_merger():
+def abstract_merger(subfield_list1, subfield_list2, field_code):
     """function that chooses the abstracts based on the languages and priority"""
+    
+    
+
+
+

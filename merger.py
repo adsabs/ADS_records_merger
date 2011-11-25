@@ -64,18 +64,20 @@ def merger_field_manager(field, subfields):
         if len(cur_subfields) > 1:
             #current version of the field initially is the first version of the record
             current_version = cur_subfields[0]
-            for subfield in cur_subfields:
-                current_version = merge_field(current_version, subfield, merging_func)
+            #and I merge it with all the other versions
+            for subfield in cur_subfields[1:]:
+                current_version = merge_field(current_version, subfield, merging_func, field)
             merged_fields.append(current_version)
         #if I have only one version of the field, I don't have to do anything
         else:
             merged_fields.append(cur_subfields[0])
     return merged_fields
     
-def merge_field(field1, field2, merging_func):
+def merge_field(field1, field2, merging_func, field_code):
     """Function that merges two fields with a merging function"""
+    #return
     #I apply the merging rule
-    return merging_func(field1, field2)
+    return merging_func(field1, field2, field_code)
 
 
 def group_fields(record):
