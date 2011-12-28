@@ -4,18 +4,18 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia, 
-The ads merger is a tool that combines two elements and returns 
+@author: Giovanni Di Milia,
+The ads merger is a tool that combines two elements and returns
 the combined element.
 '''
 
@@ -23,7 +23,7 @@ import merger_settings
 from errors import ErrorsInBibrecord
 
 def merger(record):
-    """Main function: takes in input a whole record containing the 
+    """Main function: takes in input a whole record containing the
     different flavors of metadata"""
     #the record I get is in "bibrecord" format (mix of tuples and dictionaries)
     #then I check if there were errors in the conversion to bibrecord format and I extract only the metadata from the tuples
@@ -45,9 +45,10 @@ def merger(record):
     final_metadata = {}
     for field in grouped_record:
         final_metadata[field] = merger_field_manager(field, grouped_record[field])
-    #############
-    # TODO: Before returning the merged record, probably we have to reassign the order for the single tags
-    #############
+
+    # Correct the field positions.
+    record_reorder(final_metadata)
+
     return final_metadata
 
 def merger_field_manager(field, subfields):
@@ -72,7 +73,7 @@ def merger_field_manager(field, subfields):
         else:
             merged_fields.append(cur_subfields[0])
     return merged_fields
-    
+
 def merge_field(field1, field2, merging_func, field_code):
     """Function that merges two fields with a merging function"""
     #return
@@ -82,7 +83,7 @@ def merge_field(field1, field2, merging_func, field_code):
 
 def group_fields(record):
     """Function that groups together the fields from different version of record
-    i.e. if there are 2 version of field 100 there will be in the dictionary 
+    i.e. if there are 2 version of field 100 there will be in the dictionary
     {'100':[[__version 1__], [__version 2__]]}"""
     #final dictionary
     grouped_fields = {}
@@ -104,4 +105,15 @@ def group_subfields_per_indicator(subfields):
             indicator2 = '_'
         grouped_subfields.setdefault(indicator1+indicator2, []).append(subfield)
     return grouped_subfields
-    
+
+def record_reorder(record):
+    """
+    Resets the field positions to default order of increasing tags. Note that
+    the subfield order is kept untouched.
+    """
+    current_position = 1
+    for tag in sorted(record.keys()):
+        for index, field in enumerate(record[tag]):
+            record[tag][index] = (field[0], field[1], field[2], field[3], current_position)
+            current_position += 1
+
