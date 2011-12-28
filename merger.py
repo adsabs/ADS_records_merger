@@ -80,7 +80,6 @@ def merge_field(field1, field2, merging_func, field_code):
     #I apply the merging rule
     return merging_func(field1, field2, field_code)
 
-
 def group_fields(record):
     """Function that groups together the fields from different version of record
     i.e. if there are 2 version of field 100 there will be in the dictionary
