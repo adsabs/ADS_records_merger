@@ -22,34 +22,40 @@ the combined element.
 import merger_settings
 from errors import ErrorsInBibrecord
 
-def merger(record):
+def merger(create_records_output):
     """Main function: takes in input a whole record containing the
-    different flavors of metadata"""
+    different flavors of metadata
+    
+    @param create_records_output: the output of bibrecord.create_records()
+    @return: a merged record
+    """
     #the record I get is in "bibrecord" format (mix of tuples and dictionaries)
     #then I check if there were errors in the conversion to bibrecord format and I extract only the metadata from the tuples
-    metadata = []
-    for elem in record:
-        if elem[1] == 0:
-            #if there are errors I raise an exception for this record
-            raise ErrorsInBibrecord('Errors in bibrecord')
+    records = []
+    for record, error_code, error in create_records_output:
+        if error_code == 0:
+            raise ErrorsInBibrecord(error)
         else:
-            metadata.append(elem[0])
-    #if the lenght of metadata is 1 then I have only one flavour of metadata and I don't have to merge anything
-    if len(metadata) == 1:
-        return record[0][0]
+            records.append(record)
+
+    # If we have only one version, we don't need to merge.
+    if len(records) == 1:
+        return records[0]
+
     #otherwise I have to merge the single records
     #first of all I group the data per field
-    grouped_record = group_fields(metadata)
+    grouped_record = group_fields(records)
+
     #then I pass each field to the function that takes care of merge all the versions together
     #and I append the result to the main metadata container
-    final_metadata = {}
-    for field in grouped_record:
-        final_metadata[field] = merger_field_manager(field, grouped_record[field])
+    merged_record = {}
+    for tag, field_versions in grouped_record.items():
+        merged_record[tag] = merger_field_manager(tag, field_versions)
 
     # Correct the field positions.
-    record_reorder(final_metadata)
+    record_reorder(merged_record)
 
-    return final_metadata
+    return merged_record
 
 def merger_field_manager(field, subfields):
     """function that manages the merging of multiple version of a field taking care of combining all the versions"""
@@ -76,20 +82,17 @@ def merger_field_manager(field, subfields):
 
 def merge_field(field1, field2, merging_func, field_code):
     """Function that merges two fields with a merging function"""
-    #return
-    #I apply the merging rule
     return merging_func(field1, field2, field_code)
 
-def group_fields(record):
+def group_fields(records):
     """Function that groups together the fields from different version of record
     i.e. if there are 2 version of field 100 there will be in the dictionary
     {'100':[[__version 1__], [__version 2__]]}"""
-    #final dictionary
-    grouped_fields = {}
-    for elem in record:
-        for field in elem:
-            grouped_fields.setdefault(field, []).append(elem[field])
-    return grouped_fields
+    grouped_record = {}
+    for record in records:
+        for tag, fields in record.items():
+            grouped_record.setdefault(tag, []).append(fields)
+    return grouped_record
 
 def group_subfields_per_indicator(subfields):
     """Function that groups a bunch of subfield per indicator"""
