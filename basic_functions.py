@@ -21,7 +21,8 @@ File containing all the basic functions
 import sys
 import time
 
-import merger_settings
+from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
+        MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITY_LISTS
 from errors import OriginNotFound, OriginValueNotFound
 
 def printmsg(verbose, msg):
@@ -40,19 +41,12 @@ def is_unicode(s):
 
 def is_mostly_uppercase(s):
     """function that checks if a string is mostly uppercase"""
-    max_percentage = 80.0
-    upper = 0
-    lower = 0
-    for i in range(len(s)):
-        if s[i].isupper():
-            upper = upper + 1
-        else:
-            lower = lower + 1
-    percentage = (float(upper) / len(s)) * 100
-    if percentage > max_percentage:
-        return True
-    else:
-        return False
+    ratio = 0.8
+
+    alphabetic = [c for c in s if c.isalpha()]
+    uppercase = [c for c in alphabetic if c.isupper()]
+
+    return len(uppercase) > (ratio * len(alphabetic))
 
 def month_in_date(date):
     """function that checks if a date contains a valid month"""
@@ -101,4 +95,3 @@ def get_origin_value(field, origins):
         if cur_value > value:
             value = cur_value
     return value
-
