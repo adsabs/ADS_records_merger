@@ -27,7 +27,6 @@ from merging_checks import string_with_unicode_not_selected, \
     author_from_shorter_list, pubdate_without_month_selected, pubdate_no_match_year_bibcode,\
     different_pubdates, different_keywords_for_same_type
 
-
 #subfield containing the origin
 ORIGIN_SUBFIELD = '8'
 

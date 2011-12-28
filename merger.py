@@ -118,4 +118,3 @@ def record_reorder(record):
         for index, field in enumerate(record[tag]):
             record[tag][index] = (field[0], field[1], field[2], field[3], current_position)
             current_position += 1
-

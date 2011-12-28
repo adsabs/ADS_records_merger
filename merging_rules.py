@@ -40,19 +40,18 @@ def priority_based_merger(subfield_list1, subfield_list2, field_code):
 def take_all(subfield_list1, subfield_list2, field_code):
     """function that takes all the different fields
     and returns an unique list"""
+    pass
 
 def author_merger(subfield_list1, subfield_list2, field_code):
     """function that merges the author lists and return the first author or
      all the other authors"""
+    pass
 
 def title_merger(subfield_list1, subfield_list2, field_code):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
+    pass
 
 def abstract_merger(subfield_list1, subfield_list2, field_code):
     """function that chooses the abstracts based on the languages and priority"""
-
-
-
-
-
+    pass

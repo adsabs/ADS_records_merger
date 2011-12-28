@@ -23,27 +23,36 @@ import basic_functions
 
 def string_with_unicode_not_selected():
     """Function that checks if a string without unicode has been selected instead of one containing unicode"""
+    pass
 
 def longer_string_not_selected():
     """"""
+    pass
 
 def uppercase_string_selected():
     """"""
+    pass
 
 def no_field_chosen_with_available_fields():
     """"""
+    pass
 
 def author_from_shorter_list():
     """"""
+    pass
 
 def pubdate_without_month_selected():
     """It checks if a pubdate without month is selected if other dates with month are present"""
+    pass
 
 def pubdate_no_match_year_bibcode():
     """"""
+    pass
 
 def different_pubdates():
     """"""
+    pass
 
 def different_keywords_for_same_type():
     """"""
+    pass
