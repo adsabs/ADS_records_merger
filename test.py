@@ -19,6 +19,13 @@
 File containing an example of the steps that should be taken (and better coded) before using the merger
 '''
 
+try:
+    from invenio.bibrecord import create_records
+except ImportError:
+    import sys
+    sys.path.append('/proj/adsx/invenio/lib/python/')
+    from invenio.bibrecord import create_records
+
 #XML string from ADSExports
 #MarcXML after transormation with new xslt
 marcxml = """
@@ -1475,9 +1482,6 @@ collection = """
 </collection>
 """
 
-#and I pass one single collection to the invenio bibrecord funtion
-import sys
-sys.path.append('/proj/adsx/invenio/lib/python/')
-from invenio.bibrecord import create_records
-
-bibrecords = create_records(collection)
+if __name__ == '__main__':
+    # Pass one single collection to the invenio bibrecord funtion
+    bibrecords = create_records(collection)
