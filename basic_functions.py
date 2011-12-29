@@ -22,7 +22,7 @@ import sys
 import time
 
 from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
-        MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITY_LISTS
+        MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITIES
 from errors import OriginNotFound, OriginValueNotFound
 
 def printmsg(verbose, msg):
@@ -63,7 +63,7 @@ def get_origin(field):
     """function that extracts the origin of a field"""
     for subfield in field[0][0]:
         #for each subfield I search for the one containing the origin
-        if subfield[0] == merger_settings.ORIGIN_SUBFIELD:
+        if subfield[0] == ORIGIN_SUBFIELD:
             return subfield[1]
         else:
             pass
@@ -71,7 +71,7 @@ def get_origin(field):
     raise OriginNotFound(str(field))
 
 def get_origin_value(field, origins):
-    """function that returns the value of the importace of an origin
+    """function that returns the value of the importance of an origin
     if multiple origin are present, the one with the highest value is returned"""
     #I split the string in a list of origins
     origin_list = origins.split('; ')
@@ -81,11 +81,11 @@ def get_origin_value(field, origins):
         #first of all I try to see if there is a specific list
         #otherwise I use the default one
         try:
-            priority_list_name = merger_settings.FIELDS_PRIORITY_LIST[merger_settings.MARC_TO_FIELD[field]]
+            priority_list_name = FIELDS_PRIORITY_LIST[MARC_TO_FIELD[field]]
         except KeyError:
-            priority_list_name = merger_settings.DEFAULT_PRIORITY_LIST
+            priority_list_name = DEFAULT_PRIORITY_LIST
 
-        priority_list = merger_settings.PRIORITY_LISTS[priority_list_name]
+        priority_list = PRIORITIES[priority_list_name]
 
         try:
             cur_value = priority_list[origin]

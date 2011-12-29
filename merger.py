@@ -22,7 +22,7 @@ the combined element.
 import merger_settings
 from errors import ErrorsInBibrecord
 
-def merger(create_records_output):
+def merge(create_records_output):
     """Main function: takes in input a whole record containing the
     different flavors of metadata
     
@@ -60,7 +60,7 @@ def merger(create_records_output):
 def merger_field_manager(field, subfields):
     """function that manages the merging of multiple version of a field taking care of combining all the versions"""
     #I retrieve the merging function (that is a representation of the merging rule) for the specified field
-    merging_func = merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[field]]
+    merging_func = eval('merger_settings.' + merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[field]])
     # I group the subfields per different indicators to merge the subfields inside the different groups
     grouped_subfields = group_subfields_per_indicator(subfields)
     #for each group I merge the subfields in it
