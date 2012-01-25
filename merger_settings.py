@@ -167,3 +167,5 @@ PRIORITIES = {
             for score, sources in __PRIORITIES.items()
             for source in sources)
 }
+
+VERBOSE = True
