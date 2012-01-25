@@ -18,6 +18,7 @@
 File containing all the basic functions
 '''
 
+import re
 import sys
 import time
 
@@ -50,12 +51,9 @@ def is_mostly_uppercase(s):
 
 def month_in_date(date):
     """function that checks if a date contains a valid month"""
-    if len(date) == 7:
+    if re.match('\d\d[^0-9]\d\d\d\d$', date):
         month = date[0:2]
-        if int(month) > 0 and int(month) < 13:
-            return True
-        else:
-            return False
+        return 1 <= int(month) <= 12
     else:
         return False
 

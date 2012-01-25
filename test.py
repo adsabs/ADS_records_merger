@@ -1486,4 +1486,4 @@ if __name__ == '__main__':
     # Pass one single collection to the invenio bibrecord funtion
     bibrecords = create_records(collection)
     import merger
-    print merger.merger(bibrecords)
+    print merger.merge(bibrecords)

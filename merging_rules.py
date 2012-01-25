@@ -19,22 +19,27 @@ File containing all the functions to merge
 '''
 
 from basic_functions import get_origin, get_origin_value, printmsg
-from settings import VERBOSE
+from merger_settings import VERBOSE
 
-def priority_based_merger(subfield_list1, subfield_list2, field_code):
+def priority_based_merger(subfield_list1, subfield_list2, field_code, verbose=VERBOSE):
     """basic function that merges based on priority"""
 
-    origin_val1 = get_origin_value(field_code, get_origin(subfield_list1))
-    origin_val2 = get_origin_value(field_code, get_origin(subfield_list2))
+    try:
+        origin_val1 = get_origin_value(field_code, get_origin(subfield_list1))
+        origin_val2 = get_origin_value(field_code, get_origin(subfield_list2))
+    except:
+        print subfield_list1
+        print subfield_list2
+        raise
 
     if origin_val1 > origin_val2:
         return subfield_list1
     elif origin_val2 > origin_val1:
         return subfield_list2
     else:
-        #in case the two values are the same, I return the first one and I print a worning
-        #warning
-        printmsg(VERBOSE, 'Same field with origin having the same importance.')
+        # In case the two values are identical, return the first one and print
+        # a worning
+        printmsg(verbose, 'Same field with origin having the same importance.')
         return subfield_list1
 
 def take_all(subfield_list1, subfield_list2, field_code):

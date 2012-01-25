@@ -18,14 +18,6 @@
 File containing all the settings for the merger: priority lists and other
 '''
 
-from merging_checks import author_from_shorter_list, \
-        different_keywords_for_same_type, different_pubdates, \
-        longer_string_not_selected, no_field_chosen_with_available_fields, \
-        pubdate_no_match_year_bibcode, pubdate_without_month_selected, \
-        string_with_unicode_not_selected, uppercase_string_selected
-from merging_rules import abstract_merger, author_merger, \
-        priority_based_merger, take_all, title_merger
-
 #subfield containing the origin
 ORIGIN_SUBFIELD = '8'
 
@@ -62,59 +54,66 @@ MARC_TO_FIELD = {
 
 #merging rule function associated with the single fields
 MERGING_RULES = {
-    'abstract': abstract_merger,
-    'arxiv tags': priority_based_merger,
-    'associate papers': priority_based_merger,
-    'collaboration': priority_based_merger,
-    'collection': priority_based_merger,
-    'comment': take_all,
-    'controlled keywords': take_all,
-    'copyright': priority_based_merger,
-    'creation and modification date': priority_based_merger,
-    'doi': priority_based_merger,
-    'facility telescope': priority_based_merger,
-    'first author': author_merger,
-    'free keyword': take_all,
-    'identifiers': take_all,
-    'journal': priority_based_merger,
-    'language code': priority_based_merger,
-    'link': priority_based_merger,
-    'number of pages': priority_based_merger,
-    'original title': title_merger,
-    'other author': author_merger,
-    'preprint date': priority_based_merger,
-    'publication date': priority_based_merger,
-    'references': priority_based_merger,
-    'system number': priority_based_merger,
-    'theses': take_all,
-    'timestamp': priority_based_merger,
-    'title translation': title_merger,
+    'abstract': 'merging_rules.abstract_merger',
+    'arxiv tags': 'merging_rules.priority_based_merger',
+    'associate papers': 'merging_rules.priority_based_merger',
+    'collaboration': 'merging_rules.priority_based_merger',
+    'collection': 'merging_rules.priority_based_merger',
+    'comment': 'merging_rules.take_all',
+    'controlled keywords': 'merging_rules.take_all',
+    'copyright': 'merging_rules.priority_based_merger',
+    'creation and modification date': 'merging_rules.priority_based_merger',
+    'doi': 'merging_rules.priority_based_merger',
+    'facility telescope': 'merging_rules.priority_based_merger',
+    'first author': 'merging_rules.author_merger',
+    'free keyword': 'merging_rules.take_all',
+    'identifiers': 'merging_rules.take_all',
+    'journal': 'merging_rules.priority_based_merger',
+    'language code': 'merging_rules.priority_based_merger',
+    'link': 'merging_rules.priority_based_merger',
+    'number of pages': 'merging_rules.priority_based_merger',
+    'original title': 'merging_rules.title_merger',
+    'other author': 'merging_rules.author_merger',
+    'preprint date': 'merging_rules.priority_based_merger',
+    'publication date': 'merging_rules.priority_based_merger',
+    'references': 'merging_rules.priority_based_merger',
+    'system number': 'merging_rules.priority_based_merger',
+    'theses': 'merging_rules.take_all',
+    'timestamp': 'merging_rules.priority_based_merger',
+    'title translation': 'merging_rules.title_merger',
 }
 
 #checks and specific errors that should be applied during a merging
 MERGING_RULES_CHECKS_ERRORS = {
-    'original title': {
-        'warnings': [string_with_unicode_not_selected, longer_string_not_selected, uppercase_string_selected, no_field_chosen_with_available_fields]
-    },
-    'first author': {
-        'warnings': [author_from_shorter_list],
-    },
-    'other author': {
-        'warnings': [author_from_shorter_list],
-    },
-    'journal': {
-        'warnings': [pubdate_without_month_selected, pubdate_no_match_year_bibcode, different_pubdates],
-    },
-    'free keyword': {
-        'warnings': [different_keywords_for_same_type]
-    },
-    'controlled keywords': {
-        'warnings': [different_keywords_for_same_type]
-    },
-    'abstract': {
-        'warnings': [string_with_unicode_not_selected, longer_string_not_selected, no_field_chosen_with_available_fields]
-    },
-}
+        'original title': {
+            'warnings': ['merging_checks.string_with_unicode_not_selected',
+                'merging_checks.longer_string_not_selected',
+                'merging_checks.uppercase_string_selected',
+                'merging_checks.no_field_chosen_with_available_fields']
+            },
+        'first author': {
+            'warnings': ['merging_checks.author_from_shorter_list'],
+            },
+        'other author': {
+            'warnings': ['merging_checks.author_from_shorter_list'],
+            },
+        'journal': {
+            'warnings': ['merging_checks.pubdate_without_month_selected',
+                'merging_checks.pubdate_no_match_year_bibcode',
+                'merging_checks.different_pubdates'],
+            },
+        'free keyword': {
+            'warnings': ['merging_checks.different_keywords_for_same_type']
+            },
+        'controlled keywords': {
+            'warnings': ['merging_checks.different_keywords_for_same_type']
+            },
+        'abstract': {
+            'warnings': ['merging_checks.string_with_unicode_not_selected',
+                'merging_checks.longer_string_not_selected',
+                'merging_checks.no_field_chosen_with_available_fields']
+            },
+        }
 
 #If there is a specific priority list per one field its name should be specified here (see example)
 #if not specified the standard one will be applied
