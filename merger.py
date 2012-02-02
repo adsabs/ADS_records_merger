@@ -21,7 +21,7 @@ the combined element.
 
 import merger_settings
 from merger_settings import msg
-from errors import ErrorsInBibrecord, OriginValueNotFound
+from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 
 def merge(create_records_output, verbose=False):
     """Main function: takes in input a whole record containing the

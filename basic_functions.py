@@ -22,7 +22,7 @@ import re
 
 from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
         MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITIES
-from errors import OriginNotFound, OriginValueNotFound
+from merger_errors import OriginNotFound, OriginValueNotFound
 
 def is_unicode(s):
     """function that checks if a string contains unicode or not"""
