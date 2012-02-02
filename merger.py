@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia,
+@author: Giovanni Di Milia and Benoit Thiell
 The ads merger is a tool that combines two elements and returns
 the combined element.
 '''

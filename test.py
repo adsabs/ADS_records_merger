@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia
+@author: Giovanni Di Milia and Benoit Thiell
 File containing an example of the steps that should be taken (and better coded) before using the merger
 '''
 

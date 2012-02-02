@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-@author: Giovanni Di Milia,
+@author: Giovanni Di Milia and Benoit Thiell
 File containing all the functions to apply after a merging rule has been applied.
 All this functions are necessary to create warnings and errors based on the result of a merge
 '''
