@@ -20,18 +20,18 @@ the combined element.
 '''
 
 import merger_settings
-import merging_rules
-from errors import ErrorsInBibrecord
+from merger_settings import msg
+from errors import ErrorsInBibrecord, OriginValueNotFound
 
-def merge(create_records_output):
+def merge(create_records_output, verbose=False):
     """Main function: takes in input a whole record containing the
     different flavors of metadata
-    
+
     @param create_records_output: the output of bibrecord.create_records()
     @return: a merged record
     """
-    #the record I get is in "bibrecord" format (mix of tuples and dictionaries)
-    #then I check if there were errors in the conversion to bibrecord format and I extract only the metadata from the tuples
+    # The record is in "bibrecord" format (mix of tuples and dictionaries)
+    # Check if there were errors in the conversion to bibrecord format and extract only the metadata from the tuples
     records = []
     for record, error_code, error in create_records_output:
         if error_code == 0:
@@ -39,51 +39,59 @@ def merge(create_records_output):
         else:
             records.append(record)
 
+    msg('Merging %d records.' % len(records), verbose)
+
     # If we have only one version, we don't need to merge.
     if len(records) == 1:
         return records[0]
 
-    #otherwise I have to merge the single records
-    #first of all I group the data per field
+    # Otherwise merge the single records
+    # First of all group the data per field
     grouped_record = group_fields(records)
 
-    #then I pass each field to the function that takes care of merge all the versions together
-    #and I append the result to the main metadata container
+    # Pass each field to the function that takes care of merge all the versions together
+    # and append the result to the main metadata container
     merged_record = {}
     for tag, field_versions in grouped_record.items():
-        merged_record[tag] = merger_field_manager(tag, field_versions)
+        # TODO Why is this a list in a list?
+        merged_record[tag] = merger_field_manager(tag, field_versions, verbose)[0]
 
     # Correct the field positions.
     record_reorder(merged_record)
 
     return merged_record
 
-def merger_field_manager(field, subfields):
+def merger_field_manager(tag, subfields, verbose):
     """function that manages the merging of multiple version of a field taking care of combining all the versions"""
-    #I retrieve the merging function (that is a representation of the merging rule) for the specified field
-    merging_func = eval(merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[field]])
-    # I group the subfields per different indicators to merge the subfields inside the different groups
+    # Group the subfields per different indicators to merge the subfields inside the different groups
     grouped_subfields = group_subfields_per_indicator(subfields)
-    #for each group I merge the subfields in it
+    # For each group merge the subfields in it
     merged_fields = []
-    for grp in grouped_subfields:
-        cur_subfields = grouped_subfields[grp]
-        #if I have more than one version I have to merge the different versions
+    for subfield_group in grouped_subfields:
+        cur_subfields = grouped_subfields[subfield_group]
+        # If there is more than one version, merge the different versions
         if len(cur_subfields) > 1:
-            #current version of the field initially is the first version of the record
+            # Current version of the field initially is the first version of the record
             current_version = cur_subfields[0]
-            #and I merge it with all the other versions
+            # Merge it with all the other versions
             for subfield in cur_subfields[1:]:
-                current_version = merge_field(current_version, subfield, merging_func, field)
+                current_version = merge_field(current_version, subfield, tag, verbose)
             merged_fields.append(current_version)
-        #if I have only one version of the field, I don't have to do anything
+        # If there is only one version of the field, do nothing
         else:
             merged_fields.append(cur_subfields[0])
     return merged_fields
 
-def merge_field(field1, field2, merging_func, field_code):
+def merge_field(field1, field2, tag, verbose):
     """Function that merges two fields with a merging function"""
-    return merging_func(field1, field2, field_code)
+    # Retrieve the merging function (that is a representation of the merging
+    # rule) for the specified field
+    merging_func = eval(merger_settings.MERGING_RULES[merger_settings.MARC_TO_FIELD[tag]])
+    msg('Merging tag %s with function %s.' % (tag, merging_func.func_name), verbose)
+    try:
+        return merging_func(field1, field2, tag)
+    except OriginValueNotFound:
+        raise
 
 def group_fields(records):
     """Function that groups together the fields from different version of record
@@ -99,7 +107,7 @@ def group_subfields_per_indicator(subfields):
     """Function that groups a bunch of subfield per indicator"""
     grouped_subfields = {}
     for subfield in subfields:
-        #I extract the indicators
+        # Extract the indicators
         indicator1 = subfield[0][1]
         if indicator1 == ' ':
             indicator1 = '_'

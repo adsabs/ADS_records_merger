@@ -18,6 +18,8 @@
 File containing all the settings for the merger: priority lists and other
 '''
 
+import time
+
 #subfield containing the origin
 ORIGIN_SUBFIELD = '8'
 
@@ -169,3 +171,10 @@ PRIORITIES = {
 }
 
 VERBOSE = True
+
+def msg(message, verbose=VERBOSE):
+    """
+    Prints a debug message.
+    """
+    if verbose:
+        print time.strftime("%Y-%m-%d %H:%M:%S"), '---', message

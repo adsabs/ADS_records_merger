@@ -19,17 +19,10 @@ File containing all the basic functions
 '''
 
 import re
-import sys
-import time
 
 from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
         MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITIES
 from errors import OriginNotFound, OriginValueNotFound
-
-def printmsg(verbose, msg):
-    """function to print debug messages"""
-    if verbose:
-        sys.stdout.write(time.strftime("%Y-%m-%d %H:%M:%S") + ' ' + msg)
 
 def is_unicode(s):
     """function that checks if a string contains unicode or not"""
@@ -68,7 +61,7 @@ def get_origin(field):
     #if I don't find it I raise an exception
     raise OriginNotFound(str(field))
 
-def get_origin_value(field, origins):
+def get_origin_importance(field, origins):
     """function that returns the value of the importance of an origin
     if multiple origin are present, the one with the highest value is returned"""
     #I split the string in a list of origins
