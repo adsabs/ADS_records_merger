@@ -19,38 +19,65 @@ File containing all the functions to apply after a merging rule has been applied
 All this functions are necessary to create warnings and errors based on the result of a merge
 '''
 
-def string_with_unicode_not_selected():
+import logging
+
+FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT)
+logger = logging.getLogger('tcpserver')
+logger.warning('Protocol problem: %s', 'connection reset')
+
+def check_string_with_unicode_not_selected():
     """Function that checks if a string without unicode has been selected instead of one containing unicode"""
     pass
 
-def longer_string_not_selected():
+def check_longer_string_not_selected():
     """"""
     pass
 
-def uppercase_string_selected():
+def check_uppercase_string_selected():
     """"""
     pass
 
-def no_field_chosen_with_available_fields():
+def check_no_field_chosen_with_available_fields():
     """"""
     pass
 
-def author_from_shorter_list():
+def check_author_from_shorter_list():
     """"""
     pass
 
-def pubdate_without_month_selected():
+def check_pubdate_without_month_selected():
     """It checks if a pubdate without month is selected if other dates with month are present"""
     pass
 
-def pubdate_no_match_year_bibcode():
+def check_pubdate_no_match_year_bibcode():
     """"""
     pass
 
-def different_pubdates():
+def check_different_pubdates():
     """"""
     pass
 
-def different_keywords_for_same_type():
+def check_different_keywords_for_same_type():
     """"""
     pass
+
+def check_duplicate_normalized_author_names(trusted_author_fields, untrusted_author_fields):
+    """
+    Checks if there are authors with the same normalized name. This will
+    prevent the correct matching of authors from one author list to the other.
+    """
+    pass
+#   trusted_authors = set()
+#   for field in trusted_author_fields:
+#       author = b.field_get_subfield_values(field, 'b')[0]
+#       if author in trusted_authors:
+#           logging.warning('Duplicate author ')
+#       else:
+#           trusted_authors.add(author)
+
+#   untrusted_authors = set()
+#   for field in untrusted_author_fields:
+#       author = b.field_get_subfield_values(field, 'b')[0]
+#       if author in trusted_authors:
+#           untrusted_authors[author] = field

@@ -61,27 +61,32 @@ def get_origin(field):
     #if I don't find it I raise an exception
     raise OriginNotFound(str(field))
 
-def get_origin_importance(field, origins):
+def get_origin_importance(tag, origins):
     """function that returns the value of the importance of an origin
     if multiple origin are present, the one with the highest value is returned"""
-    #I split the string in a list of origins
+    origins = origins.strip('; ')
+    if not origins:
+        raise OriginValueNotFound('No origin for tag: %s' % tag)
+
+    # Split the string in a list of origins
     origin_list = origins.split('; ')
     #default value
     value = 0
+
     for origin in origin_list:
         #first of all I try to see if there is a specific list
         #otherwise I use the default one
         try:
-            priority_list_name = FIELDS_PRIORITY_LIST[MARC_TO_FIELD[field]]
+            priority_list_name = FIELDS_PRIORITY_LIST[MARC_TO_FIELD[tag]]
         except KeyError:
             priority_list_name = DEFAULT_PRIORITY_LIST
 
         priority_list = PRIORITIES[priority_list_name]
 
-        try:
+        if origin in priority_list:
             cur_value = priority_list[origin]
-        except KeyError:
-            raise OriginValueNotFound('Priority value not found for origin "%s" %s' % (origin, str(origin_list)))
+        else:
+            raise OriginValueNotFound('Priority value not found for origin "%s"' % origin)
 
         if cur_value > value:
             value = cur_value

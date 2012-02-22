@@ -129,6 +129,7 @@ DEFAULT_PRIORITY_LIST = 'standard_priority_list'
 #priority lists
 __PRIORITIES = {
         10: ['ADS metadata',],
+        1.0: ['ISI'],
         0.5: ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
             'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
             'AGDP', 'AGU', 'AIP', 'AJ', 'ALMA', 'AMS', 'AN', 'ANRFM', 'ANRMS',
