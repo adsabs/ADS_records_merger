@@ -40,8 +40,19 @@ class ErrorsInBibrecord(Exception):
 class OriginNotFound(Exception):
     """Error raise in case of origin missing for a field"""
     pass
+
+class MultipleOrigins(Exception):
+    """Error raised when multiple fields have different origins."""
+    pass
+
 class OriginValueNotFound(Exception):
     """Error raised in case of value missing for an origin"""
+    pass
+
+class EqualOrigins(Exception):
+    pass
+
+class DuplicateNormalizedAuthorError(Exception):
     pass
 
 ###### NOT USED

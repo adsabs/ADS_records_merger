@@ -20,11 +20,8 @@ File containing all the functions to merge
 
 from basic_functions import get_origin, get_origin_importance
 from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD
-from merger_errors import OriginValueNotFound
+from merger_errors import OriginValueNotFound, EqualOrigins, DuplicateNormalizedAuthorError
 import invenio.bibrecord as bibrecord
-
-class DuplicateNormalizedAuthorError(Exception):
-    pass
 
 def priority_based_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
     """basic function that merges based on priority"""
@@ -38,15 +35,10 @@ def priority_based_merger(fields1, record_origin1, fields2, record_origin2, tag,
         else:
             for field1, field2 in zip(fields1, fields2):
                 if not bibrecord._compare_fields(field1, field2, strict=False):
-                    print tag
-                    print fields1, fields2
                     raise
             # Equal fields
             return fields1
 
-    msg('      Selected fields from record %d (%s over %s).' % ( fields1 == trusted and 1 or 2,
-        fields1 == trusted and record_origin1 or record_origin2,
-        fields1 == trusted and record_origin2 or record_origin1), verbose)
     return trusted
 
 #   else:
@@ -155,36 +147,36 @@ def abstract_merger(fields1, record_origin1, fields2, record_origin2, tag, verbo
 
     return trusted
 
-class EqualOrigins(Exception):
-    pass
-
 def get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag):
     """
     Selects the most trusted fields.
     """
     try:
-        origin1 = get_origin_importance(tag, get_origin(fields1))
+        origin1 = get_origin(fields1)
+        origin_val1 = get_origin_importance(tag, origin1)
     except OriginValueNotFound:
         if record_origin1:
-            origin1 = record_origin1
+            origin_val1 = get_origin_importance(record_origin1)
             for field in fields1:
                 bibrecord.field_add_subfield(field, ORIGIN_SUBFIELD, record_origin1)
         else:
             raise
     try:
-        origin2 = get_origin_importance(tag, get_origin(fields2))
+        origin2 = get_origin(fields2)
+        origin_val2 = get_origin_importance(tag, origin2)
     except OriginValueNotFound:
         if record_origin2:
-            origin2 = record_origin2
+            origin_val2 = get_origin_importance(record_origin2)
             for field in fields2:
                 bibrecord.field_add_subfield(field, ORIGIN_SUBFIELD, record_origin2)
         else:
-            print fields2
             raise
 
-    if origin1 > origin2:
+    if origin_val1 > origin_val2:
+        msg('      Selected fields from record 1 (%s over %s).' % (origin1, origin2))
         return fields1, fields2
-    elif origin1 < origin2:
+    elif origin_val1 < origin_val2:
+        msg('      Selected fields from record 2 (%s over %s).' % (origin2, origin1))
         return fields2, fields1
     else:
-        raise EqualOrigins(get_origin(fields1))
+        raise EqualOrigins(origin1)

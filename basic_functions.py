@@ -21,8 +21,9 @@ File containing all the basic functions
 import re
 
 from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
-        MARC_TO_FIELD, ORIGIN_SUBFIELD, PRIORITIES
+        MARC_TO_FIELD, PRIORITIES
 from merger_errors import OriginNotFound, OriginValueNotFound
+import invenio.bibrecord as bibrecord
 
 def is_unicode(s):
     """function that checks if a string contains unicode or not"""
@@ -50,24 +51,26 @@ def month_in_date(date):
     else:
         return False
 
-def get_origin(field):
+def get_origin(fields):
     """function that extracts the origin of a field"""
-    for subfield in field[0][0]:
-        #for each subfield I search for the one containing the origin
-        if subfield[0] == ORIGIN_SUBFIELD:
-            return subfield[1]
-        else:
-            pass
-    #if I don't find it I raise an exception
-    raise OriginNotFound(str(field))
+    origins = set()
+    for field in fields:
+        origins.update(bibrecord.field_get_subfield_values(field, '8'))
+
+    if not origins:
+        raise OriginNotFound(fields)
+    elif len(origins) > 2:
+        raise OriginNotFound(fields)
+
+    origin = origins.pop().strip('; ')
+    if not origin:
+        raise OriginNotFound(fields)
+
+    return origin
 
 def get_origin_importance(tag, origins):
     """function that returns the value of the importance of an origin
     if multiple origin are present, the one with the highest value is returned"""
-    origins = origins.strip('; ')
-    if not origins:
-        raise OriginValueNotFound('No origin for tag: %s' % tag)
-
     # Split the string in a list of origins
     origin_list = origins.split('; ')
     #default value
