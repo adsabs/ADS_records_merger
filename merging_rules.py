@@ -23,6 +23,7 @@ from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins, DuplicateNormalizedAuthorError
 import invenio.bibrecord as bibrecord
 
+
 def priority_based_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
     """basic function that merges based on priority"""
     try:
