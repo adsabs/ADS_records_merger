@@ -148,6 +148,10 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
+def creation_mod_date(fields1, fields2, tag, verbose=VERBOSE):
+    """merging function for a special field"""
+    return None
+
 def get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose=VERBOSE):
     """
     Selects the most trusted fields.

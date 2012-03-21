@@ -64,7 +64,7 @@ MERGING_RULES = {
     'comment': 'merging_rules.take_all',
     'controlled keywords': 'merging_rules.take_all',
     'copyright': 'merging_rules.priority_based_merger',
-    'creation and modification date': 'merging_rules.priority_based_merger',
+    'creation and modification date': 'merging_rules.creation_mod_date',
     'doi': 'merging_rules.priority_based_merger',
     'facility telescope': 'merging_rules.priority_based_merger',
     'first author': 'merging_rules.author_merger',

@@ -18,10 +18,11 @@
 The ads merger is a tool that combines two elements and returns
 the combined element.
 '''
+import re
 
 import invenio.bibrecord as bibrecord
 
-from merger_settings import msg, MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
+from merger_settings import VERBOSE, msg, MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 # Not directly used but needed for evaluation the merging functions.
 import merging_rules
@@ -51,8 +52,24 @@ import merging_rules
 #    return records
 
 
+def merge_records_xml(marcxml, verbose=VERBOSE):
+    """Function that takes in input a marcxml string and returns containing 
+    multiple records identified by the tag "collection" and for each calls the 
+    function to merge the different flavors of the same record 
+    (identified by the tag "record"). """
+    #I split the different records Identified by the "collection tag"
+    regex = re.compile('<collection>.*?</collection>', re.DOTALL)
+    record_xmls = regex.findall(marcxml)
+    
+    merged_records = []
+    for xml in record_xmls:
+        records = [res[0] for res in bibrecord.create_records(xml)]
+        # Get the merged record.
+        merged_records.append(merge_multiple_records(records, verbose))
+    return merged_records
 
-def merge_multiple_records(records, verbose=False):
+
+def merge_multiple_records(records, verbose=VERBOSE):
     """
     Merges multiple records and returns a merged record.
     """
@@ -78,7 +95,7 @@ def merge_multiple_records(records, verbose=False):
 
     return merged_record
 
-def merge_two_records(record1, record2, verbose=False):
+def merge_two_records(record1, record2, verbose=VERBOSE):
     """
     Merges two records and returns a merged record.
     """
@@ -86,9 +103,6 @@ def merge_two_records(record1, record2, verbose=False):
 
     merged_record = {}
     for tag in all_tags:
-        if tag == '961':
-            # TODO Do we need to merge creation and modification date?
-            continue
         fields1 = record1.get(tag, [])
         fields2 = record2.get(tag, [])
         merged_fields = merge_two_fields(tag, fields1, fields2, verbose)
@@ -97,7 +111,7 @@ def merge_two_records(record1, record2, verbose=False):
 
     return merged_record
 
-def merge_two_fields(tag, fields1, fields2, verbose=False):
+def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
     """
     Merges two sets of fields with the same tag and returns a merged set of
     fields.

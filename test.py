@@ -27,39 +27,33 @@ sys.path.append('/proj/ads/soft/python/lib/site-packages')
 sys.path.append('/proj/adsx/invenio/lib/python')
 
 from ads.ADSExports import ADSRecords
-import invenio.bibrecord as bibrecord
 
-from merger import merge_multiple_records
+from merger import merge_records_xml
 
 XSLT = 'misc/AdsXML2MarcXML_v2.xsl'
 
 
-def merge_bibcode(bibcode, verbose=False):
+def merge_bibcodes(bibcodes, verbose=False):
     """
     Returns a merged version of the record identified by bibcode.
     """
     # Extract the record from ADS.
     records = ADSRecords()
-    records.addCompleteRecord(bibcode)
+    for bibcode in bibcodes:
+        records.addCompleteRecord(bibcode)
     ads_xml_obj = records.export()
-    return merge_ads_xml(ads_xml_obj, verbose)
-
-def merge_ads_xml(ads_xml_obj, verbose=False):
-    """"""
+    
     # Convert to MarcXML.
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
     xml_object = stylesheet.applyStylesheet(ads_xml_obj, None)
-
     # Convert to bibrecord.
     # TODO: We need to allow bibrecord to accept libxml2 objects.
-    xml = xml_object.serialize(encoding='utf-8')
-    records = [res[0] for res in bibrecord.create_records(xml)]
+    marcxml = xml_object.serialize(encoding='utf-8')
+    
+    return merge_records_xml(marcxml, verbose)
 
-    # Get the merged record.
-    merged_record = merge_multiple_records(records, verbose)
 
-    return merged_record
 
 if __name__ == '__main__':
-    merged_record = merge_bibcode('1999PASP..111..438F', verbose=True)
+    merged_record = merge_bibcodes(['1999PASP..111..438F'], verbose=True)
     #print bibrecord.record_xml_output(merged_record)

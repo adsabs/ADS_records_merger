@@ -1,5 +1,10 @@
 # -*- encoding: utf-8 -*-
 
+import sys
+sys.path.append('../')
+sys.path.append('/proj/ads/soft/python/lib/site-packages')
+sys.path.append('/proj/adsx/invenio/lib/python')
+
 import unittest
 
 import merger as m
@@ -31,9 +36,9 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">A&amp;A</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
-        merged_record = m.merge(records)
-        self.assertEqual(merged_record, b.create_record(expected)[0])
+        #records = b.create_records(marcxml)
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertEqual(merged_record, [b.create_record(expected)[0]])
 
     def test_02_merge_two_records_two_fields(self):
         """
@@ -71,9 +76,9 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">AAS</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
-        merged_record = m.merge(records)
-        self.assertEqual(merged_record, b.create_record(expected)[0])
+        #records = b.create_records(marcxml)
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertEqual(merged_record, [b.create_record(expected)[0]])
 
     def test_03_merge_two_records_one_different_field(self):
         """
@@ -103,9 +108,9 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">STI</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
-        merged_record = m.merge(records)
-        self.assertEqual(merged_record, b.create_record(expected)[0])
+        #records = b.create_records(marcxml)
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertEqual(merged_record, [b.create_record(expected)[0]])
 
     def test_04_merge_three_records_two_fields(self):
         """
@@ -153,9 +158,9 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">AAS</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
-        merged_record = m.merge(records)
-        self.assertEqual(merged_record, b.create_record(expected)[0])
+        #records = b.create_records(marcxml)
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertEqual(merged_record, [b.create_record(expected)[0]])
 
 class TestAuthorMerger(unittest.TestCase):
 
@@ -216,9 +221,9 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="8">A&amp;A</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
-        merged_record = m.merge(records)
-        self.assertEqual(merged_record, b.create_record(expected)[0])
+        #records = b.create_records(marcxml)
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertEqual(merged_record, [b.create_record(expected)[0]])
 
     def test_02_merge_two_records_additional_subfield(self):
         """
@@ -249,10 +254,10 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="8">A&amp;A</subfield>
   </datafield>
 </record>"""
-        records = b.create_records(marcxml)
+        #records = b.create_records(marcxml)
         expected_record = b.create_record(expected)[0]
-        merged_record = m.merge(records)
-        self.assertTrue(b._compare_fields(merged_record['100'][0], expected_record['100'][0], strict=False))
+        merged_record = m.merge_records_xml(marcxml)
+        self.assertTrue(b._compare_fields(merged_record[0]['100'][0], expected_record['100'][0], strict=False))
 
 if __name__ == '__main__':
     unittest.main()

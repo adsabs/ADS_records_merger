@@ -1,5 +1,10 @@
 # -*- encoding: utf-8 -*-
 
+import sys
+sys.path.append('../')
+sys.path.append('/proj/ads/soft/python/lib/site-packages')
+sys.path.append('/proj/adsx/invenio/lib/python')
+
 import unittest
 
 import merging_rules as m
