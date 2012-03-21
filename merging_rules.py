@@ -24,10 +24,10 @@ from merger_errors import OriginValueNotFound, EqualOrigins, DuplicateNormalized
 import invenio.bibrecord as bibrecord
 
 
-def priority_based_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
+def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
     """basic function that merges based on priority"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) == len(fields2) and \
                 all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
@@ -48,7 +48,7 @@ def priority_based_merger(fields1, record_origin1, fields2, record_origin2, tag,
 #       msg('      Same field with origin having the same importance.', verbose)
 #       return fields1
 
-def take_all(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
+def take_all(fields1, fields2, tag, verbose=VERBOSE):
     """function that takes all the different fields
     and returns an unique list"""
     all_fields = []
@@ -61,11 +61,11 @@ def take_all(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERB
 
     return all_fields
 
-def author_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
+def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that merges the author lists and return the first author or
     all the other authors"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -115,11 +115,11 @@ def author_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose
 
     return trusted
 
-def title_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
+def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -132,10 +132,10 @@ def title_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=
 
     return trusted
 
-def abstract_merger(fields1, record_origin1, fields2, record_origin2, tag, verbose=VERBOSE):
+def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the abstracts based on the languages and priority"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -148,7 +148,7 @@ def abstract_merger(fields1, record_origin1, fields2, record_origin2, tag, verbo
 
     return trusted
 
-def get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_origin2, tag):
+def get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose=VERBOSE):
     """
     Selects the most trusted fields.
     """
@@ -156,28 +156,18 @@ def get_trusted_and_untrusted_fields(fields1, record_origin1, fields2, record_or
         origin1 = get_origin(fields1)
         origin_val1 = get_origin_importance(tag, origin1)
     except OriginValueNotFound:
-        if record_origin1:
-            origin_val1 = get_origin_importance(record_origin1)
-            for field in fields1:
-                bibrecord.field_add_subfield(field, ORIGIN_SUBFIELD, record_origin1)
-        else:
-            raise
+        raise
     try:
         origin2 = get_origin(fields2)
         origin_val2 = get_origin_importance(tag, origin2)
     except OriginValueNotFound:
-        if record_origin2:
-            origin_val2 = get_origin_importance(record_origin2)
-            for field in fields2:
-                bibrecord.field_add_subfield(field, ORIGIN_SUBFIELD, record_origin2)
-        else:
-            raise
+        raise
 
     if origin_val1 > origin_val2:
-        msg('      Selected fields from record 1 (%s over %s).' % (origin1, origin2))
+        msg('      Selected fields from record 1 (%s over %s).' % (origin1, origin2), verbose)
         return fields1, fields2
     elif origin_val1 < origin_val2:
-        msg('      Selected fields from record 2 (%s over %s).' % (origin2, origin1))
+        msg('      Selected fields from record 2 (%s over %s).' % (origin2, origin1), verbose)
         return fields2, fields1
     else:
         raise EqualOrigins(origin1)
