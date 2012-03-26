@@ -51,16 +51,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            <xsl:if test="alternates">
 				            	<xsl:for-each select="alternates/alternate">
 				            		<xsl:if test=". != $canonical_bibcode">
-				            			<xsl:if test="@type = 'alternate'">
+					                	<xsl:if test="@type = 'deleted'">
 						            		<datafield tag="035" ind1="" ind2="">
-							                    <subfield code="y"><xsl:value-of select="."/></subfield>
+							                    <subfield code="z"><xsl:value-of select="."/></subfield>
 							                    <subfield code="2"><xsl:value-of select="@type"/></subfield>
 							                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 						                	</datafield>
 					                	</xsl:if>
-					                	<xsl:if test="@type = 'deleted'">
+					                	<xsl:if test="@type = 'eprint'">
 						            		<datafield tag="035" ind1="" ind2="">
-							                    <subfield code="z"><xsl:value-of select="."/></subfield>
+							                    <subfield code="y"><xsl:value-of select="."/></subfield>
+							                    <subfield code="2">eprint bibcode</subfield>
+							                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+						                	</datafield>
+					                	</xsl:if>
+					                	<xsl:if test="(@type != 'deleted') and (@type != 'eprint')">
+						            		<datafield tag="035" ind1="" ind2="">
+							                    <subfield code="y"><xsl:value-of select="."/></subfield>
 							                    <subfield code="2"><xsl:value-of select="@type"/></subfield>
 							                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 						                	</datafield>
