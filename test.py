@@ -52,6 +52,10 @@ def merge_bibcodes(bibcodes, verbose=False):
     
     return merge_records_xml(marcxml, verbose)
 
+def static_file_merging(verbose=False):
+    """runs the record merger from a static XML in a file bypassing the extraction"""
+    static_file = "misc/2011ApJ...741...91C.xml"
+    return merge_records_xml(open(static_file, "r").read(), verbose)
 
 
 if __name__ == '__main__':
