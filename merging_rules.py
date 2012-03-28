@@ -18,7 +18,7 @@
 File containing all the functions to merge
 '''
 
-from basic_functions import get_origin, get_origin_importance
+from basic_functions import get_origin, get_origin_importance, compare_fields_exclude_subfiels
 from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins, DuplicateNormalizedAuthorError
 import invenio.bibrecord as bibrecord
@@ -48,14 +48,33 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
 #       msg('      Same field with origin having the same importance.', verbose)
 #       return fields1
 
+
 def take_all(fields1, fields2, tag, verbose=VERBOSE):
     """function that takes all the different fields
     and returns an unique list"""
     all_fields = []
     for field1 in fields1 + fields2:
         for field2 in all_fields:
-            if bibrecord._compare_fields(field1, field2, strict=False):
-                break
+            #I check if the fields are the same without considering the origin
+            if compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
+                #then I check if with the origin the subfield are the same
+                #if so I already have the value in the list
+                if bibrecord._compare_fields(field1, field2, strict=False):
+                    break
+                #otherwise I have to compare the two fields and take the one with the most trusted origin
+                else:
+                    try:
+                        trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag)
+                    except EqualOrigins:
+                        break
+                    #if the trusted one is already in the list I don't do anything
+                    if trusted[0] == field2:
+                        break
+                    #otherwise I remove the value in the list and I insert the trusted one
+                    else:
+                        del(all_fields[all_fields.index(field2)])
+                        all_fields.append(field1)
+                        break
         else:
             all_fields.append(field1)
 

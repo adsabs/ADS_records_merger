@@ -72,7 +72,7 @@ def get_origin_importance(tag, origins):
     """function that returns the value of the importance of an origin
     if multiple origin are present, the one with the highest value is returned"""
     # Split the string in a list of origins
-    origin_list = origins.split('; ')
+    origin_list = origins.split(';')
     #default value
     value = 0
 
@@ -94,3 +94,20 @@ def get_origin_importance(tag, origins):
         if cur_value > value:
             value = cur_value
     return value
+
+def compare_fields_exclude_subfiels(field1, field2, strict=True, exclude_subfields=[]):
+    """
+    Works exactly like bibrecord._compare_fields with the only difference that 
+    if strict is False, I can exclude a list of subfields from the comparison
+    """
+    if strict:
+        # Return a simple equal test on the field minus the position.
+        return field1[:4] == field2[:4]
+    else:
+        if field1[1:4] != field2[1:4]:
+            # Different indicators or controlfield value.
+            return False
+        else:
+            # Compare subfields in a loose way.
+            return set([subfield for subfield in field1[0] if subfield[0] not in exclude_subfields ]) \
+                == set([subfield for subfield in field2[0] if subfield[0] not in exclude_subfields ])

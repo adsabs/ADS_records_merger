@@ -1,10 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-import sys
-sys.path.append('../')
-sys.path.append('/proj/ads/soft/python/lib/site-packages')
-sys.path.append('/proj/adsx/invenio/lib/python')
-
 import unittest
 
 import merging_rules as m
@@ -29,6 +24,16 @@ class TestMergingRules(unittest.TestCase):
         fields2 = [([('a', '0003717BABA')], '', '', '', 9)]
         out = [ ([('a', '0003717BABA')], '', '', '', 8)]
         self.assertEqual(m.take_all(fields1, fields2, '970'), out)
+    def test_take_all_same_field_different_origin(self):
+        fields1 = [([('a', '2011ApJ...741...91C'), ('2', 'ADS bibcode'), ('8', 'ADS metadata')], ' ', ' ', '', 3), 
+                   ([('y', '2011arXiv1103.2570C'), ('2', 'eprint bibcode'), ('8', 'ADS metadata')], ' ', ' ', '', 3), 
+                   ([('a', 'arXiv:1103.2570'), ('2', 'arXiv'), ('8', 'ADS metadata')], ' ', ' ', '', 4)]
+        fields2 = [([('a', '2011ApJ...741...91C'), ('2', 'ADS bibcode'), ('8', 'ADS metadata')], ' ', ' ', '', 2), 
+                   ([('a', 'arXiv:1103.2570'), ('2', 'arXiv'), ('8', 'ARXIV')], ' ', ' ', '', 3)]
+        out = [([('a', '2011ApJ...741...91C'), ('2', 'ADS bibcode'), ('8', 'ADS metadata')], ' ', ' ', '', 3), 
+               ([('y', '2011arXiv1103.2570C'), ('2', 'eprint bibcode'), ('8', 'ADS metadata')], ' ', ' ', '', 3), 
+               ([('a', 'arXiv:1103.2570'), ('2', 'arXiv'), ('8', 'ADS metadata')], ' ', ' ', '', 4)]
+        self.assertEqual(m.take_all(fields1, fields2, '035'), out)
 
 
 if __name__ == '__main__':
