@@ -347,21 +347,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            	</xsl:for-each>
 				            </xsl:if>
 			                <!-- Keywords -->
-			                <!-- We still don't distinguish free keywords from controlled ones -->
 			                <xsl:if test="keywords">
 			                   <xsl:for-each select="keywords">
 			                       <xsl:variable name="institute" select="@type" />
-			                       <xsl:for-each select="keyword">
-			                           <xsl:if test="string-length(.) != 0">
-				                           <datafield tag="653" ind1="1" ind2="">
-				                               <subfield code="a"><xsl:value-of select="."/></subfield>
-				                               <xsl:if test="$institute != ''">
-				                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
-				                               </xsl:if>
-				                               <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
-				                           </datafield>
-			                           </xsl:if>
-			                       </xsl:for-each>
+			                       <!-- If the length of the institution is zero, it's a free keyword -->
+			                       <xsl:if test="string-length($institute) = 0">
+				                       <xsl:for-each select="keyword">
+				                           <xsl:if test="string-length(original) != 0">
+					                           <datafield tag="653" ind1="1" ind2="">
+					                               <subfield code="a"><xsl:value-of select="original"/></subfield>
+					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
+					                               <xsl:if test="$institute != ''">
+					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
+					                               </xsl:if>
+					                           </datafield>
+				                           </xsl:if>
+				                       </xsl:for-each>
+			                       </xsl:if>
+			                       <!-- If the length of the institution is non zero, it's a controlled keyword-->
+			                       <xsl:if test="string-length($institute) != 0">
+				                       <xsl:for-each select="keyword">
+				                           <xsl:if test="string-length(original) != 0">
+					                           <datafield tag="695" ind1="" ind2="">
+					                               <subfield code="a"><xsl:value-of select="original"/></subfield>
+					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
+					                               <xsl:if test="$institute != ''">
+					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
+					                               </xsl:if>
+					                           </datafield>
+				                           </xsl:if>
+				                       </xsl:for-each>
+			                       </xsl:if>
 			                   </xsl:for-each>
 			                </xsl:if>
 			                <!-- Facility/telescope -->
@@ -503,15 +519,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                <xsl:if test="reference">
 			               		<xsl:for-each select="reference">
 			               			<datafield tag="999" ind1="C" ind2="5">
-			                        	<subfield code="o"><xsl:text>[</xsl:text><xsl:value-of select="position()"/><xsl:text>]</xsl:text></subfield>
+			                        	<!-- The position is deprecated for the merger, since we cannot rely on thus field to order the references -->
+			                        	<!-- subfield code="o"><xsl:text>[</xsl:text><xsl:value-of select="position()"/><xsl:text>]</xsl:text></subfield-->
 			                        	<xsl:if test="@bibcode != ''">
-			                        		<subfield code="r"><xsl:value-of select="@bibcode"/></subfield>
+			                        		<subfield code="i"><xsl:value-of select="@bibcode"/></subfield>
 			                        	</xsl:if>
 			                        	<xsl:if test="@arxid != ''">
-			                        		<subfield code="i">arxiv: <xsl:value-of select="@arxid"/></subfield>
+			                        		<subfield code="r">arxiv: <xsl:value-of select="@arxid"/></subfield>
 			                        	</xsl:if>
 			                        	<xsl:if test="@doi != ''">
-			                        		<subfield code="i">doi: <xsl:value-of select="@doi"/></subfield>
+			                        		<subfield code="a">doi: <xsl:value-of select="@doi"/></subfield>
 			                        	</xsl:if>
 			                        	<xsl:if test="@score != ''">
 			                        		<subfield code="e"><xsl:value-of select="@score"/></subfield>
@@ -520,7 +537,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                        		<subfield code="f"><xsl:value-of select="@source"/></subfield>
 			                        	</xsl:if>
 			                        	<xsl:if test="not(string-length(.) = 0)">
-			                        		<subfield code="m"><xsl:value-of select="."/></subfield>
+			                        		<subfield code="b"><xsl:value-of select="."/></subfield>
 			                        	</xsl:if>
 			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield>

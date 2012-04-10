@@ -21,7 +21,7 @@ File containing all the basic functions
 import re
 
 from merger_settings import DEFAULT_PRIORITY_LIST, FIELDS_PRIORITY_LIST, \
-        MARC_TO_FIELD, PRIORITIES
+        MARC_TO_FIELD, PRIORITIES, ORIGIN_SUBFIELD
 from merger_errors import OriginNotFound, OriginValueNotFound
 import invenio.bibrecord as bibrecord
 
@@ -55,7 +55,7 @@ def get_origin(fields):
     """function that extracts the origin of a field"""
     origins = set()
     for field in fields:
-        origins.update(bibrecord.field_get_subfield_values(field, '8'))
+        origins.update(bibrecord.field_get_subfield_values(field, ORIGIN_SUBFIELD))
 
     if not origins:
         raise OriginNotFound(fields)
@@ -83,7 +83,7 @@ def get_origin_importance(tag, origins):
             priority_list_name = FIELDS_PRIORITY_LIST[MARC_TO_FIELD[tag]]
         except KeyError:
             priority_list_name = DEFAULT_PRIORITY_LIST
-
+        
         priority_list = PRIORITIES[priority_list_name]
 
         if origin in priority_list:

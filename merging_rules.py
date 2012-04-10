@@ -18,14 +18,43 @@
 File containing all the functions to merge
 '''
 
+from copy import deepcopy
+
 from basic_functions import get_origin, get_origin_importance, compare_fields_exclude_subfiels
-from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD
-from merger_errors import OriginValueNotFound, EqualOrigins, DuplicateNormalizedAuthorError
+from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
+    MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING
+from merger_errors import OriginValueNotFound, EqualOrigins
 import invenio.bibrecord as bibrecord
+#this import is not explicitly called, but is needed for the import through the settings
+import merging_checks
 
+def run_checks(func):
+    """Decorator that retrieves and runs the functions 
+    to apply to any merging rule"""
+    def wrapper(fields1, fields2, tag, verbose):
+        #I retrieve the groups of functions to run for this field
+        try:
+            list_checks = MERGING_RULES_CHECKS_ERRORS[MARC_TO_FIELD[tag]]
+        except KeyError:
+            #If there are no checks I return directly the result of the wrapped function
+            return func(fields1, fields2, tag, verbose)
+        #then I get the result of the wrapped function
+        final_result =  func(fields1, fields2, tag, verbose)
+        #for each warning and error I pass the final_result and all the parameters to the function
+        for type_check, functions_check in list_checks.items():
+            for func_ck_str, subfield_list in functions_check.items():
+                func_ck = eval(func_ck_str)
+                func_ck(fields1, fields2, final_result, type_check, subfield_list, verbose)
+        return final_result
+    return wrapper
 
+@run_checks
 def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
     """basic function that merges based on priority"""
+    #if one of the two lists is empty, I don't have to do anything
+    if len(fields1) == 0 or len(fields2) == 0:
+        return fields1+fields2
+    
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
@@ -48,7 +77,7 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
 #       msg('      Same field with origin having the same importance.', verbose)
 #       return fields1
 
-
+@run_checks
 def take_all(fields1, fields2, tag, verbose=VERBOSE):
     """function that takes all the different fields
     and returns an unique list"""
@@ -80,9 +109,13 @@ def take_all(fields1, fields2, tag, verbose=VERBOSE):
 
     return all_fields
 
+@run_checks
 def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that merges the author lists and return the first author or
     all the other authors"""
+    #I need to copy locally the lists of records because I'm going to modify them
+    fields1 = deepcopy(fields1)
+    fields2 = deepcopy(fields2)
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
@@ -100,22 +133,27 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     # untrusted list that is present in the trusted list of authors.
     trusted_authors = set()
     for field in trusted:
-        author = bibrecord.field_get_subfield_values(field, 'b')[0]
+        author = bibrecord.field_get_subfield_values(field, AUTHOR_NORM_NAME_SUBFIELD)[0]
         if author in trusted_authors:
-            raise DuplicateNormalizedAuthorError(author)
+            #I don't raise an error if I have duplicated normalized author names,
+            #I simply return the trusted list
+            msg('      Duplicated normalized author name. Skipping author subfield merging.', verbose)
+            return trusted
+            #raise DuplicateNormalizedAuthorError(author)
         else:
             trusted_authors.add(author)
 
+    #I extract all the authors in the untrusted list in case I need to merge some subfields
     untrusted_authors = {}
     for field in untrusted:
-        author = bibrecord.field_get_subfield_values(field, 'b')[0]
+        author = bibrecord.field_get_subfield_values(field, AUTHOR_NORM_NAME_SUBFIELD)[0]
         if author in trusted_authors:
             untrusted_authors[author] = field
 
     # Now add information from the least trusted list of authors to the most
     # trusted list of authors.
     for index, field in enumerate(trusted):
-        author = bibrecord.field_get_subfield_values(field, 'b')[0]
+        author = bibrecord.field_get_subfield_values(field, AUTHOR_NORM_NAME_SUBFIELD)[0]
         if author in untrusted_authors:
             trusted_subfield_codes = bibrecord.field_get_subfield_codes(field)
             untrusted_field = untrusted_authors[author]
@@ -134,6 +172,7 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
+@run_checks
 def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
@@ -151,6 +190,7 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
+@run_checks
 def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the abstracts based on the languages and priority"""
     try:
@@ -167,9 +207,107 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
+@run_checks
 def creation_mod_date(fields1, fields2, tag, verbose=VERBOSE):
-    """merging function for a special field"""
+    """merging function for creation and modification dates, a special field."""
     return None
+
+@run_checks
+def references_merger(fields1, fields2, tag, verbose=VERBOSE):
+    """Merging function for references"""
+    #first I split the references in two groups: the ones that should be merged and the one that have to taken over the others
+    ref_by_merging_type_fields1 = {'take_all':[], 'priority':[]}
+    ref_by_merging_type_fields2 = {'take_all':[], 'priority':[]}
+        
+    #I split the fields1
+    for field in fields1:
+        if bibrecord.field_get_subfield_values(field, ORIGIN_SUBFIELD)[0] in REFERENCES_MERGING_TAKE_ALL_ORIGINS:
+            ref_by_merging_type_fields1['take_all'].append(field)
+        else:
+            ref_by_merging_type_fields1['priority'].append(field)
+    #and the fields2 (this in theory should be always of the same origin type)
+    for field in fields2:
+        if bibrecord.field_get_subfield_values(field, ORIGIN_SUBFIELD)[0] in REFERENCES_MERGING_TAKE_ALL_ORIGINS:
+            ref_by_merging_type_fields2['take_all'].append(field)
+        else:
+            ref_by_merging_type_fields2['priority'].append(field)
+    
+    global_list = take_all(take_all(ref_by_merging_type_fields1['take_all'], ref_by_merging_type_fields2['take_all'], tag, verbose), 
+                           priority_based_merger(ref_by_merging_type_fields1['priority'], ref_by_merging_type_fields2['priority'], tag, verbose),
+                           tag, verbose)
+    
+    #finally I unique the resolved references
+    #taking the reference string from the most trusted origin or 
+    #from the other if the most trusted origin has an empty reference string
+    #or one with only the bibcode
+    unique_references_dict = {}
+    unresolved_references = []
+    for field in global_list:
+        fieldcp = deepcopy(field)
+        try:
+            bibcode_res = bibrecord.field_get_subfield_values(fieldcp, REFERENCE_RESOLVED_KEY)[0]
+        except IndexError:
+            bibcode_res = None
+        if bibcode_res:
+            #first record found
+            if bibcode_res not in unique_references_dict:
+                unique_references_dict[bibcode_res] = fieldcp
+            #merging of subfields
+            else:
+                #I puth in local variable the two list of subfields
+                inlist = unique_references_dict[bibcode_res][0]
+                outlist = fieldcp[0]
+                #I create a new dictionary where to merge the results with the subfields of the first list
+                new_subfields = {}
+                for subfield in inlist:
+                    new_subfields[subfield[0]] = subfield[1]
+                origin_imp_inlist = get_origin_importance(tag, new_subfields[ORIGIN_SUBFIELD])
+                #then I compare these entries with the values from the second list
+                #first I retrieve the origin of the second list and its importance
+                for subfield in outlist:
+                    if subfield[0] == ORIGIN_SUBFIELD:
+                        origin_outlist = subfield[1]
+                        origin_imp_outlist = get_origin_importance(tag, subfield[1])
+                        break
+                #then I merge
+                for subfield in outlist:
+                    #if I don't have a subfield at all I insert it
+                    if subfield[0] not in new_subfields:
+                        msg('      Subfield "%s" added to reference "%s".' % (subfield[0], bibcode_res), verbose)
+                        new_subfields[subfield[0]] = subfield[1]
+                    #otherwise if it is a reference string
+                    elif subfield[0] in new_subfields and subfield[0] == REFERENCE_STRING:
+                        #I extract both reference strings
+                        refstring_out = subfield[1]
+                        refstring_in = new_subfields[REFERENCE_STRING]
+                        #if the one already in the list is the bibcode and the other one not I take the other one and I set the origin to the most trusted one
+                        if (refstring_in == bibcode_res or len(refstring_in) == 0) and len(refstring_out) != 0:
+                            new_subfields[REFERENCE_STRING] = refstring_out
+                            msg('      Reference string (bibcode only or empty) replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res), verbose)
+                            #I update the origin if the new one is better
+                            if origin_imp_outlist > origin_imp_inlist:
+                                #first I print the message because I need the old origin
+                                msg('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist), verbose)
+                                #then I replace it
+                                new_subfields[ORIGIN_SUBFIELD] = origin_outlist
+                                
+                        #otherwise if the string already in is not a bibcode or empty I have to check the importance
+                        else:
+                            if origin_imp_outlist > origin_imp_inlist:
+                                new_subfields[REFERENCE_STRING] = refstring_out
+                                msg('      Reference string replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res), verbose)
+                                #first I print the message because I need the old origin
+                                msg('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist), verbose)
+                                new_subfields[ORIGIN_SUBFIELD] = origin_outlist
+                    
+                #finally I replace the global field
+                newrecord = (new_subfields.items(), ) + unique_references_dict[bibcode_res][1:]
+                unique_references_dict[bibcode_res] = newrecord
+        else:
+            unresolved_references.append(fieldcp)
+    #and I return the union of the two lists of resolved and unresolved references
+    return unique_references_dict.values() + unresolved_references
+    
 
 def get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose=VERBOSE):
     """

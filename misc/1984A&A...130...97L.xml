@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collections>
+   <collection>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="100" ind1="" ind2="">
+            <subfield code="a">Lapasset, E.</subfield>
+            <subfield code="b">Lapasset, E</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="u">Cordoba, Observatorio Astronomico, Cordoba, Argentina</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="700" ind1="" ind2="">
+            <subfield code="a">Sistero, R. F.</subfield>
+            <subfield code="b">Sistero, R</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="u">Cordoba, Observatorio Astronomico, Cordoba, Argentina</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="245" ind1="" ind2="">
+            <subfield code="a">Differential corrections analysis of the UBV photometry of UZ Octantis</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="260" ind1="" ind2="">
+            <subfield code="c">1984-01-00</subfield>
+            <subfield code="t">date-published</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="520" ind1="" ind2="">
+            <subfield code="a">The UBV observations of UZ Oct are analyzed by means of the Wilson and Devinney's computational method. First, improved ephemeris are calculated and used to improve the determination of the phases. Then it is shown that neither 'detached' nor 'semi-detached' configurations can fit the observed light curves. The uniqueness of the solution is studied by starting several sets of differential correction iterations with different values of the main adjustable parameters. The short duration of the total eclipse at secondary minima makes the observations easily fit synthetic light curves with partial eclipses. In this way, three different solutions are found. When the configurations are forced to represent total occultations a single solution is obtained. The results are given in the form of two independent and convergent solutions. All the adjustable parameters including the mass-ratio and the secondary parameters seem to be very well defined. Finally, the evolutionary state of UZ Oct is deduced to be very close to the terminal age main sequence point. Probably it is one of the most evolved stars among the known W UMa contact binaries.</subfield>
+            <subfield code="y">en</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">ECLIPSING BINARY STARS</subfield>
+            <subfield code="b">stars binaries eclipsing</subfield>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">LIGHT CURVE</subfield>
+            <subfield code="b"/>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">STELLAR EVOLUTION</subfield>
+            <subfield code="b"/>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">UBV SPECTRA</subfield>
+            <subfield code="b">ubv spectra</subfield>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">ITERATIVE SOLUTION</subfield>
+            <subfield code="b"/>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="695" ind1="" ind2="">
+            <subfield code="a">STELLAR SPECTROPHOTOMETRY</subfield>
+            <subfield code="b"/>
+            <subfield code="9">NASA/STI</subfield>
+         </datafield>
+         <datafield tag="773" ind1="" ind2="">
+            <subfield code="p">Astronomy and Astrophysics (ISSN 0004-6361)</subfield>
+            <subfield code="v">130</subfield>
+            <subfield code="n">1</subfield>
+            <subfield code="c">97-101</subfield>
+            <subfield code="y">1984</subfield>
+            <subfield code="z">Astronomy and Astrophysics (ISSN 0004-6361), vol. 130, no. 1, Jan. 1984, p. 97-101.</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2011-02-23T08:00:23</subfield>
+            <subfield code="x">2011-02-23T08:00:23</subfield>
+            <subfield code="8">STI</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="100" ind1="" ind2="">
+            <subfield code="a">Lapasset, E.</subfield>
+            <subfield code="b">Lapasset, E</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+         <datafield tag="700" ind1="" ind2="">
+            <subfield code="a">Sistero, R. F.</subfield>
+            <subfield code="b">Sistero, R</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+         <datafield tag="245" ind1="" ind2="">
+            <subfield code="a">Differential Correction Analysis of the UBV Photometry of Uz-Octantis</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+         <datafield tag="260" ind1="" ind2="">
+            <subfield code="c">1984-01-00</subfield>
+            <subfield code="t">date-published</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+         <datafield tag="773" ind1="" ind2="">
+            <subfield code="p">Astronomy and Astrophysics</subfield>
+            <subfield code="v">130</subfield>
+            <subfield code="c">97</subfield>
+            <subfield code="y">1984</subfield>
+            <subfield code="z">Astronomy and Astrophysics, Vol.130, NO. 1, P. 97, 1984</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2011-11-16T00:33:46</subfield>
+            <subfield code="x">2011-11-16T00:33:46</subfield>
+            <subfield code="8">KNUDSEN</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="100" ind1="" ind2="">
+            <subfield code="a">Lapasset, E.</subfield>
+            <subfield code="b">Lapasset, E</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+         <datafield tag="700" ind1="" ind2="">
+            <subfield code="a">Sistero, R. F.</subfield>
+            <subfield code="b">Sistero, R</subfield>
+            <subfield code="e">regular</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+         <datafield tag="245" ind1="" ind2="">
+            <subfield code="a">Differential corrections analysis of the UBV photometry of UZ Octantis.</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+         <datafield tag="260" ind1="" ind2="">
+            <subfield code="c">1984-01-00</subfield>
+            <subfield code="t">date-published</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+         <datafield tag="773" ind1="" ind2="">
+            <subfield code="p">Astronomy and Astrophysics</subfield>
+            <subfield code="v">130</subfield>
+            <subfield code="c">97</subfield>
+            <subfield code="y">1984</subfield>
+            <subfield code="z">Astronomy and Astrophysics, 130, 97-101 (1984)</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2011-11-15T23:30:38</subfield>
+            <subfield code="x">2011-11-15T23:30:38</subfield>
+            <subfield code="8">SIMBAD</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="980" ind1="" ind2="">
+            <subfield code="a">ASTRONOMY</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="980" ind1="" ind2="">
+            <subfield code="a">OPENACCESS</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="980" ind1="" ind2="">
+            <subfield code="a">REFEREED</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="980" ind1="" ind2="">
+            <subfield code="a">ARTICLE</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="995" ind1="" ind2="">
+            <subfield code="a">{"abs":[{"p":"/proj/ads/abstracts/ast/text/A84/A84-33217.abs","t":"1298466023"},{"p":"/proj/ads/abstracts/ast/text/J84/J84-33217.abs","t":"1321421626"},{"p":"/proj/ads/abstracts/ast/text/S84/S84-33217.abs","t":"1321417838"}],"links":{"simbad":[{"c":"1","u":"http://$SIMBAD$/simbo.pl?bibcode=1984A%26A...130...97L"}]},"prop":["article","refereed"],"refs":[{"p":"/proj/ads/references/resolved/A&amp;A/0130/1984A&amp;A...130...97L.ref.ocr.txt.result","t":1315972235},{"p":"/proj/ads/references/resolved/AUTHOR/Markus/MarkusMagic.pairs.result","t":1332361389},{"p":"/proj/ads/references/resolved/ISI/A&amp;A/A&amp;A0130.isi.pairs.result","t":1302279751}]}</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2011-09-13T23:50:35</subfield>
+            <subfield code="x">2011-09-13T23:50:35</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1973asqu.book.....A</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Allen, C.W.:1973, Astrophysical Quantities, The Athlone Press, London, p. 209</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1979IBVS.1659....1B</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Breger, M.:1979, Inf Bull. Var. Stars No. 1659</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="e">5</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Carbon, D.F., Gingerich, O.:1969, in Theory and Observation of Normal Stellar Atmospheres, ed. 0. Gingerich, Cambridge, MA, MIT Press, p. 401</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1974IBVS..888....1C</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Castore de Sister6, M.E., Sister6, R.F.:1974, Inf Bull Var. Stars No. 888</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1980AJ.....85.1098L</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Lapasset, E.:1980, Astron. J. 85, 1098</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1978ApJ...222..917L</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Leung, K.C., Schneider, D.P.:1977, Astrophys. J. 222, 917</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1977ApJ...211..853L</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Leung, K.C., Wilson, R.E.:1977, Astrophys. J. 211, 853</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1976ApJ...205..208L</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Lucy, L.B.:1976, Astrophys. J. 205, 208</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1968ApJ...151..611M</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Morton, D.C., Adams, T.F.:1968, Astrophys. J. 151, 611</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1965IBVS...77....1S</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Scho~ffel, E.:1965, Inf Bull. Var. Stars No. 91</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1979A&amp;AS...38..171D</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Sister6, R.F., Castore de Sister6, M.E., Candellero, B.: 1979, Astron. Astrophys. Suppl 38, 171</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1964IBVS...54....1S</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Strohmeier, W.:1964, Inf Bull Var. Stars No. 54</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="e">0</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Twigg, L.W.:1976, Master's Thesis, University of South Florida</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1982A&amp;A...105..389V</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Van Hamme, W.:1982, Astron. Astrophys. 105, 389</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1978ApJ...224..885W</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Wilson, R.E.:1978, Astrophys. J. 224, 885</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1976A&amp;A....48..349W</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Wilson, R.E., Biermann, P.: 1976, Astron. Astrophys. 48, 349</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1971ApJ...166..605W</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">OCR</subfield>
+            <subfield code="b">Wilson, R.E., Devinney, E.J.:1971, Astrophys. J. 166, 605</subfield>
+            <subfield code="8">OCR</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2012-03-21T16:23:09</subfield>
+            <subfield code="x">2012-03-21T16:23:09</subfield>
+            <subfield code="8">AUTHOR</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1965IBVS...91....1K</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">AUTHOR</subfield>
+            <subfield code="b">1965IBVS...91....1K</subfield>
+            <subfield code="8">AUTHOR</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="961" ind1="" ind2="">
+            <subfield code="c">2011-04-08T12:22:31</subfield>
+            <subfield code="x">2011-04-08T12:22:31</subfield>
+            <subfield code="8">ISI</subfield>
+         </datafield>
+         <datafield tag="999" ind1="C" ind2="5">
+            <subfield code="i">1982A&amp;A...105..389V</subfield>
+            <subfield code="e">1</subfield>
+            <subfield code="f">ISI</subfield>
+            <subfield code="b">1982A&amp;A...105..389V</subfield>
+            <subfield code="8">ISI</subfield>
+         </datafield>
+      </record>
+      <record>
+         <datafield tag="970" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="035" ind1="" ind2="">
+            <subfield code="a">1984A&amp;A...130...97L</subfield>
+            <subfield code="2">ADS bibcode</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="856" ind1="4" ind2="">
+            <subfield code="u">http://$SIMBAD$/simbo.pl?bibcode=1984A%26A...130...97L</subfield>
+            <subfield code="y">simbad</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+         <datafield tag="856" ind1="4" ind2="">
+            <subfield code="u">http://adsabs.harvard.edu/abs/1984A%26A...130...97L</subfield>
+            <subfield code="y">ADSlink</subfield>
+            <subfield code="8">ADS metadata</subfield>
+         </datafield>
+      </record>
+   </collection>
+</collections>

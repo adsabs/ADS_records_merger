@@ -28,7 +28,7 @@ sys.path.append('/proj/adsx/invenio/lib/python')
 
 from ads.ADSExports import ADSRecords
 
-from merger import merge_records_xml
+from merger import merge_records_xml, msg
 
 XSLT = 'misc/AdsXML2MarcXML_v2.xsl'
 
@@ -54,7 +54,10 @@ def merge_bibcodes(bibcodes, verbose=False):
 
 def static_file_merging(verbose=False):
     """runs the record merger from a static XML in a file bypassing the extraction"""
-    static_file = "misc/2011ApJ...741...91C.xml"
+    #static_file = "misc/2011ApJ...741...91C.xml"
+    #static_file = "misc/1999PASP..111..438F.xml"
+    static_file = "misc/1984A&A...130...97L.xml"
+    msg(static_file, True)
     return merge_records_xml(open(static_file, "r").read(), verbose)
 
 

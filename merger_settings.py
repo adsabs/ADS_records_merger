@@ -20,8 +20,23 @@ File containing all the settings for the merger: priority lists and other
 
 import time
 
+VERBOSE = True
+
+#########################
+#SUBFIELDS DEFINITION
+
 #subfield containing the origin
 ORIGIN_SUBFIELD = '8'
+#subfield containing the Author normalized name
+AUTHOR_NORM_NAME_SUBFIELD = 'b'
+#subfields for keywords
+KEYWORD_STRING_SUBFIELD = 'a'
+KEYWORD_ORIGIN_SUBFIELD = '9'
+#subfields for references
+REFERENCE_RESOLVED_KEY = 'i'
+REFERENCE_STRING = 'b'
+
+#########################
 
 #mapping between the marc field and the name of the field
 MARC_TO_FIELD = {
@@ -32,7 +47,7 @@ MARC_TO_FIELD = {
      '242': 'title translation',
      '245': 'original title',
      '260': 'publication date',
-     '269': 'preprint date',
+     #'269': 'preprint date',
      '300': 'number of pages',
      '500': 'comment',
      '502': 'theses',
@@ -76,9 +91,9 @@ MERGING_RULES = {
     'number of pages': 'merging_rules.priority_based_merger',
     'original title': 'merging_rules.title_merger',
     'other author': 'merging_rules.author_merger',
-    'preprint date': 'merging_rules.priority_based_merger',
+    #'preprint date': 'merging_rules.priority_based_merger',
     'publication date': 'merging_rules.priority_based_merger',
-    'references': 'merging_rules.priority_based_merger',
+    'references': 'merging_rules.references_merger',
     'system number': 'merging_rules.priority_based_merger',
     'theses': 'merging_rules.take_all',
     'timestamp': 'merging_rules.priority_based_merger',
@@ -86,40 +101,63 @@ MERGING_RULES = {
 }
 
 #checks and specific errors that should be applied during a merging
+#any function points to a list of subfield where it should be applied
+#if this list is empty then the function should be applied on the entire field 
+#that can mean "any subfield" or the fields as a whole 
 MERGING_RULES_CHECKS_ERRORS = {
-        'original title': {
-            'warnings': ['merging_checks.string_with_unicode_not_selected',
-                'merging_checks.longer_string_not_selected',
-                'merging_checks.uppercase_string_selected',
-                'merging_checks.no_field_chosen_with_available_fields']
-            },
-        'first author': {
-            'warnings': ['merging_checks.author_from_shorter_list'],
-            },
-        'other author': {
-            'warnings': ['merging_checks.author_from_shorter_list'],
-            },
-        'journal': {
-            'warnings': ['merging_checks.pubdate_without_month_selected',
-                'merging_checks.pubdate_no_match_year_bibcode',
-                'merging_checks.different_pubdates'],
-            },
-        'free keyword': {
-            'warnings': ['merging_checks.different_keywords_for_same_type']
-            },
-        'controlled keywords': {
-            'warnings': ['merging_checks.different_keywords_for_same_type']
-            },
-        'abstract': {
-            'warnings': ['merging_checks.string_with_unicode_not_selected',
-                'merging_checks.longer_string_not_selected',
-                'merging_checks.no_field_chosen_with_available_fields']
-            },
+    'original title': {
+        'warnings': {
+            'merging_checks.check_string_with_unicode_not_selected' : ['a'],
+            'merging_checks.check_longer_string_not_selected': ['a'],
+            'merging_checks.check_uppercase_string_selected': ['a'],
+            #'merging_checks.no_field_chosen_with_available_fields': ['a'], #this check seems to be useless
         }
+    },
+    'first author': {
+        'warnings': {
+            'merging_checks.check_author_from_shorter_list': [],
+        },
+    },
+    'other author': {
+        'warnings': {
+            'merging_checks.check_author_from_shorter_list': [],
+            'merging_checks.check_duplicate_normalized_author_names': [],
+        },
+    },
+    'journal': {
+        'warnings': {
+            'merging_checks.check_longer_string_not_selected': ['p', 'z'],
+        },
+    },
+    'free keyword': {
+        'warnings': {
+            'merging_checks.check_different_keywords_for_same_type': [],
+        },
+    },
+    'controlled keywords': {
+        'warnings': {
+            'merging_checks.check_different_keywords_for_same_type': [],
+        },
+    },
+    'abstract': {
+        'warnings': {
+            'merging_checks.check_string_with_unicode_not_selected': ['a'],
+            'merging_checks.check_longer_string_not_selected': ['a'],
+            #'merging_checks.no_field_chosen_with_available_fields': [], #this check seems to be useless
+        }
+    },
+    'publication date': {
+        'warnings': {
+            'merging_checks.check_pubdate_without_month_selected': ['c'],
+            #'merging_checks.check_pubdate_no_match_year_bibcode': ['c'], #impossible to implement: the only checks can be done on the same record
+        }               
+    }
+}
 
 #If there is a specific priority list per one field its name should be specified here (see example)
 #if not specified the standard one will be applied
 FIELDS_PRIORITY_LIST = {
+    'references': 'references_priority_list',
     #'doi': 'doi_priority_list',
 }
 
@@ -128,50 +166,96 @@ DEFAULT_PRIORITY_LIST = 'standard_priority_list'
 
 #priority lists
 __PRIORITIES = {
-        10: ['ADS metadata',],
-        1.0: ['ISI'],
-        0.5: ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
-            'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
-            'AGDP', 'AGU', 'AIP', 'AJ', 'ALMA', 'AMS', 'AN', 'ANRFM', 'ANRMS',
-            'APJ', 'APS', 'ARA&A', 'ARAA', 'ARAC', 'AREPS', 'ARNPS', 'ASBIO',
-            'ASD', 'ASL', 'ASP', 'ASPC', 'ASTL', 'ASTRON', 'ATEL', 'ATSIR',
-            'AUTHOR', 'BAAA', 'BAAS', 'BALTA', 'BASBR', 'BASI', 'BAVSR', 'BEO',
-            'BESN', 'BLAZ', 'BLGAJ', 'BOTT', 'BSSAS', 'CAPJ', 'CBAT', 'CDC',
-            'CEAB', 'CFHT', 'CHAA', 'CHANDRA', 'CHJAA', 'CIEL', 'COAST',
-            'COPERNICUS', 'COSKA', 'CSCI', 'CUP', 'CXC', 'CXO', 'DSSN',
-            'E&PSL', 'EDP', 'EJTP', 'ELSEVIER', 'ESA', 'ESO', 'ESP', 'EUVE',
-            'FCPH', 'FUSE', 'GCN', 'GJI', 'GRG', 'HISSC', 'HST', 'HVAR', 'IAJ',
-            'IAU', 'IAUC', 'IAUDS', 'IBVS', 'ICAR', 'ICQ', 'IMO', 'INGTN',
-            'IOP', 'ISAS', 'ISSI', 'IUE', 'JAA', 'JAD', 'JAHH', 'JAPA', 'JASS',
-            'JAVSO', 'JBAA', 'JENAM', 'JHA', 'JIMO', 'JKAS', 'JPSJ', 'JRASC',
-            'JSARA', 'JST', 'KFNT', 'KITP', 'KLUWER', 'KOBV', 'KON', 'LNP',
-            'LOC', 'LPI', 'LRR', 'LRSP', 'M&PS', 'M+PS', 'METIC', 'MIT',
-            'MNRAS', 'MNSSA', 'MOLDAVIA', 'MPBU', 'MPC', 'MPE', 'MPSA',
-            'MmSAI', 'NAS', 'NATURE', 'NCSA', 'NEWA', 'NOAO', 'NRAO', 'NSTED',
-            'O+T', 'OAP', 'OBS', 'OEJV', 'OSA', 'PABEI', 'PADEU', 'PAICU',
-            'PAICz', 'PAOB', 'PASA', 'PASJ', 'PASP', 'PDS', 'PHIJA', 'PHYS',
-            'PJAB', 'PKAS', 'PLR', 'PNAS', 'POBEO', 'PSRD', 'PTP', 'PZP',
-            'QJRAS', 'RMXAA', 'RMXAC', 'ROAJ', 'RVMA', 'S&T', 'SABER', 'SAI',
-            'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
-            'SPIE', 'SPIKA', 'SPITZER', 'SPRINGER', 'SPRN', 'STARD', 'STECF',
-            'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
-            'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',],
-        0.45: ['ARI', 'ARIBIB', 'ARXIV', 'JSTOR',],
-        0.4: ['CARL', 'CFA', 'HOLLIS', 'LIBRARY', 'POS', 'PRINCETON', 'SIMBAD',
-            'STSci', 'UTAL',],
-        0.375: ['STI', 'WEB',],
-        0.35: ['AP', 'CROSSREF', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE',],
-        0.3: ['OCR',],
-        0.25: ['NED',],
-        }
-
-PRIORITIES = {
-        'standard_priority_list': dict((source, score)
-            for score, sources in __PRIORITIES.items()
-            for source in sources)
+    10: ['ADS metadata',],
+    1.0: ['ISI'],
+    0.5: ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
+        'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
+        'AGDP', 'AGU', 'AIP', 'AJ', 'ALMA', 'AMS', 'AN', 'ANRFM', 'ANRMS',
+        'APJ', 'APS', 'ARA&A', 'ARAA', 'ARAC', 'AREPS', 'ARNPS', 'ASBIO',
+        'ASD', 'ASL', 'ASP', 'ASPC', 'ASTL', 'ASTRON', 'ATEL', 'ATSIR',
+        'AUTHOR', 'BAAA', 'BAAS', 'BALTA', 'BASBR', 'BASI', 'BAVSR', 'BEO',
+        'BESN', 'BLAZ', 'BLGAJ', 'BOTT', 'BSSAS', 'CAPJ', 'CBAT', 'CDC',
+        'CEAB', 'CFHT', 'CHAA', 'CHANDRA', 'CHJAA', 'CIEL', 'COAST',
+        'COPERNICUS', 'COSKA', 'CSCI', 'CUP', 'CXC', 'CXO', 'DSSN',
+        'E&PSL', 'EDP', 'EJTP', 'ELSEVIER', 'ESA', 'ESO', 'ESP', 'EUVE',
+        'FCPH', 'FUSE', 'GCN', 'GJI', 'GRG', 'HISSC', 'HST', 'HVAR', 'IAJ',
+        'IAU', 'IAUC', 'IAUDS', 'IBVS', 'ICAR', 'ICQ', 'IMO', 'INGTN',
+        'IOP', 'ISAS', 'ISSI', 'IUE', 'JAA', 'JAD', 'JAHH', 'JAPA', 'JASS',
+        'JAVSO', 'JBAA', 'JENAM', 'JHA', 'JIMO', 'JKAS', 'JPSJ', 'JRASC',
+        'JSARA', 'JST', 'KFNT', 'KITP', 'KLUWER', 'KOBV', 'KON', 'LNP',
+        'LOC', 'LPI', 'LRR', 'LRSP', 'M&PS', 'M+PS', 'METIC', 'MIT',
+        'MNRAS', 'MNSSA', 'MOLDAVIA', 'MPBU', 'MPC', 'MPE', 'MPSA',
+        'MmSAI', 'NAS', 'NATURE', 'NCSA', 'NEWA', 'NOAO', 'NRAO', 'NSTED',
+        'O+T', 'OAP', 'OBS', 'OEJV', 'OSA', 'PABEI', 'PADEU', 'PAICU',
+        'PAICz', 'PAOB', 'PASA', 'PASJ', 'PASP', 'PDS', 'PHIJA', 'PHYS',
+        'PJAB', 'PKAS', 'PLR', 'PNAS', 'POBEO', 'PSRD', 'PTP', 'PZP',
+        'QJRAS', 'RMXAA', 'RMXAC', 'ROAJ', 'RVMA', 'S&T', 'SABER', 'SAI',
+        'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
+        'SPIE', 'SPIKA', 'SPITZER', 'SPRINGER', 'SPRN', 'STARD', 'STECF',
+        'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
+        'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',],
+    0.45: ['ARI', 'ARIBIB', 'ARXIV', 'JSTOR',],
+    0.4: ['CARL', 'CFA', 'HOLLIS', 'LIBRARY', 'POS', 'PRINCETON', 'SIMBAD',
+        'STSci', 'UTAL',],
+    0.375: ['STI', 'WEB',],
+    0.35: ['AP', 'CROSSREF', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE',],
+    0.3: ['OCR',],
+    0.25: ['NED',],
 }
 
-VERBOSE = True
+__PRIORITIES_REFERENCES = {
+    10:  ['AUTHOR',],
+    9.5: ['ISI',],
+    9.1: ['SPRINGER',],
+    9:   ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
+        'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
+        'AGDP', 'AGU', 'AIP', 'AJ', 'ALMA', 'AMS', 'AN', 'ANRFM', 'ANRMS',
+        'APJ', 'APS', 'ARA&A', 'ARAA', 'ARAC', 'AREPS', 'ARNPS', 'ASBIO',
+        'ASD', 'ASL', 'ASP', 'ASPC', 'ASTL', 'ASTRON', 'ATEL', 'ATSIR',
+        'BAAA', 'BAAS', 'BALTA', 'BASBR', 'BASI', 'BAVSR', 'BEO',
+        'BESN', 'BLAZ', 'BLGAJ', 'BOTT', 'BSSAS', 'CAPJ', 'CBAT', 'CDC',
+        'CEAB', 'CFHT', 'CHAA', 'CHANDRA', 'CHJAA', 'CIEL', 'COAST',
+        'COPERNICUS', 'COSKA', 'CSCI', 'CUP', 'CXC', 'CXO', 'DSSN',
+        'E&PSL', 'EDP', 'EJTP', 'ELSEVIER', 'ESA', 'ESO', 'ESP', 'EUVE',
+        'FCPH', 'FUSE', 'GCN', 'GJI', 'GRG', 'HISSC', 'HST', 'HVAR', 'IAJ',
+        'IAU', 'IAUC', 'IAUDS', 'IBVS', 'ICAR', 'ICQ', 'IMO', 'INGTN',
+        'IOP', 'ISAS', 'ISSI', 'IUE', 'JAA', 'JAD', 'JAHH', 'JAPA', 'JASS',
+        'JAVSO', 'JBAA', 'JENAM', 'JHA', 'JIMO', 'JKAS', 'JPSJ', 'JRASC',
+        'JSARA', 'JST', 'KFNT', 'KITP', 'KLUWER', 'KOBV', 'KON', 'LNP',
+        'LOC', 'LPI', 'LRR', 'LRSP', 'M&PS', 'M+PS', 'METIC', 'MIT',
+        'MNRAS', 'MNSSA', 'MOLDAVIA', 'MPBU', 'MPC', 'MPE', 'MPSA',
+        'MmSAI', 'NAS', 'NATURE', 'NCSA', 'NEWA', 'NOAO', 'NRAO', 'NSTED',
+        'O+T', 'OAP', 'OBS', 'OEJV', 'OSA', 'PABEI', 'PADEU', 'PAICU',
+        'PAICz', 'PAOB', 'PASA', 'PASJ', 'PASP', 'PDS', 'PHIJA', 'PHYS',
+        'PJAB', 'PKAS', 'PLR', 'PNAS', 'POBEO', 'PSRD', 'PTP', 'PZP',
+        'QJRAS', 'RMXAA', 'RMXAC', 'ROAJ', 'RVMA', 'S&T', 'SABER', 'SAI',
+        'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
+        'SPIE', 'SPIKA', 'SPITZER', 'SPRN', 'STARD', 'STECF',
+        'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
+        'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE'
+        'ARI', 'ARIBIB', 'JSTOR', 'CARL', 'CFA', 'HOLLIS', 'LIBRARY', 
+        'POS', 'PRINCETON', 'SIMBAD', 'STSci', 'UTAL', 'STI', 'WEB',
+        'AP', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE', 'NED',],
+    8.9: ['PUBLISHER'],
+    8.5: ['OCR',],
+    8:   ['CROSSREF',],
+    5:   ['ARXIV',],
+}
+
+PRIORITIES = {
+    'standard_priority_list': dict((source, score)
+        for score, sources in __PRIORITIES.items()
+        for source in sources),
+    'references_priority_list': dict((source, score)
+        for score, sources in __PRIORITIES_REFERENCES.items()
+        for source in sources),
+}
+
+#list of origins for which we have to apply the take_all
+#for all the others will be applied the priority_merging
+#the two groups will be merged with a take all
+REFERENCES_MERGING_TAKE_ALL_ORIGINS = ['ISI', 'AUTHOR', 'CROSSREF']
+
 
 def msg(message, verbose=VERBOSE):
     """

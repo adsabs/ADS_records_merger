@@ -108,7 +108,7 @@ def merge_two_records(record1, record2, verbose=VERBOSE):
         merged_fields = merge_two_fields(tag, fields1, fields2, verbose)
         if merged_fields:
             merged_record[tag] = merged_fields
-
+    
     return merged_record
 
 def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
@@ -126,7 +126,7 @@ def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
         return fields1
 
     merging_func = eval(MERGING_RULES[MARC_TO_FIELD[tag]])
-    msg('    Tag %s: Merging with function %s.' % (tag, merging_func.func_name), verbose)
+    msg('    Tag %s: Merging with function %s.' % (tag, MERGING_RULES[MARC_TO_FIELD[tag]]), verbose)
     return merging_func(fields1, fields2, tag, verbose)
 
 def record_reorder(record):
