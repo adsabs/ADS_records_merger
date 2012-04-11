@@ -56,7 +56,7 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
         return fields1+fields2
     
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
         if len(fields1) == len(fields2) and \
                 all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
@@ -93,7 +93,7 @@ def take_all(fields1, fields2, tag, verbose=VERBOSE):
                 #otherwise I have to compare the two fields and take the one with the most trusted origin
                 else:
                     try:
-                        trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag)
+                        trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag, verbose)
                     except EqualOrigins:
                         break
                     #if the trusted one is already in the list I don't do anything
@@ -117,7 +117,7 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     fields1 = deepcopy(fields1)
     fields2 = deepcopy(fields2)
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -177,7 +177,7 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -194,7 +194,7 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
 def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the abstracts based on the languages and priority"""
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
