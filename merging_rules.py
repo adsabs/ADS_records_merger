@@ -31,7 +31,7 @@ import merging_checks
 def run_checks(func):
     """Decorator that retrieves and runs the functions 
     to apply to any merging rule"""
-    def wrapper(fields1, fields2, tag, verbose):
+    def checks_wrapper(fields1, fields2, tag, verbose):
         #I retrieve the groups of functions to run for this field
         try:
             list_checks = MERGING_RULES_CHECKS_ERRORS[MARC_TO_FIELD[tag]]
@@ -46,7 +46,7 @@ def run_checks(func):
                 func_ck = eval(func_ck_str)
                 func_ck(fields1, fields2, final_result, type_check, subfield_list, verbose)
         return final_result
-    return wrapper
+    return checks_wrapper
 
 @run_checks
 def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
