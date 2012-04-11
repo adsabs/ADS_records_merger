@@ -65,7 +65,7 @@ class TestMergingRules(unittest.TestCase):
                    ([('i', '1974IBVS..888....1C'), ('e', '1'), ('f', 'PUBLISHER'), ('b', 'Castore de Sister6, M.E., Sister6, R.F.:1974, Inf Bull Var. Stars No. 888'), ('8', 'PUBLISHER')], 'C', '5', '', 27)]
         self.assertEqual(sorted(m.references_merger(fields1, fields2, '999', False)), sorted(out))
         
-        #merging of 
+        #merging of two lists with the same reference but with the less trusted origin having better metadata
         fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('f', 'AUTHOR'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31),
                    ([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1'), ('f', 'ISI')], 'C', '5', '', 22),
                    ([('i', '1974IBVS..888....1C'), ('e', '1'), ('f', 'PUBLISHER'), ('b', 'Castore de Sister6, M.E., Sister6, R.F.:1974, Inf Bull Var. Stars No. 888'), ('8', 'PUBLISHER')], 'C', '5', '', 27)]
