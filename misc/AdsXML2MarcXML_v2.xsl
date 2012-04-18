@@ -360,6 +360,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                               <xsl:if test="$institute != ''">
 					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
 					                               </xsl:if>
+					                               <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
 				                       </xsl:for-each>
@@ -374,6 +375,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                               <xsl:if test="$institute != ''">
 					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
 					                               </xsl:if>
+					                               <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
 				                       </xsl:for-each>

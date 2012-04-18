@@ -208,11 +208,6 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     return trusted
 
 @run_checks
-def creation_mod_date(fields1, fields2, tag, verbose=VERBOSE):
-    """merging function for creation and modification dates, a special field."""
-    return None
-
-@run_checks
 def references_merger(fields1, fields2, tag, verbose=VERBOSE):
     """Merging function for references"""
     #first I split the references in two groups: the ones that should be merged and the one that have to taken over the others

@@ -35,6 +35,9 @@ KEYWORD_ORIGIN_SUBFIELD = '9'
 #subfields for references
 REFERENCE_RESOLVED_KEY = 'i'
 REFERENCE_STRING = 'b'
+#subfields for creation and modification date
+CREATION_DATE_SUBFIELD = 'x'
+MODIFICATION_DATE_SUBFIELD = 'c'
 
 #########################
 
@@ -69,6 +72,9 @@ MARC_TO_FIELD = {
      '999': 'references',
 }
 
+#mapping between the field and the marc field
+FIELD_TO_MARC = dict([v,k] for k,v in MARC_TO_FIELD.items())
+
 #merging rule function associated with the single fields
 MERGING_RULES = {
     'abstract': 'merging_rules.abstract_merger',
@@ -79,7 +85,7 @@ MERGING_RULES = {
     'comment': 'merging_rules.take_all',
     'controlled keywords': 'merging_rules.take_all',
     'copyright': 'merging_rules.priority_based_merger',
-    'creation and modification date': 'merging_rules.creation_mod_date',
+    'creation and modification date': 'merging_rules.take_all',
     'doi': 'merging_rules.priority_based_merger',
     'facility telescope': 'merging_rules.priority_based_merger',
     'first author': 'merging_rules.author_merger',
@@ -153,6 +159,13 @@ MERGING_RULES_CHECKS_ERRORS = {
         }               
     }
 }
+
+#list of function to apply to the entire record
+#they should be implemented here
+GLOBAL_MERGING_RULES = [
+    'global_merging_rules.merge_creation_modification_dates'
+]
+
 
 #If there is a specific priority list per one field its name should be specified here (see example)
 #if not specified the standard one will be applied

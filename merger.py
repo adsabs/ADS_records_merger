@@ -22,10 +22,13 @@ import re
 
 import invenio.bibrecord as bibrecord
 
-from merger_settings import VERBOSE, msg, MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
+from merger_settings import VERBOSE, msg, MERGING_RULES, \
+                GLOBAL_MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
+
 # Not directly used but needed for evaluation the merging functions.
 import merging_rules
+import global_merging_rules
 
 
 #def get_ads_xml_from_bibcode(bibcode):
@@ -90,6 +93,13 @@ def merge_multiple_records(records, verbose=VERBOSE):
         msg('  Merge #%d' % merge_number, verbose)
         merge_number += 1
         merged_record = merge_two_records(merged_record, new_record, verbose)
+    
+    #global merging functions
+    msg('  Global merging functions', verbose)
+    for func in GLOBAL_MERGING_RULES:
+        func_to_run = eval(func)
+        msg('    Merging with function %s' % func, verbose)
+        merged_record = func_to_run(merged_record, verbose)
 
     record_reorder(merged_record)
 
