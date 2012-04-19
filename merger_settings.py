@@ -38,6 +38,12 @@ REFERENCE_STRING = 'b'
 #subfields for creation and modification date
 CREATION_DATE_SUBFIELD = 'x'
 MODIFICATION_DATE_SUBFIELD = 'c'
+#subfield for system number 
+SYSTEM_NUMBER_SUBFIELD = 'a'
+#subfield for publication date 
+PUBL_DATE_SUBFIELD = 'c'
+PUBL_DATE_TYPE_SUBFIELD = 't'
+PUBL_DATE_TYPE_VAL_SUBFIELD = 'date-published'
 
 #########################
 
@@ -98,7 +104,7 @@ MERGING_RULES = {
     'original title': 'merging_rules.title_merger',
     'other author': 'merging_rules.author_merger',
     #'preprint date': 'merging_rules.priority_based_merger',
-    'publication date': 'merging_rules.priority_based_merger',
+    'publication date': 'merging_rules.priority_based_merger', #use take all as soon as I have the new XML from Benoit
     'references': 'merging_rules.references_merger',
     'system number': 'merging_rules.priority_based_merger',
     'theses': 'merging_rules.take_all',
@@ -160,11 +166,16 @@ MERGING_RULES_CHECKS_ERRORS = {
     }
 }
 
-#list of function to apply to the entire record
-#they should be implemented here
+#list of merging function to apply to the entire record
 GLOBAL_MERGING_RULES = [
     'global_merging_rules.merge_creation_modification_dates'
 ]
+#list of merging checks to apply to the entire record
+GLOBAL_MERGING_CHECKS = {
+    'warnings': [                    
+        'global_merging_checks.check_pub_year_consistency'
+    ]
+}
 
 
 #If there is a specific priority list per one field its name should be specified here (see example)
@@ -276,3 +287,18 @@ def msg(message, verbose=VERBOSE):
     """
     if verbose:
         print time.strftime("%Y-%m-%d %H:%M:%S"), '---', message
+
+
+def manage_check_error(msg_str, type_check):
+    """function that prints a warning or 
+    raises an exception according to the type of check"""
+    
+    from merger_errors import GenericError
+    
+    if type_check == 'warnings':
+        msg('          CHECK WARNING: %s' % msg_str , True)
+    elif type_check == 'errors':
+        raise GenericError(msg_str)
+    else:
+        raise GenericError('Type of check "%s" cannot be handled by the "manage_check_error" function.')
+    return None

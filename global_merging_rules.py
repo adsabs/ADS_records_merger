@@ -27,11 +27,28 @@ from copy import deepcopy
 from invenio import bibrecord
 
 from merger_settings import VERBOSE, ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
-                        MODIFICATION_DATE_SUBFIELD
+                        MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS
 from basic_functions import get_origin_importance
-#puth also some global checks here
+import global_merging_checks
 
-       
+
+def run_global_checks(func):
+    """Decorator that retrieves and runs the functions 
+    to apply to any merging rule"""
+    def checks_wrapper(merged_record, verbose):
+        #I get the result of the wrapped function
+        final_result =  func(merged_record, verbose)
+        if len(GLOBAL_MERGING_CHECKS) == 0:
+            return final_result
+        #for each warning and error I pass the final_result and all the parameters to the function
+        for type_check, func_ck_list in GLOBAL_MERGING_CHECKS.items():
+            for func_ck_str in func_ck_list:
+                func_ck = eval(func_ck_str)
+                func_ck(final_result, type_check, verbose)
+        return final_result
+    return checks_wrapper
+
+@run_global_checks       
 def merge_creation_modification_dates(merged_record, verbose=VERBOSE):
     """Function that grabs all the origins in the merged record 
     and creates a merged version of the creation and modification date 
