@@ -44,7 +44,7 @@ def run_checks(func):
         for type_check, functions_check in list_checks.items():
             for func_ck_str, subfield_list in functions_check.items():
                 func_ck = eval(func_ck_str)
-                func_ck(fields1, fields2, final_result, type_check, subfield_list, verbose)
+                func_ck(fields1, fields2, final_result, type_check, subfield_list, tag, verbose)
         return final_result
     return checks_wrapper
 

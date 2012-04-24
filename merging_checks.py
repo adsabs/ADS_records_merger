@@ -24,7 +24,7 @@ from merger_settings import VERBOSE, msg, manage_check_error, AUTHOR_NORM_NAME_S
 from invenio import bibrecord
 
 
-def check_string_with_unicode_not_selected(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_string_with_unicode_not_selected(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """ Function that checks if a string without unicode has been selected instead of one containing unicode.
         If multiple strings have been selected, then only an unicode one is enough to return false.
     """
@@ -56,10 +56,10 @@ def check_string_with_unicode_not_selected(fields1, fields2, final_result, type_
                     if is_unicode(subfield[1]):
                         return False
     if notsel_field_unicode > 0:
-        manage_check_error('Field with unicode string not selected (all the selected fields are not unicode)!', type_check)
+        manage_check_error('Field "%s" with unicode string not selected (all the selected fields are not unicode)!' % tag, type_check)
     return None
 
-def check_longer_string_not_selected(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_longer_string_not_selected(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """"""
     msg('        running check_longer_string_not_selected', verbose)
     
@@ -89,10 +89,10 @@ def check_longer_string_not_selected(fields1, fields2, final_result, type_check,
                         cur_max_len = len(subfield[1])
                         max_len_field_not_sel = False
     if max_len_field_not_sel:
-        manage_check_error('Longer field not selected!', type_check)  
+        manage_check_error('Longer field "%s" not selected!' % tag, type_check)  
     return None            
 
-def check_uppercase_string_selected(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_uppercase_string_selected(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """"""
     msg('        running check_uppercase_string_selected', verbose)
     #I extract the fields selected and the ones not selected
@@ -115,7 +115,7 @@ def check_uppercase_string_selected(fields1, fields2, final_result, type_check, 
                     if not subfield[1].isupper():
                         return False
     if notsel_field_lower > 0:
-        manage_check_error('Upper case string selected instead of a lower case one!', type_check)
+        manage_check_error('Upper case string selected instead of a lower case one in field "%s"!' % tag, type_check)
     return None
 
 #deprecated: the merging rules always return fields if available
@@ -125,7 +125,7 @@ def check_uppercase_string_selected(fields1, fields2, final_result, type_check, 
 #    
 #    return
 
-def check_pubdate_without_month_selected(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_pubdate_without_month_selected(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """It checks if a pubdate without month is selected if other dates with month are present"""
     msg('        running check_pubdate_without_month_selected', verbose)
     
@@ -156,7 +156,7 @@ def check_pubdate_without_month_selected(fields1, fields2, final_result, type_ch
                     if has_valid_month(subfield[1]):
                         return False
     if field_with_month > 0:
-        manage_check_error('Date without month selected while other one with month is present!', type_check)
+        manage_check_error('Date without month selected while other one with month is present in field "%s"!' % tag, type_check)
     return None
 
 #Impossible to implement: it's not possible to have other fields available during merging
@@ -166,7 +166,7 @@ def check_pubdate_without_month_selected(fields1, fields2, final_result, type_ch
 #    
 #    return
 
-def check_author_from_shorter_list(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_author_from_shorter_list(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """Simply checks that the return list of authors is the longest possible.
         This check relies on the fact that we don't merge authors from different origins, but we simply add subfields
         for the ones we selected.
@@ -177,7 +177,7 @@ def check_author_from_shorter_list(fields1, fields2, final_result, type_check, s
     longer_list = fields1 if len([field[0] for field in fields1]) >= len([field[0] for field in fields2]) else fields2
     #I check if the one returned is shorter than the longest, I have a problem
     if len([field[0] for field in final_result]) < len([field[0] for field in longer_list]):
-        manage_check_error('Longer list of authors not selected!', type_check)
+        manage_check_error('Longer list of authors not selected in field "%s"!' % tag, type_check)
     return None
 
 #Impossible to implement, since we will have different pubdates
@@ -187,7 +187,7 @@ def check_author_from_shorter_list(fields1, fields2, final_result, type_check, s
 #    
 #    return
 
-def check_different_keywords_for_same_type(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_different_keywords_for_same_type(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """"""
     msg('        running check_different_keywords_for_same_type', verbose)
     
@@ -216,14 +216,14 @@ def check_different_keywords_for_same_type(fields1, fields2, final_result, type_
         if institution in kewords_per_institution:
             #if I have the same institution then I have to have the the keyword already
             if len(kewords_per_institution[institution].intersection(set([keyword_string]))) == 0:
-                manage_check_error('Different groups with same keyword system don\'t have the same list of keywords!', type_check)
+                manage_check_error('Different groups with same keyword system don\'t have the same list of keywords (field "%s")!' % tag, type_check)
                 break
         else:
             pass
     
     return None
 
-def check_one_date_per_type(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_one_date_per_type(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """Function to check if there are multiple dates of the same type"""
     msg('        running check_one_date_per_type', verbose)
     
@@ -234,10 +234,10 @@ def check_one_date_per_type(fields1, fields2, final_result, type_check, subfield
     #then I check that these dates are unique per type
     for datet in date_types:
         if len(set(date_types[datet])) > 1:
-            manage_check_error('Multiple dates for type "%s".' % datet, type_check)
+            manage_check_error('Multiple dates for type "%s" in field "%s".' % (datet, tag), type_check)
     return None
     
-def check_duplicate_normalized_author_names(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+def check_duplicate_normalized_author_names(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
     """
     Checks if there are authors with the same normalized name. This will
     prevent the correct matching of authors from one author list to the other.
@@ -250,7 +250,7 @@ def check_duplicate_normalized_author_names(fields1, fields2, final_result, type
         if author in author_names:
             #I don't raise an error if I have duplicated normalized author names,
             #I simply return the trusted list
-            manage_check_error('Duplicated normalized author name for "%s".' % author, type_check)
+            manage_check_error('Duplicated normalized author name for "%s" in field "%s".' % (author, tag), type_check)
         else:
             author_names.add(author)
     return None
