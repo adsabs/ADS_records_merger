@@ -223,6 +223,20 @@ def check_different_keywords_for_same_type(fields1, fields2, final_result, type_
     
     return None
 
+def check_one_date_per_type(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
+    """Function to check if there are multiple dates of the same type"""
+    msg('        running check_one_date_per_type', verbose)
+    
+    #I extract all the dates grouped by date type
+    date_types = {}
+    for field in final_result:
+        date_types.setdefault(bibrecord.field_get_subfield_values(field, subfield_list[0][1])[0], []).append(bibrecord.field_get_subfield_values(field, subfield_list[0][0])[0])
+    #then I check that these dates are unique per type
+    for datet in date_types:
+        if len(set(date_types[datet])) > 1:
+            manage_check_error('Multiple dates for type "%s".' % datet, type_check)
+    return None
+    
 def check_duplicate_normalized_author_names(fields1, fields2, final_result, type_check, subfield_list, verbose=VERBOSE):
     """
     Checks if there are authors with the same normalized name. This will

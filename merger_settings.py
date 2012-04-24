@@ -56,7 +56,6 @@ MARC_TO_FIELD = {
      '242': 'title translation',
      '245': 'original title',
      '260': 'publication date',
-     #'269': 'preprint date',
      '300': 'number of pages',
      '500': 'comment',
      '502': 'theses',
@@ -103,8 +102,7 @@ MERGING_RULES = {
     'number of pages': 'merging_rules.priority_based_merger',
     'original title': 'merging_rules.title_merger',
     'other author': 'merging_rules.author_merger',
-    #'preprint date': 'merging_rules.priority_based_merger',
-    'publication date': 'merging_rules.priority_based_merger', #use take all as soon as I have the new XML from Benoit
+    'publication date': 'merging_rules.take_all', 
     'references': 'merging_rules.references_merger',
     'system number': 'merging_rules.priority_based_merger',
     'theses': 'merging_rules.take_all',
@@ -161,7 +159,7 @@ MERGING_RULES_CHECKS_ERRORS = {
     'publication date': {
         'warnings': {
             'merging_checks.check_pubdate_without_month_selected': ['c'],
-            #'merging_checks.check_pubdate_no_match_year_bibcode': ['c'], #impossible to implement: the only checks can be done on the same record
+            'merging_checks.check_one_date_per_type': [('c','t')], #in this particular case the order of the two subfields is really important
         }               
     }
 }

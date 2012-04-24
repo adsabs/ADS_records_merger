@@ -274,12 +274,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            	</xsl:choose>
 				            </xsl:if>
 				            <!-- Publication date -->
-							<xsl:if test="numpubdate">
-			                    <datafield tag="260" ind1="" ind2="">
-			                       <subfield code="c"><xsl:value-of select="substring(numpubdate, 4, 4)"/><xsl:text>-</xsl:text><xsl:value-of select="substring(numpubdate, 1, 2)"/><xsl:text>-00</xsl:text></subfield>
-			                       <subfield code="t">date-published</subfield>
-			                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
-			                    </datafield>
+							<xsl:if test="dates">
+								<xsl:for-each select="dates/date">
+				                    <datafield tag="260" ind1="" ind2="">
+				                       <subfield code="c"><xsl:value-of select="."/></subfield>
+				                       <subfield code="t"><xsl:value-of select="@type"/></subfield>
+				                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+				                    </datafield>
+			                    </xsl:for-each>
 							</xsl:if>
 							
 							<!-- Preprint date -->

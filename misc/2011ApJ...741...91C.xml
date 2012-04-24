@@ -405,7 +405,7 @@
             <subfield code="8">ADS metadata</subfield>
          </datafield>
          <datafield tag="995" ind1="" ind2="">
-            <subfield code="a">{"abs":[{"p":"/proj/ads/abstracts/ast/text/J66/J66-87931.abs","t":"1320724693"},{"p":"/proj/ads/abstracts/ast/text/S66/S66-87931.abs","t":"1332269022"}],"links":{"data":[{"t":"Chandra Data Archive ObsIds 8549, 8009, 7995, 8483, 8010, 8004, 8493, 8482, 7996, 8027, 8494, 8555, 8014, 8496, 8478, 8003, 7998, 8503, 8015, 7997, 8006, 8000, 8550, 8022, 8020, 8021, 8001, 8008, 7999, 8123, 8005, 8122, 8025, 8026, 8018, 8002, 8553, 8011, 8023, 8124, 8007, 8019, 8024, 8497, 8016, 8013, 8012, 8017, 8552","u":"http://cda.harvard.edu/chaser/ocatList.do?obsid=8549,8009,7995,8483,8010,8004,8493,8482,7996,8027,8494,8555,8014,8496,8478,8003,7998,8503,8015,7997,8006,8000,8550,8022,8020,8021,8001,8008,7999,8123,8005,8122,8025,8026,8018,8002,8553,8011,8023,8124,8007,8019,8024,8497,8016,8013,8012,8017,8552"}],"electr":[{"u":"http://stacks.iop.org/0004-637X/741/91"}],"pdf":[{"u":"http://stacks.iop.org/0004-637X/741/91/pdf"}],"preprint":[{"u":"1103.2570"}],"simbad":[{"c":"104","u":"http://$SIMBAD$/simbo.pl?bibcode=2011ApJ...741...91C"}]},"prop":["bibgroup: CXC","bibgroup: CfA","refereed"],"refs":[{"p":"/proj/ads/references/resolved/ApJ/0741/iss2.iop.xml.result","t":1332535935}]}</subfield>
+            <subfield code="a">{"abs":[{"p":"/proj/ads/abstracts/ast/text/J66/J66-87931.abs","t":"1320724693"},{"p":"/proj/ads/abstracts/ast/text/S66/S66-87931.abs","t":"1332269022"}],"links":{"data":[{"t":"Chandra Data Archive ObsIds 8549, 8009, 7995, 8483, 8010, 8004, 8493, 8482, 7996, 8027, 8494, 8555, 8014, 8496, 8478, 8003, 7998, 8503, 8015, 7997, 8006, 8000, 8550, 8022, 8020, 8021, 8001, 8008, 7999, 8123, 8005, 8122, 8025, 8026, 8018, 8002, 8553, 8011, 8023, 8124, 8007, 8019, 8024, 8497, 8016, 8013, 8012, 8017, 8552","u":"http://cda.harvard.edu/chaser/ocatList.do?obsid=8549,8009,7995,8483,8010,8004,8493,8482,7996,8027,8494,8555,8014,8496,8478,8003,7998,8503,8015,7997,8006,8000,8550,8022,8020,8021,8001,8008,7999,8123,8005,8122,8025,8026,8018,8002,8553,8011,8023,8124,8007,8019,8024,8497,8016,8013,8012,8017,8552"}],"electr":[{"u":"http://stacks.iop.org/0004-637X/741/91"}],"pdf":[{"u":"http://stacks.iop.org/0004-637X/741/91/pdf"}],"preprint":[{"u":"1103.2570"}],"simbad":[{"c":"104","u":"http://$SIMBAD$/simbo.pl?bibcode=2011ApJ...741...91C"}]},"prop":["bibgroup: CXC","bibgroup: CfA","refereed"],"refs":[{"p":"/proj/ads/references/resolved/ApJ/0741/iss2.iop.xml.result","t":1334610107}]}</subfield>
             <subfield code="8">ADS metadata</subfield>
          </datafield>
       </record>
@@ -420,8 +420,8 @@
             <subfield code="8">ADS metadata</subfield>
          </datafield>
          <datafield tag="961" ind1="" ind2="">
-            <subfield code="c">2012-03-23T16:52:15</subfield>
-            <subfield code="x">2012-03-23T16:52:15</subfield>
+            <subfield code="c">2012-04-16T17:01:47</subfield>
+            <subfield code="x">2012-04-16T17:01:47</subfield>
             <subfield code="8">IOP;UCP</subfield>
          </datafield>
          <datafield tag="999" ind1="C" ind2="5">
@@ -1060,7 +1060,12 @@
          </datafield>
          <datafield tag="260" ind1="" ind2="">
             <subfield code="c">2011-03-00</subfield>
-            <subfield code="t">date-published</subfield>
+            <subfield code="t">date-preprint</subfield>
+            <subfield code="8">ARXIV</subfield>
+         </datafield>
+         <datafield tag="260" ind1="" ind2="">
+            <subfield code="c">2011-03-01</subfield>
+            <subfield code="t">date-preprint</subfield>
             <subfield code="8">ARXIV</subfield>
          </datafield>
          <datafield tag="500" ind1="" ind2="">
