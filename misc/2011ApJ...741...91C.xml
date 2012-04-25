@@ -1059,12 +1059,7 @@
             <subfield code="8">ARXIV</subfield>
          </datafield>
          <datafield tag="260" ind1="" ind2="">
-            <subfield code="c">2011-03-00</subfield>
-            <subfield code="t">date-preprint</subfield>
-            <subfield code="8">ARXIV</subfield>
-         </datafield>
-         <datafield tag="260" ind1="" ind2="">
-            <subfield code="c">2011-03-01</subfield>
+            <subfield code="c">2010-03-00</subfield>
             <subfield code="t">date-preprint</subfield>
             <subfield code="8">ARXIV</subfield>
          </datafield>

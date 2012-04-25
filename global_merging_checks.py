@@ -44,16 +44,23 @@ def check_pub_year_consistency(merged_record, type_check, verbose=VERBOSE):
         manage_check_error('There are more than one System Numbers!', type_check)
         return None
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
-    #then I have to extract the right date (there can be different in the same field)
-    pubdate = ''
-    for field in pub_dates_fields:
-        if bibrecord.field_get_subfield_values(field, PUBL_DATE_TYPE_SUBFIELD)[0] == PUBL_DATE_TYPE_VAL_SUBFIELD:
-            pubdate =  bibrecord.field_get_subfield_values(field, PUBL_DATE_SUBFIELD)[0]
-            break
-    if len(pubdate) == 0:
-        manage_check_error('No publication date available!', type_check)
-        return None
-    #final part of the check
-    if pubdate[0:4] != system_number[0:4]:
-        manage_check_error('Publication year not consistent with the main bibcode!', type_check)
+    num_dates_checked = 0
+    for date_type_string in PUBL_DATE_TYPE_VAL_SUBFIELD:
+        #then I have to extract the right date (there can be different in the same field)
+        pubdate = ''
+        for field in pub_dates_fields:
+            if bibrecord.field_get_subfield_values(field, PUBL_DATE_TYPE_SUBFIELD)[0] == date_type_string:
+                pubdate =  bibrecord.field_get_subfield_values(field, PUBL_DATE_SUBFIELD)[0]
+                break
+        if len(pubdate) != 0:
+            num_dates_checked +=1
+        else:
+            continue
+        #final part of the check
+        if pubdate[0:4] != system_number[0:4]:
+            manage_check_error('Year of "%s" not consistent with the main bibcode!' % date_type_string, type_check)
+            
+    if num_dates_checked == 0:
+        manage_check_error('No dates available for tis record!', type_check)
+            
     return None

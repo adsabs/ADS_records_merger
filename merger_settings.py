@@ -43,7 +43,7 @@ SYSTEM_NUMBER_SUBFIELD = 'a'
 #subfield for publication date 
 PUBL_DATE_SUBFIELD = 'c'
 PUBL_DATE_TYPE_SUBFIELD = 't'
-PUBL_DATE_TYPE_VAL_SUBFIELD = 'date-published'
+PUBL_DATE_TYPE_VAL_SUBFIELD = ('date-published', 'date-preprint', 'date-reprint', 'date-erratum', 'date-thesis', 'date-submitted', 'date-accepted')
 
 #########################
 
