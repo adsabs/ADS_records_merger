@@ -77,6 +77,7 @@ def get_origin_importance(tag, origins):
     value = 0
 
     for origin in origin_list:
+        origin = origin.strip().upper()
         #first of all I try to see if there is a specific list
         #otherwise I use the default one
         try:

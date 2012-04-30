@@ -102,7 +102,7 @@ MERGING_RULES = {
     'number of pages': 'merging_rules.priority_based_merger',
     'original title': 'merging_rules.title_merger',
     'other author': 'merging_rules.author_merger',
-    'publication date': 'merging_rules.take_all', 
+    'publication date': 'merging_rules.pub_date_merger', 
     'references': 'merging_rules.references_merger',
     'system number': 'merging_rules.priority_based_merger',
     'theses': 'merging_rules.take_all',
@@ -188,7 +188,7 @@ DEFAULT_PRIORITY_LIST = 'standard_priority_list'
 
 #priority lists
 __PRIORITIES = {
-    10: ['ADS metadata',],
+    10: ['ADS METADATA',],
     1.0: ['ISI'],
     0.5: ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
         'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
@@ -214,11 +214,11 @@ __PRIORITIES = {
         'QJRAS', 'RMXAA', 'RMXAC', 'ROAJ', 'RVMA', 'S&T', 'SABER', 'SAI',
         'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
         'SPIE', 'SPIKA', 'SPITZER', 'SPRINGER', 'SPRN', 'STARD', 'STECF',
-        'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
+        'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
         'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',],
     0.45: ['ARI', 'ARIBIB', 'ARXIV', 'JSTOR',],
     0.4: ['CARL', 'CFA', 'HOLLIS', 'LIBRARY', 'POS', 'PRINCETON', 'SIMBAD',
-        'STSci', 'UTAL',],
+        'STSCI', 'UTAL',],
     0.375: ['STI', 'WEB',],
     0.35: ['AP', 'CROSSREF', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE',],
     0.3: ['OCR',],
@@ -256,10 +256,10 @@ __PRIORITIES_REFERENCES = {
         'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
         'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE'
         'ARI', 'ARIBIB', 'JSTOR', 'CARL', 'CFA', 'HOLLIS', 'LIBRARY', 
-        'POS', 'PRINCETON', 'SIMBAD', 'STSci', 'UTAL', 'STI', 'WEB',
+        'POS', 'PRINCETON', 'SIMBAD','UTAL', 'STI', 'WEB',
         'AP', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE', 'NED',],
     8.9: ['PUBLISHER'],
-    8.5: ['OCR',],
+    8.5: ['OCR', 'ADS METADATA'],
     8:   ['CROSSREF',],
     5:   ['ARXIV',],
 }

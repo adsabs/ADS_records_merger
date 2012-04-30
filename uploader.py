@@ -22,10 +22,10 @@ import sys
 from invenio import bibupload
 from merger_settings import VERBOSE, msg as msg_func
 
-def write_message(msg, stream=sys.stdout, verbose=1):
+def write_message(msg, stream=sys.stdout, verbose=VERBOSE):
     """Custom definition of write_message 
     to override the Invenio log"""
-    msg_func(msg, VERBOSE)
+    msg_func(msg, verbose)
 
 bibupload.write_message = write_message
 

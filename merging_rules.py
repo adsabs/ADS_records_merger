@@ -22,7 +22,8 @@ from copy import deepcopy
 
 from basic_functions import get_origin, get_origin_importance, compare_fields_exclude_subfiels
 from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
-    MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING
+    MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING,\
+    PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins
 import invenio.bibrecord as bibrecord
 #this import is not explicitly called, but is needed for the import through the settings
@@ -71,12 +72,6 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
-#   else:
-#       # In case the two values are identical, return the first one and print
-#       # a worning
-#       msg('      Same field with origin having the same importance.', verbose)
-#       return fields1
-
 @run_checks
 def take_all(fields1, fields2, tag, verbose=VERBOSE):
     """function that takes all the different fields
@@ -106,8 +101,35 @@ def take_all(fields1, fields2, tag, verbose=VERBOSE):
                         break
         else:
             all_fields.append(field1)
-
     return all_fields
+
+@run_checks
+def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
+    """function to merge dates. the peculiarity of this merge is that 
+    we need to create a new field based on which date is available"""
+    all_dates = take_all(fields1, fields2, tag, verbose)
+    if len(all_dates) > 1:
+        dates = {}
+        #I create a dictionary of dates and their date type
+        for field in all_dates:
+            dates[bibrecord.field_get_subfield_values(field, PUBL_DATE_TYPE_SUBFIELD)[0]] = bibrecord.field_get_subfield_values(field, PUBL_DATE_SUBFIELD)[0]
+        #then I try to extract with a prefixed order
+        main_pub_date = ''
+        for datet in PUBL_DATE_TYPE_VAL_SUBFIELD:
+            #I extract only the first one available
+            if datet in dates:
+                main_pub_date = dates[datet]
+                break
+        #if I still don't have a main date it means that I have a date that is not in the list of expected dates
+        #so I take the first one
+        if main_pub_date == '':
+            main_pub_date = dates.itervalues().next()
+        #finally I create the main_date field and I return the value
+        all_dates.append(([(PUBL_DATE_SUBFIELD, main_pub_date), (PUBL_DATE_TYPE_SUBFIELD, 'main-date'), (ORIGIN_SUBFIELD, 'ADS metadata')],) + all_dates[0][1:])
+        return all_dates
+        
+    else:
+        return all_dates
 
 @run_checks
 def author_merger(fields1, fields2, tag, verbose=VERBOSE):

@@ -61,6 +61,6 @@ def check_pub_year_consistency(merged_record, type_check, verbose=VERBOSE):
             manage_check_error('Year of "%s" not consistent with the main bibcode!' % date_type_string, type_check)
             
     if num_dates_checked == 0:
-        manage_check_error('No dates available for tis record!', type_check)
+        manage_check_error('No dates available for this record!', type_check)
             
     return None
