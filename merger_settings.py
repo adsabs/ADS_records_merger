@@ -180,6 +180,7 @@ GLOBAL_MERGING_CHECKS = {
 #if not specified the standard one will be applied
 FIELDS_PRIORITY_LIST = {
     'references': 'references_priority_list',
+    'abstract' : 'abstract_priority_list',
     #'doi': 'doi_priority_list',
 }
 
@@ -216,13 +217,54 @@ __PRIORITIES = {
         'SPIE', 'SPIKA', 'SPITZER', 'SPRINGER', 'SPRN', 'STARD', 'STECF',
         'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
         'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',],
-    0.45: ['ARI', 'ARIBIB', 'ARXIV', 'JSTOR',],
+    0.45: ['ARI', 'ARIBIB', 'JSTOR',],
     0.4: ['CARL', 'CFA', 'HOLLIS', 'LIBRARY', 'POS', 'PRINCETON', 'SIMBAD',
         'STSCI', 'UTAL',],
     0.375: ['STI', 'WEB',],
     0.35: ['AP', 'CROSSREF', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE',],
     0.3: ['OCR',],
     0.25: ['NED',],
+    0.2: ['ARXIV',],
+}
+
+__PRIORITIES_ABSTRACT = {
+    10: ['ADS METADATA',],
+    1.0: ['ISI'],
+    0.5: ['A&A', 'A&AS', 'A&G', 'AAO', 'AAS', 'AASP', 'AAVSO', 'ACA',
+        'ACASN', 'ACHA', 'ACTA', 'ADASS', 'ADIL', 'ADS', 'AFRSK', 'AG',
+        'AGDP', 'AGU', 'AIP', 'AJ', 'ALMA', 'AMS', 'AN', 'ANRFM', 'ANRMS',
+        'APJ', 'APS', 'ARA&A', 'ARAA', 'ARAC', 'AREPS', 'ARNPS', 'ASBIO',
+        'ASD', 'ASL', 'ASP', 'ASPC', 'ASTL', 'ASTRON', 'ATEL', 'ATSIR',
+        'AUTHOR', 'BAAA', 'BAAS', 'BALTA', 'BASBR', 'BASI', 'BAVSR', 'BEO',
+        'BESN', 'BLAZ', 'BLGAJ', 'BOTT', 'BSSAS', 'CAPJ', 'CBAT', 'CDC',
+        'CEAB', 'CFHT', 'CHAA', 'CHANDRA', 'CHJAA', 'CIEL', 'COAST',
+        'COPERNICUS', 'COSKA', 'CSCI', 'CUP', 'CXC', 'CXO', 'DSSN',
+        'E&PSL', 'EDP', 'EJTP', 'ELSEVIER', 'ESA', 'ESO', 'ESP', 'EUVE',
+        'FCPH', 'FUSE', 'GCN', 'GJI', 'GRG', 'HISSC', 'HST', 'HVAR', 'IAJ',
+        'IAU', 'IAUC', 'IAUDS', 'IBVS', 'ICAR', 'ICQ', 'IMO', 'INGTN',
+        'IOP', 'ISAS', 'ISSI', 'IUE', 'JAA', 'JAD', 'JAHH', 'JAPA', 'JASS',
+        'JAVSO', 'JBAA', 'JENAM', 'JHA', 'JIMO', 'JKAS', 'JPSJ', 'JRASC',
+        'JSARA', 'JST', 'KFNT', 'KITP', 'KLUWER', 'KOBV', 'KON', 'LNP',
+        'LOC', 'LPI', 'LRR', 'LRSP', 'M&PS', 'M+PS', 'METIC', 'MIT',
+        'MNRAS', 'MNSSA', 'MOLDAVIA', 'MPBU', 'MPC', 'MPE', 'MPSA',
+        'MmSAI', 'NAS', 'NATURE', 'NCSA', 'NEWA', 'NOAO', 'NRAO', 'NSTED',
+        'O+T', 'OAP', 'OBS', 'OEJV', 'OSA', 'PABEI', 'PADEU', 'PAICU',
+        'PAICz', 'PAOB', 'PASA', 'PASJ', 'PASP', 'PDS', 'PHIJA', 'PHYS',
+        'PJAB', 'PKAS', 'PLR', 'PNAS', 'POBEO', 'PSRD', 'PTP', 'PZP',
+        'QJRAS', 'RMXAA', 'RMXAC', 'ROAJ', 'RVMA', 'S&T', 'SABER', 'SAI',
+        'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
+        'SPIE', 'SPIKA', 'SPITZER', 'SPRINGER', 'SPRN', 'STARD', 'STECF',
+        'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
+        'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',],
+    0.45: ['ARI', 'ARIBIB', 'JSTOR',],
+    0.4: ['CARL', 'CFA', 'HOLLIS', 'LIBRARY', 'POS', 'PRINCETON', 'SIMBAD',
+        'STSCI', 'UTAL',],
+    0.375: ['WEB',],
+    0.35: ['AP', 'CROSSREF', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE',],
+    0.3: ['OCR',],
+    0.255:['ARXIV',],
+    0.25: ['NED',],
+    0.2: ['STI'],
 }
 
 __PRIORITIES_REFERENCES = {
@@ -267,6 +309,9 @@ __PRIORITIES_REFERENCES = {
 PRIORITIES = {
     'standard_priority_list': dict((source, score)
         for score, sources in __PRIORITIES.items()
+        for source in sources),
+     'abstract_priority_list': dict((source, score)
+        for score, sources in __PRIORITIES_ABSTRACT.items()
         for source in sources),
     'references_priority_list': dict((source, score)
         for score, sources in __PRIORITIES_REFERENCES.items()
