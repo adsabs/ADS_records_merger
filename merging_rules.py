@@ -108,7 +108,8 @@ def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function to merge dates. the peculiarity of this merge is that 
     we need to create a new field based on which date is available"""
     all_dates = take_all(fields1, fields2, tag, verbose)
-    if len(all_dates) > 1:
+    
+    if len(all_dates) > 0:
         dates = {}
         #I create a dictionary of dates and their date type
         for field in all_dates:
@@ -135,6 +136,9 @@ def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
 def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that merges the author lists and return the first author or
     all the other authors"""
+    #if one of the two lists is empty, I don't have to do anything
+    if len(fields1) == 0 or len(fields2) == 0:
+        return fields1+fields2
     #I need to copy locally the lists of records because I'm going to modify them
     fields1 = deepcopy(fields1)
     fields2 = deepcopy(fields2)
@@ -198,6 +202,9 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
 def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
+    #if one of the two lists is empty, I don't have to do anything
+    if len(fields1) == 0 or len(fields2) == 0:
+        return fields1+fields2
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
@@ -215,6 +222,9 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
 @run_checks
 def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the abstracts based on the languages and priority"""
+    #if one of the two lists is empty, I don't have to do anything
+    if len(fields1) == 0 or len(fields2) == 0:
+        return fields1+fields2
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
     except EqualOrigins:
@@ -232,6 +242,9 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
 @run_checks
 def references_merger(fields1, fields2, tag, verbose=VERBOSE):
     """Merging function for references"""
+    #if one of the two lists is empty, I don't have to do anything
+    if len(fields1) == 0 or len(fields2) == 0:
+        return fields1+fields2
     #first I split the references in two groups: the ones that should be merged and the one that have to taken over the others
     ref_by_merging_type_fields1 = {'take_all':[], 'priority':[]}
     ref_by_merging_type_fields2 = {'take_all':[], 'priority':[]}

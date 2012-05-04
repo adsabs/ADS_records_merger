@@ -126,17 +126,11 @@ def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
     Merges two sets of fields with the same tag and returns a merged set of
     fields.
     """
-
     # If one of the two fields does not exist, the merging is trivial.
     merged_fields = []
-    if not fields1:
-        msg('    Adding tag %s.' % tag, verbose)
-        return fields2
-    elif not fields2:
-        return fields1
-
+    msg('    Tag %s:' % tag)
     merging_func = eval(MERGING_RULES[MARC_TO_FIELD[tag]])
-    msg('    Tag %s: Merging with function %s.' % (tag, MERGING_RULES[MARC_TO_FIELD[tag]]), verbose)
+    msg('      Merging with function %s.' % (MERGING_RULES[MARC_TO_FIELD[tag]], ), verbose)
     return merging_func(fields1, fields2, tag, verbose)
 
 def record_reorder(record):
