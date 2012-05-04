@@ -44,6 +44,8 @@ SYSTEM_NUMBER_SUBFIELD = 'a'
 PUBL_DATE_SUBFIELD = 'c'
 PUBL_DATE_TYPE_SUBFIELD = 't'
 PUBL_DATE_TYPE_VAL_SUBFIELD = ('date-published', 'date-preprint', 'date-reprint', 'date-erratum', 'date-thesis', 'date-submitted', 'date-accepted')
+#subfields for author
+AUTHOR_NAME_SUBFIELD = 'a'
 
 #########################
 
@@ -171,7 +173,8 @@ GLOBAL_MERGING_RULES = [
 #list of merging checks to apply to the entire record
 GLOBAL_MERGING_CHECKS = {
     'warnings': [                    
-        'global_merging_checks.check_pub_year_consistency'
+        'global_merging_checks.check_pub_year_consistency',
+        'global_merging_checks.first_author_bibcode_consistency',
     ]
 }
 

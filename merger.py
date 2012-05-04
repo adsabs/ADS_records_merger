@@ -30,31 +30,6 @@ from merger_settings import VERBOSE, msg, MERGING_RULES, \
 import merging_rules
 import global_merging_rules
 
-
-#def get_ads_xml_from_bibcode(bibcode):
-#    # Extract the record from ADS.
-#    records = ADSRecords()
-#   records.addCompleteRecord(bibcode)
-#    ads_xml = records.export()
-#    return ads_xml
-#
-#def get_bibrecord_from_bibcode(bibcode):
-#    # Extract the record from ADS.
-#    records = ADSRecords()
-#    records.addCompleteRecord(bibcode)
-#    ads_xml = records.export()
-#
-#    # Convert to MarcXML.
-#    stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
-#    xml_object = stylesheet.applyStylesheet(ads_xml, None)
-#
-#    # Convert to bibrecord.
-#    # TODO: We need to allow bibrecord to accept libxml2 objects.
-#    xml = xml_object.serialize(encoding='utf-8')
-#    records = [res[0] for res in bibrecord.create_records(xml)]
-#    return records
-
-
 def merge_records_xml(marcxml, verbose=VERBOSE):
     """Function that takes in input a marcxml string and returns containing 
     multiple records identified by the tag "collection" and for each calls the 
