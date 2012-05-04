@@ -20,16 +20,18 @@ to upload directly in the Invenio DB the result of the merger
 '''
 import sys
 from invenio import bibupload
-from merger_settings import VERBOSE, msg as msg_func
+from merger_settings import msg as msg_func
 
-def write_message(msg, stream=sys.stdout, verbose=VERBOSE):
+LOCAL_VERBOSE = False
+
+def write_message(msg, stream=sys.stdout, verbose=LOCAL_VERBOSE):
     """Custom definition of write_message 
     to override the Invenio log"""
     msg_func(msg, verbose)
 
 bibupload.write_message = write_message
 
-def bibupload_merger(merged_bibrecords, pretend=False, verbose=VERBOSE):
+def bibupload_merger(merged_bibrecords, pretend=False, verbose=LOCAL_VERBOSE):
     """Function to upload directly in the Invenio DB"""
     
     for bibrecord in merged_bibrecords:

@@ -54,6 +54,7 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
     """basic function that merges based on priority"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
+        msg('        Only one field for "%s".' % tag, verbose)
         return fields1+fields2
     
     try:
@@ -72,8 +73,7 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
-@run_checks
-def take_all(fields1, fields2, tag, verbose=VERBOSE):
+def take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE):
     """function that takes all the different fields
     and returns an unique list"""
     all_fields = []
@@ -104,10 +104,15 @@ def take_all(fields1, fields2, tag, verbose=VERBOSE):
     return all_fields
 
 @run_checks
+def take_all(fields1, fields2, tag, verbose=VERBOSE):
+    """version of the take_all with decorator for checks"""
+    return take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE)
+
+@run_checks
 def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function to merge dates. the peculiarity of this merge is that 
     we need to create a new field based on which date is available"""
-    all_dates = take_all(fields1, fields2, tag, verbose)
+    all_dates = take_all_no_checks(fields1, fields2, tag, verbose)
     
     if len(all_dates) > 0:
         dates = {}
@@ -138,6 +143,7 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     all the other authors"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
+        msg('        Only one field for "%s".' % tag, verbose)
         return fields1+fields2
     #I need to copy locally the lists of records because I'm going to modify them
     fields1 = deepcopy(fields1)
@@ -204,6 +210,7 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     the list of alternate titles"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
+        msg('        Only one field for "%s".' % tag, verbose)
         return fields1+fields2
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
@@ -224,6 +231,7 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function that chooses the abstracts based on the languages and priority"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
+        msg('        Only one field for "%s".' % tag, verbose)
         return fields1+fields2
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
@@ -244,6 +252,7 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
     """Merging function for references"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
+        msg('        Only one field for "%s".' % tag, verbose)
         return fields1+fields2
     #first I split the references in two groups: the ones that should be merged and the one that have to taken over the others
     ref_by_merging_type_fields1 = {'take_all':[], 'priority':[]}
