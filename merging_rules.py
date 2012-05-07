@@ -113,12 +113,19 @@ def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
     """function to merge dates. the peculiarity of this merge is that 
     we need to create a new field based on which date is available"""
     all_dates = take_all_no_checks(fields1, fields2, tag, verbose)
-    
+        
     if len(all_dates) > 0:
+        #I remove the main-date if exists because I need to re-create it
+        for date in all_dates:
+            if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == 'main-date':
+                del(all_dates[all_dates.index(date)])
+                break
+        
         dates = {}
         #I create a dictionary of dates and their date type
         for field in all_dates:
             dates[bibrecord.field_get_subfield_values(field, PUBL_DATE_TYPE_SUBFIELD)[0]] = bibrecord.field_get_subfield_values(field, PUBL_DATE_SUBFIELD)[0]
+                
         #then I try to extract with a prefixed order
         main_pub_date = ''
         for datet in PUBL_DATE_TYPE_VAL_SUBFIELD:
@@ -133,7 +140,6 @@ def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
         #finally I create the main_date field and I return the value
         all_dates.append(([(PUBL_DATE_SUBFIELD, main_pub_date), (PUBL_DATE_TYPE_SUBFIELD, 'main-date'), (ORIGIN_SUBFIELD, 'ADS metadata')],) + all_dates[0][1:])
         return all_dates
-        
     else:
         return all_dates
 

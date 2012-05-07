@@ -462,6 +462,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 												<subfield code="a"><xsl:value-of select="." /></subfield>
 											</xsl:otherwise>
 										</xsl:choose>
+										<subfield code="m">database</subfield>
 										<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 									</datafield>
 								</xsl:for-each>
@@ -470,36 +471,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            <xsl:if test="collection = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">COLLECTION</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="nonarticle = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">NONARTICLE</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="ocrabstract = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">OCRABSTRACT</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="openaccess = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">OPENACCESS</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="private = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">PRIVATE</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="refereed = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="a">REFEREED</subfield>
+				             	<subfield code="m">attribute</subfield>
 				             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				             </datafield>
 				            </xsl:if>
@@ -508,10 +515,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            <xsl:if test="translate(pubtype, $smallcase, $uppercase) != 'EPRINT'">
 						             <datafield tag="980" ind1="" ind2="">
 						             	<subfield code="a"><xsl:value-of select="translate(pubtype, $smallcase, $uppercase)" /></subfield>
+						             	<subfield code="m">attribute</subfield>
 						             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 						             </datafield>
 					            </xsl:if>
 					        </xsl:if>
+					        <!-- Bibliographig groups -->
+					        <xsl:if test="bibgroups">
+								<xsl:for-each select="bibgroups/bibgroup">
+									<datafield tag="980" ind1="" ind2="">
+						             	<subfield code="a"><xsl:value-of select="." /></subfield>
+						             	<subfield code="m">bibgroup</subfield>
+						             	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+						             </datafield>
+								</xsl:for-each>
+							</xsl:if>
 							<!-- Timestamp signature -->
 							<xsl:if test="JSON_timestamp">
 								<datafield tag="995" ind1="" ind2="">
