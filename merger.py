@@ -103,7 +103,7 @@ def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
     """
     # If one of the two fields does not exist, the merging is trivial.
     merged_fields = []
-    msg('    Tag %s:' % tag)
+    msg('    Tag %s:' % tag, verbose)
     merging_func = eval(MERGING_RULES[MARC_TO_FIELD[tag]])
     msg('      Merging with function %s.' % (MERGING_RULES[MARC_TO_FIELD[tag]], ), verbose)
     return merging_func(fields1, fields2, tag, verbose)
