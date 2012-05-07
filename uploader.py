@@ -27,7 +27,7 @@ LOCAL_VERBOSE = False
 def write_message(msg, stream=sys.stdout, verbose=LOCAL_VERBOSE):
     """Custom definition of write_message 
     to override the Invenio log"""
-    msg_func(msg, verbose)
+    msg_func(msg, LOCAL_VERBOSE)
 
 bibupload.write_message = write_message
 
