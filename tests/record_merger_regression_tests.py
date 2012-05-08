@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+import sys
+sys.path.append('../')
 import unittest
 
 import merger as m

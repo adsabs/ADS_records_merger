@@ -26,7 +26,7 @@ a simple merging function and normalize the necessary fields.
 from copy import deepcopy
 from invenio import bibrecord
 
-from merger_settings import VERBOSE, ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
+from merger_settings import msg, VERBOSE, ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
                         MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS
 from basic_functions import get_origin_importance
 import global_merging_checks
@@ -56,7 +56,11 @@ def merge_creation_modification_dates(merged_record, verbose=VERBOSE):
     #I create a local copy to avoid problems
     record = deepcopy(merged_record)
     #I extract all the creation and modification dates
-    creat_mod = record[FIELD_TO_MARC['creation and modification date']]
+    try:
+        creat_mod = record[FIELD_TO_MARC['creation and modification date']]
+    except KeyError:
+        msg('      No Creation-Modification field available!', True)
+        return record
     #then I extract all the origins from all the fields but the creation and modification date
     origins = []
     for field_code in record:
