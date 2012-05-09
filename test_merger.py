@@ -28,7 +28,7 @@ sys.path.append('/proj/adsx/invenio/lib/python')
 
 from ads.ADSExports import ADSRecords
 
-from merger import merge_records_xml, msg
+from merger.merger import merge_records_xml, msg
 
 XSLT = 'misc/AdsXML2MarcXML_v2.xsl'
 

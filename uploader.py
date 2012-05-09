@@ -20,7 +20,7 @@ to upload directly in the Invenio DB the result of the merger
 '''
 import sys
 from invenio import bibupload
-from merger_settings import msg as msg_func
+from merger.merger import msg as msg_func
 
 LOCAL_VERBOSE = False
 
