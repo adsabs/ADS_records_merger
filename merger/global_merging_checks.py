@@ -20,10 +20,12 @@ Global checks on the entire record.
 '''
 from invenio import bibrecord
 
-from merger_settings import VERBOSE, msg, manage_check_error, FIELD_TO_MARC, \
+from merger_settings import FIELD_TO_MARC, \
                     SYSTEM_NUMBER_SUBFIELD, PUBL_DATE_SUBFIELD, \
                     PUBL_DATE_TYPE_SUBFIELD, PUBL_DATE_TYPE_VAL_SUBFIELD,\
                     AUTHOR_NAME_SUBFIELD
+from pipeline_settings import VERBOSE
+from pipeline_log_functions import msg, manage_check_error
 
 
 def check_pub_year_consistency(merged_record, type_check, verbose=VERBOSE):

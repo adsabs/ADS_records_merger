@@ -58,11 +58,10 @@ def main():
 
     #Manage parameters
     parameters = parse_parameters()
-    print parameters
+    #print parameters
 
     #I call the global manager
-    #genm = pipeline_manager.PipelineManager(parameters['mode'], parameters['verbose'])
-    #genm.manage()
+    pipeline_manager.manage(parameters['mode'], parameters['verbose'])
 
 if __name__ == "__main__":
     main()

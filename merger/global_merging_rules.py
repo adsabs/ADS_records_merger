@@ -26,9 +26,11 @@ a simple merging function and normalize the necessary fields.
 from copy import deepcopy
 from invenio import bibrecord
 
-from merger_settings import msg, VERBOSE, ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
+from merger_settings import ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
                         MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS
 from basic_functions import get_origin_importance
+from pipeline_settings import VERBOSE
+from pipeline_log_functions import msg
 import global_merging_checks
 
 

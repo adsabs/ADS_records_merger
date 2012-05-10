@@ -22,8 +22,10 @@ import re
 
 import invenio.bibrecord as bibrecord
 
-from merger_settings import VERBOSE, msg, MERGING_RULES, \
+from merger_settings import MERGING_RULES, \
                 GLOBAL_MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
+from pipeline_settings import VERBOSE
+from pipeline_log_functions import msg
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 
 # Not directly used but needed for evaluation the merging functions.

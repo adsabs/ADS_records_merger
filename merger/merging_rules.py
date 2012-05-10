@@ -20,12 +20,16 @@ File containing all the functions to merge
 
 from copy import deepcopy
 
+import invenio.bibrecord as bibrecord
+
 from basic_functions import get_origin, get_origin_importance, compare_fields_exclude_subfiels
-from merger_settings import VERBOSE, msg, ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
+from merger_settings import ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
     MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING,\
     PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins
-import invenio.bibrecord as bibrecord
+from pipeline_settings import VERBOSE
+from pipeline_log_functions import msg
+
 #this import is not explicitly called, but is needed for the import through the settings
 import merging_checks
 

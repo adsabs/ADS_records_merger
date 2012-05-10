@@ -18,10 +18,11 @@
 File containing all the functions to apply after a merging rule has been applied.
 All this functions are necessary to create warnings and errors based on the result of a merge
 '''
-
-from merger_settings import VERBOSE, msg, manage_check_error, AUTHOR_NORM_NAME_SUBFIELD, \
-    KEYWORD_STRING_SUBFIELD, KEYWORD_ORIGIN_SUBFIELD
 from invenio import bibrecord
+
+from merger_settings import AUTHOR_NORM_NAME_SUBFIELD, KEYWORD_STRING_SUBFIELD, KEYWORD_ORIGIN_SUBFIELD
+from pipeline_settings import VERBOSE
+from pipeline_log_functions import msg, manage_check_error
 
 
 def check_string_with_unicode_not_selected(fields1, fields2, final_result, type_check, subfield_list, tag, verbose=VERBOSE):
