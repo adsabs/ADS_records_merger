@@ -38,7 +38,7 @@ def merge_bibcodes(bibcodes, verbose=False):
     Returns a merged version of the record identified by bibcode.
     """
     # Extract the record from ADS.
-    records = ADSRecords()
+    records = ADSRecords('full', 'XML')
     for bibcode in bibcodes:
         records.addCompleteRecord(bibcode)
     ads_xml_obj = records.export()
@@ -46,11 +46,8 @@ def merge_bibcodes(bibcodes, verbose=False):
     # Convert to MarcXML.
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
     xml_object = stylesheet.applyStylesheet(ads_xml_obj, None)
-    # Convert to bibrecord.
-    # TODO: We need to allow bibrecord to accept libxml2 objects.
-    marcxml = xml_object.serialize(encoding='utf-8')
     
-    return merge_records_xml(marcxml, verbose)
+    return merge_records_xml(xml_object, verbose)
 
 def static_file_merging(verbose=False):
     """runs the record merger from a static XML in a file bypassing the extraction"""
@@ -58,7 +55,7 @@ def static_file_merging(verbose=False):
     #static_file = "misc/1999PASP..111..438F.xml"
     #static_file = "misc/1984A&A...130...97L.xml"
     msg(static_file, True)
-    return merge_records_xml(open(static_file, "r").read(), verbose)
+    return merge_records_xml(libxml2.parseDoc(open(static_file, "r").read()), verbose)
 
 
 if __name__ == '__main__':

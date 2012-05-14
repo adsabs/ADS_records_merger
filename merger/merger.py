@@ -20,30 +20,27 @@ the combined element.
 '''
 import re
 
-import invenio.bibrecord as bibrecord
-
 from merger_settings import MERGING_RULES, \
                 GLOBAL_MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
 from pipeline_settings import VERBOSE
 from pipeline_log_functions import msg
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 
+from misclibs.xml_transformer import create_record_from_libxml_obj
+
 # Not directly used but needed for evaluation the merging functions.
 import merging_rules
 import global_merging_rules
 
-def merge_records_xml(marcxml, verbose=VERBOSE):
+def merge_records_xml(marcxml_obj, verbose=VERBOSE):
     """Function that takes in input a marcxml string and returns containing 
     multiple records identified by the tag "collection" and for each calls the 
     function to merge the different flavors of the same record 
     (identified by the tag "record"). """
-    #I split the different records Identified by the "collection tag"
-    regex = re.compile('<collection>.*?</collection>', re.DOTALL)
-    record_xmls = regex.findall(marcxml)
-    
+    #I get the bibrecord object from libxml2 one
+    all_records = create_record_from_libxml_obj(marcxml_obj)
     merged_records = []
-    for xml in record_xmls:
-        records = [res[0] for res in bibrecord.create_records(xml)]
+    for records in all_records:
         # Get the merged record.
         merged_records.append(merge_multiple_records(records, verbose))
     return merged_records
