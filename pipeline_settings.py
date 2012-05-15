@@ -47,7 +47,7 @@ BIBCODES_PRE = '/proj/ads/abstracts/pre/load/current/index.status'
 ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 
 #style sheet path
-STYLESHEET_PATH = BASEDIR + 'xsl/adsXml2MarkXml.xsl'
+STYLESHEET_PATH = BASEDIR + 'misc/AdsXML2MarcXML_v2.xsl'
 
 #base name for the file of bibcodes to delete
 BIBCODE_TO_DELETE_OUT_NAME = 'marcxml_to_delete'
@@ -57,7 +57,7 @@ MARCXML_FILE_BASE_NAME = 'marcxml_to_add'
 MARCXML_EXTENSION = '.xml'
 
 #maximum number of bibcodes per group of extraction -> it means that this is also the maximum number of bibcodes per file of marcxml
-NUMBER_OF_BIBCODES_PER_GROUP = 10000
+NUMBER_OF_BIBCODES_PER_GROUP = 1000
 
 #maximum amount of bibcodes that can be skipped for each group
 MAX_SKIPPED_BIBCODES = NUMBER_OF_BIBCODES_PER_GROUP / 2

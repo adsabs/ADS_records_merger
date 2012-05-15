@@ -20,6 +20,9 @@ It parses the parameters and calls the global manager
 '''
 
 from optparse import OptionParser
+import sys
+if sys.version_info < (2, 6):
+    raise "Must use python 2.6 or greater"
 
 import pipeline_manager
 
@@ -55,11 +58,10 @@ def parse_parameters():
 
 def main():
     """ Main Function"""
-
     #Manage parameters
     parameters = parse_parameters()
-    #print parameters
-
+    if parameters == None:
+        return
     #I call the global manager
     pipeline_manager.manage(parameters['mode'], parameters['verbose'])
 
