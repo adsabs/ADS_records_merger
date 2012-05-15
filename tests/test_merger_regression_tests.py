@@ -3,9 +3,11 @@
 import sys
 sys.path.append('../')
 import unittest
+import libxml2
 
-import merger as m
+import merger.merger as m
 import invenio.bibrecord as b
+from misclibs.xml_transformer import create_record_from_libxml_obj
 
 class TestPriorityBasedMerger(unittest.TestCase):
 
@@ -13,7 +15,7 @@ class TestPriorityBasedMerger(unittest.TestCase):
         """
         PRIORITY: 2 records, 1 field, 2 origins.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
@@ -26,22 +28,21 @@ class TestPriorityBasedMerger(unittest.TestCase):
       <subfield code="8">NED</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">10</subfield>
     <subfield code="8">A&amp;A</subfield>
   </datafield>
-</record>"""
-        #records = b.create_records(marcxml)
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertEqual(merged_record, [b.create_record(expected)[0]])
+</record></collection></collections>"""
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
 
     def test_02_merge_two_records_two_fields(self):
         """
         PRIORITY: 2 records, 4 fields, 4 origins.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
@@ -62,8 +63,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
       <subfield code="8">NED</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">10</subfield>
     <subfield code="8">A&amp;A</subfield>
@@ -72,16 +73,15 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Le Monde</subfield>
     <subfield code="8">AAS</subfield>
   </datafield>
-</record>"""
-        #records = b.create_records(marcxml)
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertEqual(merged_record, [b.create_record(expected)[0]])
+</record></collection></collections>"""
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
 
     def test_03_merge_two_records_one_different_field(self):
         """
         PRIORITY: 2 records, 2 different fields.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
@@ -94,8 +94,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
       <subfield code="8">NED</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">15</subfield>
     <subfield code="8">NED</subfield>
@@ -104,16 +104,15 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Libération</subfield>
     <subfield code="8">STI</subfield>
   </datafield>
-</record>"""
-        #records = b.create_records(marcxml)
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertEqual(merged_record, [b.create_record(expected)[0]])
+</record></collection></collections>"""
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
 
     def test_04_merge_three_records_two_fields(self):
         """
         3 records, 6 fields, 6 origins.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
@@ -144,8 +143,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
       <subfield code="8">OCR</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">5</subfield>
     <subfield code="8">ADS metadata</subfield>
@@ -154,10 +153,9 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Le Monde</subfield>
     <subfield code="8">AAS</subfield>
   </datafield>
-</record>"""
-        #records = b.create_records(marcxml)
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertEqual(merged_record, [b.create_record(expected)[0]])
+</record></collection></collections>"""
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
 
 class TestAuthorMerger(unittest.TestCase):
 
@@ -165,7 +163,7 @@ class TestAuthorMerger(unittest.TestCase):
         """
         AUTHORS: 2 records, priority.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="100" ind1=" " ind2=" ">
       <subfield code="a">Di Milia, Giovanni</subfield>
@@ -200,8 +198,8 @@ class TestAuthorMerger(unittest.TestCase):
       <subfield code="8">ARXIV</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="100" ind1=" " ind2=" ">
     <subfield code="a">Di Milia, Giovanni</subfield>
     <subfield code="b">Di Milia, G</subfield>
@@ -217,16 +215,15 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="b">Henneken, E</subfield>
     <subfield code="8">A&amp;A</subfield>
   </datafield>
-</record>"""
-        #records = b.create_records(marcxml)
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertEqual(merged_record, [b.create_record(expected)[0]])
+</record></collection></collections>"""
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
 
     def test_02_merge_two_records_additional_subfield(self):
         """
         AUTHORS: 2 records, 1 additional subfield.
         """
-        marcxml = """<collection>
+        marcxml = """<collections><collection>
   <record>
     <datafield tag="100" ind1=" " ind2=" ">
       <subfield code="a">Di Milia, Giovanni</subfield>
@@ -242,19 +239,19 @@ class TestAuthorMerger(unittest.TestCase):
       <subfield code="8">ARXIV</subfield>
     </datafield>
   </record>
-</collection>"""
-        expected = """<record>
+</collection></collections>"""
+        expected = """<collections><collection><record>
   <datafield tag="100" ind1=" " ind2=" ">
     <subfield code="a">Di Milia, Giovanni</subfield>
     <subfield code="b">Di Milia, G</subfield>
     <subfield code="u">Center for astrophysics</subfield>
     <subfield code="8">A&amp;A</subfield>
   </datafield>
-</record>"""
+</record></collection></collections>"""
         #records = b.create_records(marcxml)
-        expected_record = b.create_record(expected)[0]
-        merged_record = m.merge_records_xml(marcxml)
-        self.assertTrue(b._compare_fields(merged_record[0]['100'][0], expected_record['100'][0], strict=False))
+        expected_record = create_record_from_libxml_obj(libxml2.parseDoc(expected))[0]
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        self.assertTrue(b._compare_fields(merged_record[0]['100'][0], expected_record[0]['100'][0], strict=False))
 
 if __name__ == '__main__':
     unittest.main()

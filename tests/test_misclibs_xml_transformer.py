@@ -20,17 +20,16 @@ File containing tests for the xml_transformer
 
 import sys
 sys.path.append('../')
-sys.path.append('../../')
 import unittest
 import libxml2, libxslt
 import re
 
-import xml_transformer as x
+import misclibs.xml_transformer as x
 from invenio import bibrecord
 
 def get_result_invenio_xmltransformer(xmlstring):
     xmlobj = libxml2.parseDoc(xmlstring)
-    xslt = '../../misc/AdsXML2MarcXML_v2.xsl'
+    xslt = '../misc/AdsXML2MarcXML_v2.xsl'
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(xslt))
     xml_transformed_object = stylesheet.applyStylesheet(xmlobj, None)
     marcxml = xml_transformed_object.serialize(encoding='utf-8')

@@ -4,7 +4,7 @@ import sys
 sys.path.append('../')
 import unittest
 
-import merging_rules as m
+import merger.merging_rules as m
 
 class TestMergingRules(unittest.TestCase):
 

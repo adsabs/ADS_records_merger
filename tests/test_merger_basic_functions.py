@@ -4,7 +4,7 @@ sys.path.append('../')
 
 import unittest
 
-import basic_functions as b
+import merger.basic_functions as b
 
 class TestBasicFunctions(unittest.TestCase):
 
