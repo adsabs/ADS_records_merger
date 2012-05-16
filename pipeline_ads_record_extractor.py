@@ -41,11 +41,15 @@ import os
 
 from ads.ADSExports import ADSRecords
 
+from invenio import bibrecord
+
 import pipeline_settings as settings
 import pipeline_write_files as write_files
 import misclibs.xml_transformer as xml_transformer
 from pipeline_log_functions import msg as printmsg
 from merger.merger_errors import GenericError
+from merger import merger
+from pipeline_invenio_uploader import bibupload_merger
 
 #some global variables
 BIBCODES_TO_EXTRACT_LIST = []
@@ -144,19 +148,11 @@ def process_bibcodes_to_delete():
     doc.freeDoc()
     del doc
 
-
-    ############################
-    #here I have to transform in bibrecord and upload
+    #I transform the xml in bibrecords
+    bibrecord_object = bibrecord.create_records(marcxml_string)
+    #I upload the result
+    bibupload_merger(bibrecord_object)
     
-    #I write to the file
-    #w2f = write_files.WriteFile(self.extraction_directory, self.verbose)
-    #filename_delete = w2f.write_bibcodes_to_delete_file(marcxml_string, self.bibcodes_to_delete_list, self.extraction_name)
-    #
-    #if filename_delete:
-    #    printmsg(self.verbose, "The MarcXML for the bibcode to delete has been written to the file %s \n" % filename_delete)
-    #else:
-    #    raise GenericError("Impossible to create the file for the MarcXML of the bibcodes to delete")
-    ############################
     return True
 
 def set_extraction_name():
@@ -368,17 +364,10 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
             raise GenericError('Impossible to transform the XML!')
 
         if marcxml:
-            ######################
-            #part to modify to include the merger
-            #if the transformation was ok, I write the file
-            w2f = write_files.WriteFile(extraction_directory, verbose)
-            wrote_filename = w2f.write_marcxml_file(marcxml, task_todo[0], extraction_name)
-            #if the writing of the xml is wrong I consider all the bibcodes problematic
-            if not wrote_filename:
-                bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml file writing failed') for bib in bibcodes_ok]
-                bibcodes_ok = []
-            del w2f
-            ######################
+            #I merge the records
+            merged_records = merger.merge_records_xml(marcxml, verbose)
+            #I upload the result
+            bibupload_merger(merged_records)
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]

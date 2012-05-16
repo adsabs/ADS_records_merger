@@ -51,24 +51,20 @@ class XmlTransformer(object):
     def transform(self, doc):
         """ Method that actually make the transformation"""
         printmsg("In function %s.%s" % (self.__class__.__name__, inspect.stack()[0][3]), self.verbose)
-        
         #I load the stylesheet
-        self.init_stylesheet()
-                
+        self.init_stylesheet()   
         #transformation
         try:
             doc = self.style_obj.applyStylesheet(doc, None)
         except:
             printmsg("ERROR: Transformation failed", True) 
             return False
-        
         #to string
-        result = self.style_obj.saveResultToString(doc)
-        
+        #result = self.style_obj.saveResultToString(doc)
         #self.styleObj.freeStylesheet()
-        doc.freeDoc()
-        
-        return result
+        #doc.freeDoc()
+        #return result
+        return doc
     
 
 def create_record_from_libxml_obj(domdoc):
