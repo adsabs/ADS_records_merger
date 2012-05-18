@@ -23,14 +23,15 @@ bibcodes:
     * the bibcodes of the records that have been modified.
     * the bibcodes of the records that have been deleted in ADS.
 """
-
+import inspect
 import ads
 
 from invenio.dbquery import run_sql
 
-from pipeline_settings import BIBCODES_AST, BIBCODES_PHY, BIBCODES_GEN, BIBCODES_PRE
-from pipeline_log_functions import msg as printmsg
-from pipeline_settings import VERBOSE
+from pipeline_settings import BIBCODES_AST, BIBCODES_PHY, BIBCODES_GEN, BIBCODES_PRE, LOGGING_GLOBAL_NAME
+#I get the global logger
+import logging
+logger = logging.getLogger(LOGGING_GLOBAL_NAME)
 
 # Timestamps ordered by increasing order of importance.
 TIMESTAMP_FILES_HIERARCHY = [
@@ -40,7 +41,7 @@ TIMESTAMP_FILES_HIERARCHY = [
         BIBCODES_AST,
         ]
 
-def get_records_status(verbose=VERBOSE):
+def get_records_status():
     """
     Return 3 sets of bibcodes:
     * bibcodes added are bibcodes that are in ADS and not in Invenio.
@@ -48,29 +49,29 @@ def get_records_status(verbose=VERBOSE):
       that have been modified since the last update.
     * bibcodes deleted are bibcodes that are in Invenio but not in ADS.
     """
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     records_added = []
     records_modified = []
     records_deleted = []
 
-    printmsg('Getting ADS timestamps.', verbose)
+    logger.info('Getting ADS timestamps.')
     ads_timestamps = _get_ads_timestamps()
-    printmsg('Getting ADS bibcodes.', verbose)
+    logger.info('Getting ADS bibcodes.')
     ads_bibcodes = set(ads_timestamps.keys())
-    printmsg('Getting Invenio timestamps.', verbose)
+    logger.info('Getting Invenio timestamps.')
     invenio_timestamps = _get_invenio_timestamps()
-    printmsg('Getting Invenio bibcodes.', verbose)
+    logger.info('Getting Invenio bibcodes.')
     invenio_bibcodes = set(invenio_timestamps.keys())
 
-    printmsg('Deducting the added records.', verbose)
+    logger.info('Deducting the added records.')
     records_added = ads_bibcodes - invenio_bibcodes
-    printmsg('    %d records to add.' % len(records_added), verbose)
-    printmsg('Deducting the deleted records.', verbose)
+    logger.info('    %d records to add.' % len(records_added))
+    logger.info('Deducting the deleted records.')
     records_deleted = invenio_bibcodes - ads_bibcodes
-    printmsg('    %d records to delete.' % len(records_deleted), verbose)
+    logger.info('    %d records to delete.' % len(records_deleted))
 
     records_to_check = invenio_bibcodes - records_deleted
-    printmsg('Checking timestamps for %d records.' %
-            len(records_to_check), verbose)
+    logger.info('Checking timestamps for %d records.' % len(records_to_check))
 
     for bibcode in records_to_check:
         # ADS timestamp in the file has tabs as separators where the XML has
@@ -81,8 +82,8 @@ def get_records_status(verbose=VERBOSE):
         if invenio_timestamp != ads_timestamp:
             records_modified.append(bibcode)
 
-    printmsg('    %d records to modify.\n' % len(records_modified), verbose)
-    printmsg('Done.', verbose)
+    logger.info('    %d records to modify.' % len(records_modified))
+    logger.info('Done with timestamps.')
 
     return records_added, records_modified, records_deleted
 
@@ -90,6 +91,7 @@ def _get_invenio_timestamps():
     """
     Returns a set of timestamps found in Invenio.
     """
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     # First get the list of deleted records, i.e. records which have DELETED in 980__c.
     query = "SELECT DISTINCT(b97.value) FROM bib97x AS b97, bibrec_bib97x AS bb97, bib98x AS b98, bibrec_bib98x AS bb98 " \
             "WHERE b98.tag='980__c' AND b98.value='DELETED' AND b98.id=bb98.id_bibxxx AND " \
@@ -118,8 +120,10 @@ def _get_ads_timestamps():
 
     Returns a dictionary with the bibcodes as keys and the timestamps as values.
     """
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     timestamps = {}
     for filename in TIMESTAMP_FILES_HIERARCHY:
+        logger.info("Reading \"%s\"" % filename)
         db_timestamps = _read_timestamp_file(filename)
         timestamps.update(db_timestamps)
 
@@ -140,6 +144,7 @@ def _read_timestamp_file(filename):
     Reads a timestamp file and returns a dictionary with the bibcodes as keys
     and the timestamps as values.
     """
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     fdesc = open(filename)
     timestamps = {}
     for line in fdesc:

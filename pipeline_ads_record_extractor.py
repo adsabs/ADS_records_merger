@@ -15,18 +15,12 @@
 
 '''
 The manager is the leading process for the extraction
-
 It takes in input a list of bibcodes
-
 then it splits the list in multiple groups sized according to the settings
-
 these groups are put in a "to process queue"
-
 different processes will take a group each from the "to process queue" and they will extract the bibcodes assigned
 after the extraction they will insert the processed bibcodes in an unique "processed queue"
-
 finally a last process will take the processed bibcodes and will write them to the proper file
-
 This class uses multiprocessing, so it is compatible only with python 2.6+
 '''
 
@@ -46,24 +40,26 @@ from invenio import bibrecord
 import pipeline_settings as settings
 import pipeline_write_files as write_files
 import misclibs.xml_transformer as xml_transformer
-from pipeline_log_functions import msg as printmsg
 from merger.merger_errors import GenericError
 from merger import merger
 from pipeline_invenio_uploader import bibupload_merger
+import pipeline_settings
+
+#I get the global logger
+import logging
+logger = logging.getLogger(pipeline_settings.LOGGING_GLOBAL_NAME)
 
 #some global variables
 BIBCODES_TO_EXTRACT_LIST = []
 BIBCODES_TO_DELETE_LIST = []
 EXTRACTION_DIRECTORY = ''
-VERBOSE = settings.VERBOSE
 
 
-def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_directory, verbose=settings.VERBOSE):
+def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_directory):
     """manager of the extraction"""
-    global VERBOSE, EXTRACTION_DIRECTORY, BIBCODES_TO_DELETE_LIST, BIBCODES_TO_EXTRACT_LIST
-    VERBOSE = verbose
-    printmsg("In function %s" % (inspect.stack()[0][3],), VERBOSE)
-       
+    logger.info("In function %s" % (inspect.stack()[0][3],))
+    
+    global EXTRACTION_DIRECTORY, BIBCODES_TO_DELETE_LIST, BIBCODES_TO_EXTRACT_LIST
     #the bibcodes to extract MUST NOT be sorted
     BIBCODES_TO_EXTRACT_LIST = bibcodes_to_extract_list
     BIBCODES_TO_DELETE_LIST = bibcodes_to_delete_list
@@ -81,7 +77,9 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_direct
         try:
             process_bibcodes_to_delete()
         except Exception:
-            raise GenericError("Unable to process the bibcodes to delete")
+            err_msg = 'Unable to process the bibcodes to delete'
+            logger.error(err_msg)
+            raise GenericError(err_msg)
 
     ########################################################################
     #part where the bibcode to extract (new or update) are processed
@@ -90,7 +88,7 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_direct
     bibtoprocess_splitted = grouper(settings.NUMBER_OF_BIBCODES_PER_GROUP, BIBCODES_TO_EXTRACT_LIST)
 
     #I define a manager for the workers
-    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, EXTRACTION_DIRECTORY, EXTRACTION_NAME, VERBOSE))
+    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, EXTRACTION_DIRECTORY, EXTRACTION_NAME))
     #I start the process
     manager.start()
     #I join the process
@@ -102,19 +100,19 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_direct
     file_obj.write(settings.EXTRACTION_READY_TO_UPLOAD_MESSAGE + '\n')
     file_obj.close()
 
-    printmsg("Extraction ended!", True)
+    logger.warning("Extraction ended!")
 
 
 def grouper(n, iterable):
     """method to split a list in multiple groups"""
-    printmsg("In function %s" % (inspect.stack()[0][3],), VERBOSE)
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     args = [iter(iterable)] * n
     return list(([e for e in t if e != None] for t in itertools.izip_longest(*args)))
 
 
 def process_bibcodes_to_delete():
     """method that creates the MarcXML for the bibcodes to delete"""
-    printmsg("In function %s" % (inspect.stack()[0][3],), VERBOSE)
+    logger.info("In function %s" % (inspect.stack()[0][3],))
 
     #I create an unique file for all the bibcodes to delete:
     #I don't think it's necessary to split the content in groups, since the XML is really simple
@@ -151,13 +149,16 @@ def process_bibcodes_to_delete():
     #I transform the xml in bibrecords
     bibrecord_object = bibrecord.create_records(marcxml_string)
     #I upload the result
-    bibupload_merger(bibrecord_object)
+    
+    ##########
+    #!!!!!!!!!
+    #bibupload_merger(bibrecord_object)
     
     return True
 
 def set_extraction_name():
     """Method that sets the name of the current extraction"""
-    printmsg("In function %s" % (inspect.stack()[0][3],), VERBOSE)
+    logger.info("In function %s" % (inspect.stack()[0][3],))
 
     filepath = os.path.join(settings.BASE_OUTPUT_PATH, EXTRACTION_DIRECTORY, settings.EXTRACTION_FILENAME_LOG)
     file_obj = open(filepath,'r')
@@ -186,10 +187,11 @@ def set_extraction_name():
     return extraction_name
 
 
-def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extraction_name, verbose):
+def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extraction_name):
     """Process that takes care of managing all the other worker processes
         this process also creates new worker processes when the existing ones reach the maximum number of groups of bibcode to process
     """
+    logger.info("In function %s" % (inspect.stack()[0][3],))
     #a queue for the bibcodes to process
     q_todo = multiprocessing.Queue()
     #a queue for the bibcodes processed
@@ -201,9 +203,7 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     #a queue for the messages from the workers that have to tell the manager when they reach the maximum number of chunks to process
     q_life = multiprocessing.Queue()
 
-    lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (Manager) Filling the queue with the tasks', verbose)
-    lock_stdout.release()
+    logger.info(multiprocessing.current_process().name + ' (Manager) Filling the queue with the tasks')
 
     #I split all the bibcodes in groups of NUMBER_OF_BIBCODES_PER_GROUP and I put them in the todo queue
     counter = 0 #I need the counter to uniquely identify each group
@@ -211,40 +211,33 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
         counter += 1
         q_todo.put([str(counter).zfill(7), grp])
 
-    lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers', verbose)
-    lock_stdout.release()
+    logger.info(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers')
 
     #I define the number of processes to run
     number_of_processes = settings.NUMBER_WORKERS 
-
+    
+    logger.info(multiprocessing.current_process().name + ' (Manager) Creating the output workers')
+    #I define a "done bibcode" worker
+    donebib = multiprocessing.Process(target=done_extraction_process, args=(q_done, number_of_processes, lock_stdout, q_life, extraction_directory))
+    #I define a "problematic bibcode" worker
+    problbib = multiprocessing.Process(target=problematic_extraction_process, args=(q_probl, number_of_processes, lock_stdout, q_life, extraction_directory))
+    
     #I define the worker processes
-    processes = [multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name, verbose)) for i in range(number_of_processes)]
-
+    processes = [multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name)) for i in range(number_of_processes)]
     #I append to the todo queue a list of commands to stop the worker processes
     for i in range(number_of_processes):
         q_todo.put(['STOP', ''])
 
-    lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (Manager) Creating the output workers', verbose)
-    lock_stdout.release()
 
-    #I define a "done bibcode" worker
-    donebib = multiprocessing.Process(target=done_extraction_process, args=(q_done, number_of_processes, lock_stdout, q_life, extraction_directory, verbose))
-    #I define a "problematic bibcode" worker
-    problbib = multiprocessing.Process(target=problematic_extraction_process, args=(q_probl, number_of_processes, lock_stdout, q_life, extraction_directory, verbose))
-
-    lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (Manager) Starting all the workers', verbose)
-    lock_stdout.release()
-
+    logger.warning(multiprocessing.current_process().name + ' (Manager) Starting all the workers')
+    
+    #I start the output handlers
+    donebib.start()
+    problbib.start()
     #I start the worker processes
     for p in processes:
         p.start()
-    #and the output handlers
-    donebib.start()
-    problbib.start()
-
+    
     #then I have to wait for the workers that have to tell me if they reached the maximum amount of chunk to process or if the extraction ended
     #in the first case I have to start another process
     #in the second I have to decrease the counter of active workers
@@ -255,39 +248,53 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
         death_reason = q_life.get()
         #if the reason of the death is that the process reached the max number of groups to process, then I have to start another one
         if death_reason[0] == 'MAX LIFE REACHED':
-            newprocess = multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name, verbose))
+            newprocess = multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name))
             newprocess.start()
             #!!!!!!!!!!!!!!!!!!!!!!!!
             #this call is probably wrong: to check
-            additional_workers = additional_workers - 1
+            #additional_workers = additional_workers - 1
             #!!!!!!!!!!!!!!!!!!!!!!!!
             lock_stdout.acquire()
-            printmsg(multiprocessing.current_process().name + ' (Manager) New worker created', True)
+            logger.warning(multiprocessing.current_process().name + ' (Manager) New worker created')
             lock_stdout.release()
         elif death_reason[0] == 'QUEUE EMPTY':
             active_workers = active_workers - 1
             lock_stdout.acquire()
-            printmsg(multiprocessing.current_process().name + ' (Manager) %s workers waiting to finish their job' % str(active_workers), verbose)
+            logger.info(multiprocessing.current_process().name + ' (Manager) %s workers waiting to finish their job' % str(active_workers))
             lock_stdout.release()
         elif death_reason[0] == 'PROBLEMBIBS DONE':
             additional_workers = additional_workers - 1
             lock_stdout.acquire()
-            printmsg(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers), verbose)
+            logger.info(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers))
             lock_stdout.release()
         elif death_reason[0] == 'DONEBIBS DONE':
             additional_workers = additional_workers - 1
             lock_stdout.acquire()
-            printmsg(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers), verbose)
+            logger.info(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers))
             lock_stdout.release()
 
     lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (Manager) All the workers are done. Exiting...', verbose)
+    logger.info(multiprocessing.current_process().name + ' (Manager) All the workers are done. Exiting...')
     lock_stdout.release()
 
 
-def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name, verbose):
+def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name):
     """Worker function for the extraction of bibcodes from ADS
         it has been defined outside any class because it's more simple to treat with multiprocessing """
+    lock_stdout.acquire()
+    logger.warning(multiprocessing.current_process().name + ' (worker) Process started')
+    lock_stdout.release()
+    #I create a local logger
+    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_worker.log')
+    fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
+    fh.setFormatter(fmt)
+    local_logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
+    local_logger.addHandler(fh)
+    local_logger.setLevel(logger.level)
+    local_logger.propagate = False
+    #I print the same message for the local logger
+    local_logger.warning(multiprocessing.current_process().name + ' Process started')
+    
     #I get the maximum number of groups I can process
     max_num_groups = settings.MAX_NUMBER_OF_GROUP_TO_PROCESS
     #variable used to know if I'm exiting because the queue is empty or because I reached the maximum number of groups to process
@@ -304,9 +311,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
             break
 
         #I print when I'm starting the extraction
-        lock_stdout.acquire()
-        printmsg(multiprocessing.current_process().name + (' (worker) starting to process group %s' % task_todo[0]), True)
-        lock_stdout.release()
+        local_logger.warning(multiprocessing.current_process().name + (' starting to process group %s' % task_todo[0]))
 
         ############
         #then I process the bibcodes
@@ -327,7 +332,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
                 recs.addCompleteRecord(bibcode)
                 bibcodes_ok.append(bibcode)
             except Exception, error:
-                printmsg('ERROR: problem retrieving the bibcode "%s" in group %s' % (bibcode, task_todo[0]), True)
+                local_logger.error(': problem retrieving the bibcode "%s" in group %s' % (bibcode, task_todo[0]))
                 #I catch the exception type name
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 try:
@@ -336,7 +341,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
                     try:
                         str_error_to_print = u'%s\t%s' % (unicode(exc_type.__name__), unicode(error))
                     except:
-                        printmsg('Cannot log error for bibcode %s ' % bibcode, True)
+                        local_logger.error(' Cannot log error for bibcode %s ' % bibcode)
                         str_error_to_print = ''
                 bibcodes_probl.append((bibcode, str_error_to_print))
                 max_number_of_bibs_to_skip = max_number_of_bibs_to_skip - 1
@@ -346,7 +351,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
         #I exit from both loops
         if max_number_of_bibs_to_skip == 0:
             lock_stdout.acquire()
-            printmsg(multiprocessing.current_process().name + (' (worker) Detected possible error with ADS data access: skipped %s bibcodes in one group' % max(settings.NUMBER_OF_BIBCODES_PER_GROUP / 10, settings.MAX_SKIPPED_BIBCODES)), True)
+            local_logger.warning(multiprocessing.current_process().name + (' Detected possible error with ADS data access: skipped %s bibcodes in one group' % max(settings.NUMBER_OF_BIBCODES_PER_GROUP / 10, settings.MAX_SKIPPED_BIBCODES)))
             lock_stdout.release()
             queue_empty = True
             break
@@ -357,32 +362,36 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
 
         try:
             #I define a transformation object
-            transf = xml_transformer.XmlTransformer(verbose)
+            transf = xml_transformer.XmlTransformer(local_logger)
             #and I transform my object
             marcxml = transf.transform(xmlobj)
         except:
-            raise GenericError('Impossible to transform the XML!')
+            err_msg = ' Impossible to transform the XML!'
+            local_logger.critical(err_msg)
+            raise GenericError(err_msg)
 
         if marcxml:
             #I merge the records
-            merged_records = merger.merge_records_xml(marcxml, verbose)
+            merged_records = merger.merge_records_xml(marcxml)
+            #########
+            logger.info(' record merged but not uploaded')
+            #########
             #I upload the result
-            bibupload_merger(merged_records)
+            ##########
+            #!!!!!!!!!
+            #bibupload_merger(merged_records)
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]
             bibcodes_ok = []
-            wrote_filename = False
         
         
         #finally I pass to the done bibcodes to the proper file
-        q_done.put([task_todo[0], bibcodes_ok, wrote_filename])
+        q_done.put([task_todo[0], bibcodes_ok])
         #and the problematic bibcodes
         q_probl.put([task_todo[0], bibcodes_probl])
 
-        lock_stdout.acquire()
-        printmsg(multiprocessing.current_process().name + (' (worker) finished to process group %s' % task_todo[0]), True)
-        lock_stdout.release()
+        local_logger.warning(multiprocessing.current_process().name + (' finished to process group %s' % task_todo[0]))
 
 
     if queue_empty:
@@ -393,21 +402,37 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
         q_life.put(['QUEUE EMPTY'])
         #I set a variable to skip the messages outside the loop
         lock_stdout.acquire()
-        printmsg(multiprocessing.current_process().name + ' (worker) Queue empty: exiting', True)
+        logger.warning(multiprocessing.current_process().name + ' (worker) Queue empty: exiting')
         lock_stdout.release()
+        local_logger.warning(multiprocessing.current_process().name + ' Queue empty: exiting')
     else:
         #I tell the manager that I'm dying because I reached the maximum amount of group to process
         q_life.put(['MAX LIFE REACHED'])
         lock_stdout.acquire()
-        printmsg(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting', True)
+        logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting')
         lock_stdout.release()
+        local_logger.warning(multiprocessing.current_process().name + ' Maximum amount of groups of bibcodes reached: exiting')
+    return
 
 
-
-def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, extraction_directory, verbose):
+def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, extraction_directory):
     """Worker that takes care of the groups of bibcodes processed and writes the bibcodes to the related file
         NOTE: this can be also the process that submiths the upload processes to invenio
     """
+    lock_stdout.acquire()
+    logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) Process started')
+    lock_stdout.release()
+    #I create a local logger
+    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_done_bibcodes.log')
+    fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
+    fh.setFormatter(fmt)
+    local_logger = logging.getLogger(pipeline_settings.LOGGING_DONE_BIBS_NAME)
+    local_logger.addHandler(fh)
+    local_logger.setLevel(logger.level)
+    local_logger.propagate = False
+    #I print the same message for the local logger
+    local_logger.warning(multiprocessing.current_process().name + ' Process started')
+    
     while(True):
         group_done = q_done.get()
 
@@ -421,30 +446,40 @@ def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, ext
             #otherwise I process the output:
             # I puth the bibcodes in the file of the done bibcodes
             if len(group_done[1]) > 0:
-                w2f = write_files.WriteFile(extraction_directory, verbose)
+                w2f = write_files.WriteFile(extraction_directory, local_logger)
                 w2f.write_done_bibcodes_to_file(group_done[1])
 
                 lock_stdout.acquire()
-                printmsg(multiprocessing.current_process().name + (' (done bibcodes worker) wrote done bibcodes for group %s' % group_done[0]), True)
+                local_logger.warning(multiprocessing.current_process().name + (' wrote done bibcodes for group %s' % group_done[0]))
                 lock_stdout.release()
-
-            # I call the procedure to submit to invenio the process to upload the file
-            filename_path = group_done[2]
-
-            #invenio.bibtask.task_low_level_submission http://bit.ly/nnQZbs
 
 
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['DONEBIBS DONE'])
 
     lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (done bibcodes worker) job finished: exiting', True)
+    logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) job finished: exiting')
     lock_stdout.release()
+    local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
+    return
 
 
-def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_life, extraction_directory, verbose):
+def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_life, extraction_directory):
     """Worker that takes care of the bibcodes that couldn't be extracted and writes them to the related file"""
-
+    lock_stdout.acquire()
+    logger.warning(multiprocessing.current_process().name + ' (probl. bibcodes worker) Process started')
+    lock_stdout.release()
+    #I create a local logger
+    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_probl_bibcodes.log')
+    fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
+    fh.setFormatter(fmt)
+    local_logger = logging.getLogger(pipeline_settings.LOGGING_PROBL_BIBS_NAME)
+    local_logger.addHandler(fh)
+    local_logger.setLevel(logger.level)
+    local_logger.propagate = False
+    #I print the same message for the local logger
+    local_logger.warning(multiprocessing.current_process().name + ' Process started')
+    
     while(True):
         group_probl = q_probl.get()
 
@@ -458,18 +493,19 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
             #otherwise I process the output:
             # I puth the bibcodes in the file of the problematic bibcodes
             if len(group_probl[1]) > 0:
-                w2f = write_files.WriteFile(extraction_directory, verbose)
+                w2f = write_files.WriteFile(extraction_directory, local_logger)
                 w2f.write_problem_bibcodes_to_file(group_probl[1])
 
                 lock_stdout.acquire()
-                printmsg(multiprocessing.current_process().name + (' (problematic bibcodes worker) wrote problematic bibcodes for group %s' % group_probl[0]), True)
+                local_logger.warning(multiprocessing.current_process().name + (' wrote problematic bibcodes for group %s' % group_probl[0]))
                 lock_stdout.release()
 
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['PROBLEMBIBS DONE'])
 
     lock_stdout.acquire()
-    printmsg(multiprocessing.current_process().name + ' (problematic bibcodes worker) job finished: exiting', True)
+    logger.warning(multiprocessing.current_process().name + ' (problematic bibcodes worker) job finished: exiting')
     lock_stdout.release()
-
+    local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
+    return
 

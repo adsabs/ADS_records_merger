@@ -21,6 +21,7 @@ File containing an example of the steps that should be taken (and better coded) 
 
 import libxslt
 import libxml2
+import logging
 
 import sys
 sys.path.append('/proj/ads/soft/python/lib/site-packages')
@@ -29,11 +30,16 @@ sys.path.append('/proj/adsx/invenio/lib/python')
 from ads.ADSExports import ADSRecords
 
 from merger.merger import merge_records_xml, msg
+import pipeline_settings
 
 XSLT = 'misc/AdsXML2MarcXML_v2.xsl'
 
+logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)
+logger = logging.getLogger(pipeline_settings.LOGGING_GLOBAL_NAME)
+logger.setLevel(logging.INFO)
+logger.warning('Test for merger')
 
-def merge_bibcodes(bibcodes, verbose=False):
+def merge_bibcodes(bibcodes):
     """
     Returns a merged version of the record identified by bibcode.
     """
@@ -47,15 +53,15 @@ def merge_bibcodes(bibcodes, verbose=False):
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
     xml_object = stylesheet.applyStylesheet(ads_xml_obj, None)
     
-    return merge_records_xml(xml_object, verbose)
+    return merge_records_xml(xml_object)
 
 def static_file_merging(verbose=False):
     """runs the record merger from a static XML in a file bypassing the extraction"""
     static_file = "misc/2011ApJ...741...91C.xml"
     #static_file = "misc/1999PASP..111..438F.xml"
     #static_file = "misc/1984A&A...130...97L.xml"
-    msg(static_file, True)
-    return merge_records_xml(libxml2.parseDoc(open(static_file, "r").read()), verbose)
+    logger.warn(static_file)
+    return merge_records_xml(libxml2.parseDoc(open(static_file, "r").read()))
 
 
 if __name__ == '__main__':

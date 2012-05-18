@@ -25,6 +25,15 @@ VERBOSE = True
 #base path for the output of the procedure
 BASE_OUTPUT_PATH = BASEDIR + 'out'
 
+#base path for the logging files of the procedure
+BASE_LOGGING_PATH = BASEDIR + 'logs'
+LOGGING_FORMAT = '%(asctime)-6s: %(name)s - %(levelname)s - %(message)s'
+LOGGING_GLOBAL_NAME = 'Pipeline'
+LOGGING_WORKER_NAME = 'Worker'
+LOGGING_DONE_BIBS_NAME = 'Done Bibs'
+LOGGING_PROBL_BIBS_NAME = 'Probl Bibs'
+
+
 #list of files that MUST be in each output directory
 BASE_FILES = {'new':'bibcodes_to_extract_new_mod.dat', 'del':'bibcodes_to_extract_del.dat', 'done':'bibcodes_extracted.dat', 'prob':'bibcodes_with_problems.dat'}
 

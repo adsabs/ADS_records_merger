@@ -27,6 +27,7 @@ def msg(message, verbose=VERBOSE):
     """
     Prints a debug message.
     """
+    #raise "YOU MUST USE THE LOGGING MODULE"
     if verbose:
         print time.strftime("%Y-%m-%d %H:%M:%S"), '---', message
 

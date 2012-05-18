@@ -25,12 +25,16 @@ if sys.version_info < (2, 6):
     raise "Must use python 2.6 or greater"
 
 import pipeline_manager
+import pipeline_settings
+
+import logging
 
 def parse_parameters():
     """Function that parse the parameters passed to the script"""
     parser = OptionParser()
 
-    parser.add_option("-m", "--mode", dest="mode", help="Specify the method of extraction (\"full\" or \"update\") ", metavar="MODEVALUE")
+    parser.add_option("-m", "--mode", dest="mode", help="Specify the method of extraction (\"full\" or \"update\") ", metavar="MODE_VALUE")
+    parser.add_option("-l", "--logtype", dest="logtype", help="Specify the type of logging you want (\"file\" or \"screen\"). If not specified \"file\" will be the default.", metavar="LOG_TIPE_VALUE")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help='Use this parameter if a verbose execution is needed ')
 
     # catch the parameters from the command line
@@ -48,6 +52,15 @@ def parse_parameters():
     else:
         parser.print_help()
         return None
+    
+    if options.logtype:
+        if options.logtype == 'file' or options.logtype == 'screen':
+            parameters['logtype'] = options.logtype
+        else:
+            parser.print_help()
+            return None
+    else:
+        parameters['logtype'] = 'file'
 
     if options.verbose:
         parameters['verbose'] = True
@@ -62,8 +75,21 @@ def main():
     parameters = parse_parameters()
     if parameters == None:
         return
+    #set the global logging
+    if parameters['logtype'] == 'file':
+        logging.basicConfig(
+            filename=pipeline_settings.BASE_LOGGING_PATH +'/pipeline.log',
+            format=pipeline_settings.LOGGING_FORMAT)
+    else:
+        logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)
+    logger = logging.getLogger(pipeline_settings.LOGGING_GLOBAL_NAME)
+    logger.setLevel(logging.INFO)
+    logger.warning('Pipeline started')
+    #then I check the verbose level
+    if not parameters['verbose']:
+        logger.setLevel(logging.WARNING)
     #I call the global manager
-    pipeline_manager.manage(parameters['mode'], parameters['verbose'])
+    pipeline_manager.manage(parameters['mode'])
 
 if __name__ == "__main__":
     main()

@@ -23,15 +23,14 @@ import libxslt
 import inspect 
 
 import pipeline_settings as settings
-from pipeline_log_functions import msg as printmsg
 from merger.merger_errors import GenericError
 
 class XmlTransformer(object):
     """ Class that transform an ADS xml in MarcXML"""
         
-    def __init__(self, verbose):
+    def __init__(self, logger):
         """ Constructor"""
-        self.verbose = verbose
+        self.logger = logger
         #definition of the stilesheet
         self.stylesheet = settings.STYLESHEET_PATH
         #I initialize the style sheet object
@@ -39,25 +38,26 @@ class XmlTransformer(object):
     
     def init_stylesheet(self):
         """ Method that initialize the transformation engine """
-        printmsg("In function %s.%s" % (self.__class__.__name__, inspect.stack()[0][3]), self.verbose)
+        self.logger.info("In function %s.%s" % (self.__class__.__name__, inspect.stack()[0][3]))
         #create the stylesheet obj
         try:
             self.style_obj = libxslt.parseStylesheetDoc(libxml2.parseFile(self.stylesheet))
         except:
-            raise GenericError("ERROR: problem loading stylesheet \n")
-        
+            err_msg = "ERROR: problem loading stylesheet"
+            self.logger.critical(err_msg)
+            raise GenericError(err_msg)
         return True
     
     def transform(self, doc):
         """ Method that actually make the transformation"""
-        printmsg("In function %s.%s" % (self.__class__.__name__, inspect.stack()[0][3]), self.verbose)
+        self.logger.info("In function %s.%s" % (self.__class__.__name__, inspect.stack()[0][3]))
         #I load the stylesheet
         self.init_stylesheet()   
         #transformation
         try:
             doc = self.style_obj.applyStylesheet(doc, None)
         except:
-            printmsg("ERROR: Transformation failed", True) 
+            self.logger.error("ERROR: Transformation failed") 
             return False
         #to string
         #result = self.style_obj.saveResultToString(doc)
@@ -67,7 +67,7 @@ class XmlTransformer(object):
         return doc
     
 
-def create_record_from_libxml_obj(domdoc):
+def create_record_from_libxml_obj(domdoc, logger):
     """Creates a record from the document (of type libxml2/libxslt)."""
     #I define some names for the tags before getting to the actual marcxml
     global_wrapper = 'collections'
