@@ -62,7 +62,7 @@ def merge_records_xml(marcxml_obj):
             merged_records.append(merge_multiple_records(records))
         except Exception, error:
             exc_type, exc_obj, exc_tb = sys.exc_info()
-            str_error_to_print = exc_type.__name__ + '\t' + str(error)
+            str_error_to_print = exc_type.__name__ + '\t' + str(error) + ' (Merger error)'
             logger.error(' Impossible to merge the record "%s" \t %s' % (bibcode, str_error_to_print))
             records_with_merging_probl.append((bibcode, str_error_to_print))
     logger.info(' Merger ended... returning results!')
