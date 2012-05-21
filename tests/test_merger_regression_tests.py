@@ -9,6 +9,13 @@ import merger.merger as m
 import invenio.bibrecord as b
 from misclibs.xml_transformer import create_record_from_libxml_obj
 
+import pipeline_settings
+
+import logging
+logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)
+logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
+logger.setLevel(logging.ERROR)
+
 class TestPriorityBasedMerger(unittest.TestCase):
 
     def test_01_merge_two_records_one_field(self):
@@ -35,8 +42,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">A&amp;A</subfield>
   </datafield>
 </record></collection></collections>"""
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
-        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
 
     def test_02_merge_two_records_two_fields(self):
         """
@@ -74,8 +81,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">AAS</subfield>
   </datafield>
 </record></collection></collections>"""
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
-        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
 
     def test_03_merge_two_records_one_different_field(self):
         """
@@ -105,8 +112,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">STI</subfield>
   </datafield>
 </record></collection></collections>"""
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
-        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
 
     def test_04_merge_three_records_two_fields(self):
         """
@@ -154,8 +161,8 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="8">AAS</subfield>
   </datafield>
 </record></collection></collections>"""
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
-        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
 
 class TestAuthorMerger(unittest.TestCase):
 
@@ -216,8 +223,8 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="8">A&amp;A</subfield>
   </datafield>
 </record></collection></collections>"""
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
-        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected))[0])
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
+        self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
 
     def test_02_merge_two_records_additional_subfield(self):
         """
@@ -249,8 +256,8 @@ class TestAuthorMerger(unittest.TestCase):
   </datafield>
 </record></collection></collections>"""
         #records = b.create_records(marcxml)
-        expected_record = create_record_from_libxml_obj(libxml2.parseDoc(expected))[0]
-        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml), verbose=False)
+        expected_record = create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0]
+        merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertTrue(b._compare_fields(merged_record[0]['100'][0], expected_record[0]['100'][0], strict=False))
 
 if __name__ == '__main__':

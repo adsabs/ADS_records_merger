@@ -24,6 +24,13 @@ import unittest
 import libxml2, libxslt
 import re
 
+import pipeline_settings
+
+import logging
+logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)
+logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
+logger.setLevel(logging.ERROR)
+
 import misclibs.xml_transformer as x
 from invenio import bibrecord
 
@@ -34,7 +41,7 @@ def get_result_invenio_xmltransformer(xmlstring):
     xml_transformed_object = stylesheet.applyStylesheet(xmlobj, None)
     marcxml = xml_transformed_object.serialize(encoding='utf-8')
     #result with internal function
-    result_xml_transformer = x.create_record_from_libxml_obj(xml_transformed_object)
+    result_xml_transformer = x.create_record_from_libxml_obj(xml_transformed_object, logger)
     #result with function from invenio
     regex = re.compile('<collection>.*?</collection>', re.DOTALL)
     record_xmls = regex.findall(marcxml)

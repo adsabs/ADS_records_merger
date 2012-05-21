@@ -374,7 +374,6 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
             for elem in records_with_merging_probl:
                 bibcodes_ok.remove(elem[0])
             bibcodes_probl = bibcodes_probl + records_with_merging_probl
-            
             #########
             #I upload the result
             ##########
