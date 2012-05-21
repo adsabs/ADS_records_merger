@@ -148,8 +148,8 @@ def process_bibcodes_to_delete():
 
     #I transform the xml in bibrecords
     bibrecord_object = bibrecord.create_records(marcxml_string)
-    #I upload the result
-    bibupload_merger(bibrecord_object, logger)
+    #I upload the result with option append
+    bibupload_merger(bibrecord_object, logger, 'append')
     
     return True
 
@@ -379,7 +379,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
             #I upload the result
             ##########
             logger.info('record created, merged but not uploaded')
-            #bibupload_merger(merged_records, local_logger)
+            #bibupload_merger(merged_records, local_logger, 'replace_or_insert')
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]

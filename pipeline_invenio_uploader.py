@@ -22,7 +22,7 @@ import sys
 
 from invenio import bibupload
 
-def bibupload_merger(merged_bibrecords, logger, pretend=False):
+def bibupload_merger(merged_bibrecords, logger, opt_mode="replace_or_insert", pretend=False):
     """Function to upload directly in the Invenio DB"""
     def write_message(msg, stream=sys.stdout, verbose=False):
         """Custom definition of write_message 
@@ -32,5 +32,5 @@ def bibupload_merger(merged_bibrecords, logger, pretend=False):
     bibupload.write_message = write_message
     
     for bibrecord in merged_bibrecords:
-        bibupload.bibupload(bibrecord, opt_tag=None, opt_mode="replace_or_insert",
+        bibupload.bibupload(bibrecord, opt_tag=None, opt_mode=opt_mode,
                   opt_stage_to_start_from=1, opt_notimechange=0, oai_rec_id = "", pretend=pretend)
