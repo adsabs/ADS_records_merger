@@ -18,33 +18,35 @@
 
 Global checks on the entire record.
 '''
+import logging
+
 from invenio import bibrecord
 
 from merger_settings import FIELD_TO_MARC, \
                     SYSTEM_NUMBER_SUBFIELD, PUBL_DATE_SUBFIELD, \
                     PUBL_DATE_TYPE_SUBFIELD, PUBL_DATE_TYPE_VAL_SUBFIELD,\
                     AUTHOR_NAME_SUBFIELD
-from pipeline_settings import VERBOSE
-from pipeline_log_functions import msg, manage_check_error
+from pipeline_log_functions import manage_check_error
+import pipeline_settings
+logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
 
-
-def check_pub_year_consistency(merged_record, type_check, verbose=VERBOSE):
+def check_pub_year_consistency(merged_record, type_check):
     """Function that checks if the publication year is consistent 
     with the year at the beginning of the bibcode"""
-    msg('      running check_pub_year_consistency', verbose)
+    logger.info('      running check_pub_year_consistency')
     try:
         system_number_fields = merged_record[FIELD_TO_MARC['system number']]
     except KeyError:
-        manage_check_error('No System Number field!', type_check)
+        manage_check_error('No System Number field!', type_check, logger)
         return None
     try:
         pub_dates_fields = merged_record[FIELD_TO_MARC['publication date']]
     except KeyError:
-        manage_check_error('No Publication Date field!', type_check)
+        manage_check_error('No Publication Date field!', type_check, logger)
         return None
     #the system number field should e unique, so if there are more than 1 fields, I have a problem (and I cannot proceed)
     if len(system_number_fields) > 1:
-        manage_check_error('There are more than one System Numbers!', type_check)
+        manage_check_error('There are more than one System Numbers!', type_check, logger)
         return None
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
     num_dates_checked = 0
@@ -61,37 +63,37 @@ def check_pub_year_consistency(merged_record, type_check, verbose=VERBOSE):
             continue
         #final part of the check
         if pubdate[0:4] != system_number[0:4]:
-            manage_check_error('Year of "%s" not consistent with the main bibcode "%s"!' % (date_type_string, system_number), type_check)
+            manage_check_error('Year of "%s" not consistent with the main bibcode "%s"!' % (date_type_string, system_number), type_check, logger)
     if num_dates_checked == 0:
-        manage_check_error('No dates available for this record!', type_check)    
+        manage_check_error('No dates available for this record!', type_check, logger)    
     return None
 
-def first_author_bibcode_consistency(merged_record, type_check, verbose=VERBOSE):
+def first_author_bibcode_consistency(merged_record, type_check):
     """Function that checks if the last letter of the main bibcode 
     is consistent with the first letter of the first author"""
-    msg('      running first_author_bibcode_consistency', verbose)
+    logger.info('      running first_author_bibcode_consistency')
     try:
         system_number_fields = merged_record[FIELD_TO_MARC['system number']]
     except KeyError:
-        manage_check_error('No System Number field!', type_check)
+        manage_check_error('No System Number field!', type_check, logger)
         return None
     try:
         first_author_fields = merged_record[FIELD_TO_MARC['first author']]
     except KeyError:
-        manage_check_error('No First Author field!', type_check)
+        manage_check_error('No First Author field!', type_check, logger)
         return None
     #the system number field should e unique, so if there are more than 1 fields, I have a problem (and I cannot proceed)
     if len(system_number_fields) > 1:
-        manage_check_error('There are more than one System Numbers!', type_check)
+        manage_check_error('There are more than one System Numbers!', type_check, logger)
         return None
     #the first author field should e unique, so if there are more than 1 fields, I have a problem (and I cannot proceed)
     if len(first_author_fields) > 1:
-        manage_check_error('There are more than one First Author!', type_check)
+        manage_check_error('There are more than one First Author!', type_check, logger)
         return None
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
     first_author = bibrecord.field_get_subfield_values(first_author_fields[0], AUTHOR_NAME_SUBFIELD)[0]
     if first_author[0] != system_number[-1]:
-        manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check)
+        manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check, logger)
     return None
     
     

@@ -20,6 +20,7 @@ It parses the parameters and calls the global manager
 '''
 
 from optparse import OptionParser
+from time import strftime
 import sys
 if sys.version_info < (2, 6):
     raise "Must use python 2.6 or greater"
@@ -78,7 +79,7 @@ def main():
     #set the global logging
     if parameters['logtype'] == 'file':
         logging.basicConfig(
-            filename=pipeline_settings.BASE_LOGGING_PATH +'/pipeline.log',
+            filename=pipeline_settings.GLOBAL_PIPELINE_LOGGING_PATH +'/pipeline_'+strftime("%Y_%m_%d")+'.log',
             format=pipeline_settings.LOGGING_FORMAT)
     else:
         logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)

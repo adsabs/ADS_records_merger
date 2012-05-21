@@ -32,16 +32,17 @@ def msg(message, verbose=VERBOSE):
         print time.strftime("%Y-%m-%d %H:%M:%S"), '---', message
 
 
-def manage_check_error(msg_str, type_check):
+def manage_check_error(msg_str, type_check, logger):
     """function that prints a warning or 
     raises an exception according to the type of check"""
-    
     from merger.merger_errors import GenericError
-    
     if type_check == 'warnings':
-        msg('          CHECK WARNING: %s' % msg_str , True)
+        logger.warning('          CHECK WARNING: %s' % msg_str)
     elif type_check == 'errors':
+        logger.critical(msg_str)
         raise GenericError(msg_str)
     else:
-        raise GenericError('Type of check "%s" cannot be handled by the "manage_check_error" function.')
+        error_string = 'Type of check "%s" cannot be handled by the "manage_check_error" function.' % type_check 
+        logger.critical(error_string)
+        raise GenericError(error_string)
     return None

@@ -19,34 +19,57 @@ The ads merger is a tool that combines two elements and returns
 the combined element.
 '''
 import re
+import sys
+import logging
+
+from invenio import bibrecord
 
 from merger_settings import MERGING_RULES, \
-                GLOBAL_MERGING_RULES, MARC_TO_FIELD, ORIGIN_SUBFIELD
-from pipeline_settings import VERBOSE
-from pipeline_log_functions import msg
+                GLOBAL_MERGING_RULES, MARC_TO_FIELD, FIELD_TO_MARC, \
+                SYSTEM_NUMBER_SUBFIELD, ORIGIN_SUBFIELD
+import pipeline_settings
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 
 from misclibs.xml_transformer import create_record_from_libxml_obj
+
+
+logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
 
 # Not directly used but needed for evaluation the merging functions.
 import merging_rules
 import global_merging_rules
 
-def merge_records_xml(marcxml_obj, verbose=VERBOSE):
+def merge_records_xml(marcxml_obj):
     """Function that takes in input a marcxml string and returns containing 
     multiple records identified by the tag "collection" and for each calls the 
     function to merge the different flavors of the same record 
     (identified by the tag "record"). """
+    logger.info(' Merger started.')
     #I get the bibrecord object from libxml2 one
-    all_records = create_record_from_libxml_obj(marcxml_obj)
+    all_records = create_record_from_libxml_obj(marcxml_obj, logger)
     merged_records = []
+    records_with_merging_probl = []
     for records in all_records:
-        # Get the merged record.
-        merged_records.append(merge_multiple_records(records, verbose))
-    return merged_records
+        #I try to get the bibcode of the record I'm merging
+        try:
+            system_number_fields = records[0][FIELD_TO_MARC['system number']]
+            bibcode = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
+        except:
+            bibcode = 'Unknown'
+        logger.warn(' Merging bibcode "%s".' % bibcode)
+        # Get the merged record
+        try:
+            merged_records.append(merge_multiple_records(records))
+        except Exception, error:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            str_error_to_print = exc_type.__name__ + '\t' + str(error)
+            logger.error(' Impossible to merge the record "%s" \t %s' % (bibcode, str_error_to_print))
+            records_with_merging_probl.append((bibcode, str_error_to_print))
+    logger.info(' Merger ended... returning results!')
+    return merged_records, records_with_merging_probl
 
 
-def merge_multiple_records(records, verbose=VERBOSE):
+def merge_multiple_records(records):
     """
     Merges multiple records and returns a merged record.
     """
@@ -54,32 +77,32 @@ def merge_multiple_records(records, verbose=VERBOSE):
     if not records:
         return {}
     elif len(records) == 1:
-        return merge_two_records(records[0], {}, None, verbose)
+        return merge_two_records(records[0], {}, None)
     
     record1 = records.pop(0)
     record2 = records.pop(0)
-    msg('  Merge #1', verbose)
+    logger.info('  Merge #1')
     
-    merged_record = merge_two_records(record1, record2, verbose)
+    merged_record = merge_two_records(record1, record2)
     merge_number = 2
     while records:
         new_record= records.pop(0)
-        msg('  Merge #%d' % merge_number, verbose)
+        logger.info('  Merge #%d' % merge_number)
         merge_number += 1
-        merged_record = merge_two_records(merged_record, new_record, verbose)
+        merged_record = merge_two_records(merged_record, new_record)
     
     #global merging functions
-    msg('  Global merging functions', verbose)
+    logger.info('  Global merging functions')
     for func in GLOBAL_MERGING_RULES:
         func_to_run = eval(func)
-        msg('    Merging with function %s' % func, verbose)
-        merged_record = func_to_run(merged_record, verbose)
+        logger.info('    Merging with function %s' % func)
+        merged_record = func_to_run(merged_record)
 
     record_reorder(merged_record)
 
     return merged_record
 
-def merge_two_records(record1, record2, verbose=VERBOSE):
+def merge_two_records(record1, record2):
     """
     Merges two records and returns a merged record.
     """
@@ -89,23 +112,23 @@ def merge_two_records(record1, record2, verbose=VERBOSE):
     for tag in all_tags:
         fields1 = record1.get(tag, [])
         fields2 = record2.get(tag, [])
-        merged_fields = merge_two_fields(tag, fields1, fields2, verbose)
+        merged_fields = merge_two_fields(tag, fields1, fields2)
         if merged_fields:
             merged_record[tag] = merged_fields
     
     return merged_record
 
-def merge_two_fields(tag, fields1, fields2, verbose=VERBOSE):
+def merge_two_fields(tag, fields1, fields2):
     """
     Merges two sets of fields with the same tag and returns a merged set of
     fields.
     """
-    # If one of the two fields does not exist, the merging is trivial.
-    merged_fields = []
-    msg('    Tag %s:' % tag, verbose)
+    ## If one of the two fields does not exist, the merging is trivial.
+    #merged_fields = []
+    logger.info('    Tag %s:' % tag)
     merging_func = eval(MERGING_RULES[MARC_TO_FIELD[tag]])
-    msg('      Merging with function %s.' % (MERGING_RULES[MARC_TO_FIELD[tag]], ), verbose)
-    return merging_func(fields1, fields2, tag, verbose)
+    logger.info('      Merging with function %s.' % (MERGING_RULES[MARC_TO_FIELD[tag]], ))
+    return merging_func(fields1, fields2, tag)
 
 def record_reorder(record):
     """

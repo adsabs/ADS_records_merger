@@ -19,6 +19,7 @@ File containing all the functions to merge
 '''
 
 from copy import deepcopy
+import logging
 
 import invenio.bibrecord as bibrecord
 
@@ -27,8 +28,9 @@ from merger_settings import ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
     MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING,\
     PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins
-from pipeline_settings import VERBOSE
-from pipeline_log_functions import msg
+import pipeline_settings
+
+logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
 
 #this import is not explicitly called, but is needed for the import through the settings
 import merging_checks
@@ -36,37 +38,37 @@ import merging_checks
 def run_checks(func):
     """Decorator that retrieves and runs the functions 
     to apply to any merging rule"""
-    def checks_wrapper(fields1, fields2, tag, verbose):
+    def checks_wrapper(fields1, fields2, tag):
         #I retrieve the groups of functions to run for this field
         try:
             list_checks = MERGING_RULES_CHECKS_ERRORS[MARC_TO_FIELD[tag]]
         except KeyError:
             #If there are no checks I return directly the result of the wrapped function
-            return func(fields1, fields2, tag, verbose)
+            return func(fields1, fields2, tag)
         #then I get the result of the wrapped function
-        final_result =  func(fields1, fields2, tag, verbose)
+        final_result =  func(fields1, fields2, tag)
         #for each warning and error I pass the final_result and all the parameters to the function
         for type_check, functions_check in list_checks.items():
             for func_ck_str, subfield_list in functions_check.items():
                 func_ck = eval(func_ck_str)
-                func_ck(fields1, fields2, final_result, type_check, subfield_list, tag, verbose)
+                func_ck(fields1, fields2, final_result, type_check, subfield_list, tag)
         return final_result
     return checks_wrapper
 
 @run_checks
-def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
+def priority_based_merger(fields1, fields2, tag):
     """basic function that merges based on priority"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
-        msg('        Only one field for "%s".' % tag, verbose)
+        logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
     
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) == len(fields2) and \
                 all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
-            msg('      Equal fields.', verbose)
+            logger.info('      Equal fields.')
             return fields1
         else:
             for field1, field2 in zip(fields1, fields2):
@@ -77,7 +79,7 @@ def priority_based_merger(fields1, fields2, tag, verbose=VERBOSE):
 
     return trusted
 
-def take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE):
+def take_all_no_checks(fields1, fields2, tag):
     """function that takes all the different fields
     and returns an unique list"""
     all_fields = []
@@ -92,7 +94,7 @@ def take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE):
                 #otherwise I have to compare the two fields and take the one with the most trusted origin
                 else:
                     try:
-                        trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag, verbose)
+                        trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag)
                     except EqualOrigins:
                         break
                     #if the trusted one is already in the list I don't do anything
@@ -108,15 +110,15 @@ def take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE):
     return all_fields
 
 @run_checks
-def take_all(fields1, fields2, tag, verbose=VERBOSE):
+def take_all(fields1, fields2, tag):
     """version of the take_all with decorator for checks"""
-    return take_all_no_checks(fields1, fields2, tag, verbose=VERBOSE)
+    return take_all_no_checks(fields1, fields2, tag)
 
 @run_checks
-def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
+def pub_date_merger(fields1, fields2, tag):
     """function to merge dates. the peculiarity of this merge is that 
     we need to create a new field based on which date is available"""
-    all_dates = take_all_no_checks(fields1, fields2, tag, verbose)
+    all_dates = take_all_no_checks(fields1, fields2, tag)
         
     if len(all_dates) > 0:
         #I remove the main-date if exists because I need to re-create it
@@ -148,18 +150,18 @@ def pub_date_merger(fields1, fields2, tag, verbose=VERBOSE):
         return all_dates
 
 @run_checks
-def author_merger(fields1, fields2, tag, verbose=VERBOSE):
+def author_merger(fields1, fields2, tag):
     """function that merges the author lists and return the first author or
     all the other authors"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
-        msg('        Only one field for "%s".' % tag, verbose)
+        logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
     #I need to copy locally the lists of records because I'm going to modify them
     fields1 = deepcopy(fields1)
     fields2 = deepcopy(fields2)
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -179,7 +181,7 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
         if author in trusted_authors:
             #I don't raise an error if I have duplicated normalized author names,
             #I simply return the trusted list
-            msg('      Duplicated normalized author name. Skipping author subfield merging.', verbose)
+            logger.info('      Duplicated normalized author name. Skipping author subfield merging.')
             return trusted
             #raise DuplicateNormalizedAuthorError(author)
         else:
@@ -204,7 +206,7 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
             trusted_subfields = bibrecord.field_get_subfield_instances(field)
             additional_subfield_codes = set(untrusted_subfield_codes) - set(trusted_subfield_codes)
             for code in additional_subfield_codes:
-                msg('      Subfield "%s" to add to author "%s".' % (code, author), verbose)
+                logger.info('      Subfield "%s" to add to author "%s".' % (code, author))
                 additional_subfields = bibrecord.field_get_subfield_values(untrusted_field, code)
                 for additional_subfield in additional_subfields:
                     trusted_subfields.append((code, additional_subfield))
@@ -215,15 +217,15 @@ def author_merger(fields1, fields2, tag, verbose=VERBOSE):
     return trusted
 
 @run_checks
-def title_merger(fields1, fields2, tag, verbose=VERBOSE):
+def title_merger(fields1, fields2, tag):
     """function that chooses the titles and returns the main title or
     the list of alternate titles"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
-        msg('        Only one field for "%s".' % tag, verbose)
+        logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -237,14 +239,14 @@ def title_merger(fields1, fields2, tag, verbose=VERBOSE):
     return trusted
 
 @run_checks
-def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
+def abstract_merger(fields1, fields2, tag):
     """function that chooses the abstracts based on the languages and priority"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
-        msg('        Only one field for "%s".' % tag, verbose)
+        logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
     try:
-        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose)
+        trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
         if len(fields1) != len(fields2):
             raise
@@ -258,11 +260,11 @@ def abstract_merger(fields1, fields2, tag, verbose=VERBOSE):
     return trusted
 
 @run_checks
-def references_merger(fields1, fields2, tag, verbose=VERBOSE):
+def references_merger(fields1, fields2, tag):
     """Merging function for references"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
-        msg('        Only one field for "%s".' % tag, verbose)
+        logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
     #first I split the references in two groups: the ones that should be merged and the one that have to taken over the others
     ref_by_merging_type_fields1 = {'take_all':[], 'priority':[]}
@@ -281,9 +283,9 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
         else:
             ref_by_merging_type_fields2['priority'].append(field)
     
-    global_list = take_all(take_all(ref_by_merging_type_fields1['take_all'], ref_by_merging_type_fields2['take_all'], tag, verbose), 
-                           priority_based_merger(ref_by_merging_type_fields1['priority'], ref_by_merging_type_fields2['priority'], tag, verbose),
-                           tag, verbose)
+    global_list = take_all(take_all(ref_by_merging_type_fields1['take_all'], ref_by_merging_type_fields2['take_all'], tag), 
+                           priority_based_merger(ref_by_merging_type_fields1['priority'], ref_by_merging_type_fields2['priority'], tag),
+                           tag)
     
     #finally I unique the resolved references
     #taking the reference string from the most trusted origin or 
@@ -322,7 +324,7 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
                 for subfield in outlist:
                     #if I don't have a subfield at all I insert it
                     if subfield[0] not in new_subfields:
-                        msg('      Subfield "%s" added to reference "%s".' % (subfield[0], bibcode_res), verbose)
+                        logger.info('      Subfield "%s" added to reference "%s".' % (subfield[0], bibcode_res))
                         new_subfields[subfield[0]] = subfield[1]
                     #otherwise if it is a reference string
                     elif subfield[0] in new_subfields and subfield[0] == REFERENCE_STRING:
@@ -332,11 +334,11 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
                         #if the one already in the list is the bibcode and the other one not I take the other one and I set the origin to the most trusted one
                         if (refstring_in == bibcode_res or len(refstring_in) == 0) and len(refstring_out) != 0:
                             new_subfields[REFERENCE_STRING] = refstring_out
-                            msg('      Reference string (bibcode only or empty) replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res), verbose)
+                            logger.info('      Reference string (bibcode only or empty) replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res))
                             #I update the origin if the new one is better
                             if origin_imp_outlist > origin_imp_inlist:
                                 #first I print the message because I need the old origin
-                                msg('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist), verbose)
+                                logger.info('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist))
                                 #then I replace it
                                 new_subfields[ORIGIN_SUBFIELD] = origin_outlist
                                 
@@ -344,9 +346,9 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
                         else:
                             if origin_imp_outlist > origin_imp_inlist:
                                 new_subfields[REFERENCE_STRING] = refstring_out
-                                msg('      Reference string replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res), verbose)
+                                logger.info('      Reference string replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res))
                                 #first I print the message because I need the old origin
-                                msg('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist), verbose)
+                                logger.info('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist))
                                 new_subfields[ORIGIN_SUBFIELD] = origin_outlist
                     
                 #finally I replace the global field
@@ -358,26 +360,28 @@ def references_merger(fields1, fields2, tag, verbose=VERBOSE):
     return unique_references_dict.values() + unresolved_references
     
 
-def get_trusted_and_untrusted_fields(fields1, fields2, tag, verbose=VERBOSE):
+def get_trusted_and_untrusted_fields(fields1, fields2, tag):
     """
     Selects the most trusted fields.
     """
     try:
         origin1 = get_origin(fields1)
         origin_val1 = get_origin_importance(tag, origin1)
-    except OriginValueNotFound:
+    except OriginValueNotFound, error:
+        logger.critical(error)
         raise
     try:
         origin2 = get_origin(fields2)
         origin_val2 = get_origin_importance(tag, origin2)
-    except OriginValueNotFound:
+    except OriginValueNotFound, error:
+        logger.critical(error)
         raise
 
     if origin_val1 > origin_val2:
-        msg('      Selected fields from record 1 (%s over %s).' % (origin1, origin2), verbose)
+        logger.info('      Selected fields from record 1 (%s over %s).' % (origin1, origin2))
         return fields1, fields2
     elif origin_val1 < origin_val2:
-        msg('      Selected fields from record 2 (%s over %s).' % (origin2, origin1), verbose)
+        logger.info('      Selected fields from record 2 (%s over %s).' % (origin2, origin1))
         return fields2, fields1
     else:
         raise EqualOrigins(origin1)

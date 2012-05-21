@@ -149,10 +149,7 @@ def process_bibcodes_to_delete():
     #I transform the xml in bibrecords
     bibrecord_object = bibrecord.create_records(marcxml_string)
     #I upload the result
-    
-    ##########
-    #!!!!!!!!!
-    #bibupload_merger(bibrecord_object)
+    bibupload_merger(bibrecord_object, logger)
     
     return True
 
@@ -285,7 +282,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
     logger.warning(multiprocessing.current_process().name + ' (worker) Process started')
     lock_stdout.release()
     #I create a local logger
-    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_worker.log')
+    fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_worker.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
     fh.setFormatter(fmt)
     local_logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
@@ -372,14 +369,17 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
 
         if marcxml:
             #I merge the records
-            merged_records = merger.merge_records_xml(marcxml)
-            #########
-            logger.info(' record merged but not uploaded')
+            merged_records, records_with_merging_probl = merger.merge_records_xml(marcxml)
+            #If I had problems to merge some records I remove the bibcodes from the list "bibcodes_ok" and I add them to "bibcodes_probl"
+            for elem in records_with_merging_probl:
+                bibcodes_ok.remove(elem[0])
+            bibcodes_probl = bibcodes_probl + records_with_merging_probl
+            
             #########
             #I upload the result
             ##########
-            #!!!!!!!!!
-            #bibupload_merger(merged_records)
+            logger.info('record created, merged but not uploaded')
+            #bibupload_merger(merged_records, local_logger)
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]
@@ -423,7 +423,7 @@ def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, ext
     logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) Process started')
     lock_stdout.release()
     #I create a local logger
-    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_done_bibcodes.log')
+    fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_done_bibcodes.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
     fh.setFormatter(fmt)
     local_logger = logging.getLogger(pipeline_settings.LOGGING_DONE_BIBS_NAME)
@@ -470,7 +470,7 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
     logger.warning(multiprocessing.current_process().name + ' (probl. bibcodes worker) Process started')
     lock_stdout.release()
     #I create a local logger
-    fh = logging.FileHandler(pipeline_settings.BASE_LOGGING_PATH +'/'+multiprocessing.current_process().name+'_probl_bibcodes.log')
+    fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_probl_bibcodes.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
     fh.setFormatter(fmt)
     local_logger = logging.getLogger(pipeline_settings.LOGGING_PROBL_BIBS_NAME)

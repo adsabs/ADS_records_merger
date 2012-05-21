@@ -19,20 +19,17 @@ A custom version of the invenio bibupload module
 to upload directly in the Invenio DB the result of the merger
 '''
 import sys
+
 from invenio import bibupload
-from merger.merger import msg as msg_func
 
-LOCAL_VERBOSE = False
-
-def write_message(msg, stream=sys.stdout, verbose=LOCAL_VERBOSE):
-    """Custom definition of write_message 
-    to override the Invenio log"""
-    msg_func(msg, LOCAL_VERBOSE)
-
-bibupload.write_message = write_message
-
-def bibupload_merger(merged_bibrecords, pretend=False, verbose=LOCAL_VERBOSE):
+def bibupload_merger(merged_bibrecords, logger, pretend=False):
     """Function to upload directly in the Invenio DB"""
+    def write_message(msg, stream=sys.stdout, verbose=False):
+        """Custom definition of write_message 
+        to override the Invenio log"""
+        logger.info(msg)
+    #I override the function inside Invenio
+    bibupload.write_message = write_message
     
     for bibrecord in merged_bibrecords:
         bibupload.bibupload(bibrecord, opt_tag=None, opt_mode="replace_or_insert",

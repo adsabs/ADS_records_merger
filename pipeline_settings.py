@@ -26,7 +26,8 @@ VERBOSE = True
 BASE_OUTPUT_PATH = BASEDIR + 'out'
 
 #base path for the logging files of the procedure
-BASE_LOGGING_PATH = BASEDIR + 'logs'
+BASE_LOGGING_PATH = 'logs'
+GLOBAL_PIPELINE_LOGGING_PATH = BASEDIR + 'logs_pipeline'
 LOGGING_FORMAT = '%(asctime)-6s: %(name)s - %(levelname)s - %(message)s'
 LOGGING_GLOBAL_NAME = 'Pipeline'
 LOGGING_WORKER_NAME = 'Worker'

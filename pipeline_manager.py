@@ -87,6 +87,8 @@ def retrieve_bibcodes_to_extract():
         global DIRNAME
         DIRNAME = strftime("%Y_%m_%d-%H_%M_%S")
         os.mkdir(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), 0755)
+        #I create a directory for the logs
+        os.mkdir(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, pipeline_settings.BASE_LOGGING_PATH), 0755)
         for filetype in settings.BASE_FILES:
             fileobj = open(os.path.join(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), settings.BASE_FILES[filetype]),'w')
             fileobj.write('')
