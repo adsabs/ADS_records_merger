@@ -29,6 +29,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<xsl:for-each select="metadata">
 						<xsl:variable name="origin_metadata" select="@origin" />
 						<record>
+							<!-- ISBN -->
+							<xsl:if test="isbns">
+								<xsl:for-each select="isbns/isbn">
+					            	<datafield tag="020" ind1="" ind2="">
+					                    <subfield code="a"><xsl:value-of select="."/></subfield>
+					                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+					                </datafield>
+					            </xsl:for-each>
+				            </xsl:if>
 							<!-- DOI -->
 							<xsl:if test="DOI">
 				            	<datafield tag="024" ind1="7" ind2="">
@@ -83,9 +92,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 				                </datafield>
 				            </xsl:if>
-			                <!-- Language code In ADS this field contains a copy of the field 245__y (language of the main title)-->
+			                <!-- Language code In ADS: this field contains the value of the tag language if exists, otherwise 
+			                a copy of the field 245__y (language of the main title)-->
 			                <xsl:if test="title">
 		            			<xsl:choose>
+		            				<xsl:when test="language">
+            							<datafield tag="041" ind1="" ind2="">
+			                    			<subfield code="a"><xsl:value-of select="language"/></subfield>
+			                    			<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    		</datafield>
+				            		</xsl:when>
 		            				<xsl:when test="count(title) = 1">
 	            						<xsl:if test="title/@lang">
 	            							<datafield tag="041" ind1="" ind2="">
@@ -284,8 +300,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                    </xsl:for-each>
 							</xsl:if>
 							
-							<!-- Preprint date -->
 							<!-- Number of pages -->
+							<xsl:if test="pagenumber">
+								<datafield tag="300" ind1="" ind2="">
+									<subfield code="a"><xsl:value-of select="pagenumber"/></subfield>
+									<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+								</datafield>
+							</xsl:if>
 							
 							<!-- Comments -->
 							<xsl:if test="comment">
@@ -384,6 +405,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                       </xsl:if>
 			                   </xsl:for-each>
 			                </xsl:if>
+			                <!-- The category is mapped to a keyword with type sti -->
+			                <xsl:if test="category">
+			                	<xsl:for-each select="category">
+			                		<datafield tag="695" ind1="" ind2="">
+		                            	<subfield code="a"><xsl:value-of select="original"/></subfield>
+		                            	<subfield code="b"/>
+		                                <subfield code="9">STI</subfield>
+		                            	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+									</datafield>
+			                	</xsl:for-each>
+			                </xsl:if>
 			                <!-- Facility/telescope -->
 			                <!-- Collaboration -->
 			                
@@ -415,7 +447,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                <xsl:for-each select="links/link">
 				                    <datafield tag="856" ind1="4" ind2="">
 			                            <subfield code="u"><xsl:value-of select="@url"/></subfield>
-			                            <subfield code="y"><xsl:value-of select="@type"/></subfield>
+			                            <subfield code="y"><xsl:value-of select="@title"/></subfield>
+			                            <subfield code="3"><xsl:value-of select="@type"/></subfield>
+			                            <xsl:if test="@count">
+			                            	<subfield code="7"><xsl:value-of select="@count"/></subfield>
+			                            </xsl:if>
 			                            <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield> 
 				                </xsl:for-each>
@@ -426,6 +462,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                		<datafield tag="907" ind1="" ind2="">
 			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
 			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    	</datafield>
+			                	</xsl:for-each>
+			                </xsl:if>
+			                <!-- Instruments -->
+			                <xsl:if test="instruments">
+			                	<xsl:for-each select="instruments">
+			                		<datafield tag="908" ind1="" ind2="">
+			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
+			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    	</datafield>
+			                	</xsl:for-each>
+			                </xsl:if>
+			                <!-- Instruments -->
+			                <xsl:if test="objects">
+			                	<xsl:for-each select="objects/object">
+			                		<datafield tag="909" ind1="" ind2="">
+			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
+			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        	<xsl:if test="@origin">
+			                        		<subfield code="9"><xsl:value-of select="@origin"/></subfield>
+			                        	</xsl:if>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
