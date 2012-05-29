@@ -48,6 +48,7 @@ AUTHOR_NAME_SUBFIELD = 'a'
 #mapping between the marc field and the name of the field
 MARC_TO_FIELD = {
     '020': 'isbn',
+    '022': 'issn',
     '024': 'doi',
     '035': 'identifiers',
     '041': 'language code',
@@ -100,6 +101,7 @@ MERGING_RULES = {
     'identifiers': 'merging_rules.take_all',
     'instruments' : 'merging_rules.take_all',
     'isbn' : 'merging_rules.take_all',
+    'issn' : 'merging_rules.take_all',
     'journal': 'merging_rules.priority_based_merger',
     'language code': 'merging_rules.priority_based_merger',
     'link': 'merging_rules.priority_based_merger',

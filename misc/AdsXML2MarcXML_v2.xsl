@@ -38,6 +38,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                </datafield>
 					            </xsl:for-each>
 				            </xsl:if>
+				            <!-- ISSN -->
+							<xsl:if test="issns">
+								<xsl:for-each select="issns/issn">
+					            	<datafield tag="022" ind1="" ind2="">
+					                    <subfield code="a"><xsl:value-of select="."/></subfield>
+					                    <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+					                </datafield>
+					            </xsl:for-each>
+				            </xsl:if>
 							<!-- DOI -->
 							<xsl:if test="DOI">
 				            	<datafield tag="024" ind1="7" ind2="">
