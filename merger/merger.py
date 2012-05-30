@@ -30,7 +30,7 @@ from merger_settings import MERGING_RULES, \
 import pipeline_settings
 #from merger_errors import ErrorsInBibrecord, OriginValueNotFound
 
-from misclibs.xml_transformer import create_record_from_libxml_obj
+from misclibs.xml_transformer import create_record_from_libxml_obj 
 
 
 logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)

@@ -95,6 +95,17 @@ def first_author_bibcode_consistency(merged_record, type_check):
     if first_author[0] != system_number[-1]:
         manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check, logger)
     return None
-    
+
+def check_collections_existence(merged_record, type_check):
+    """Function that checks if there is at least one collection"""
+    logger.info('      running check_collections_existence')
+    try:
+        collections_fields = merged_record[FIELD_TO_MARC['collection']]
+    except KeyError:
+        manage_check_error('No Collection field!', type_check, logger)
+        return None
+    if len(collections_fields) == 0:
+        manage_check_error('No Collection field!', type_check, logger)
+    return None
     
     

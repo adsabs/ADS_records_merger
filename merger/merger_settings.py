@@ -181,6 +181,9 @@ GLOBAL_MERGING_CHECKS = {
     'warnings': [                    
         'global_merging_checks.check_pub_year_consistency',
         'global_merging_checks.first_author_bibcode_consistency',
+    ],
+    'errors': [
+        'global_merging_checks.check_collections_existence'
     ]
 }
 
