@@ -31,6 +31,7 @@ from ads.ADSExports import ADSRecords
 
 from merger.merger import merge_records_xml
 import pipeline_settings
+from pipeline_invenio_uploader import bibupload_merger
 
 XSLT = 'misc/AdsXML2MarcXML_v2.xsl'
 
@@ -53,7 +54,16 @@ def merge_bibcodes(bibcodes):
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
     xml_object = stylesheet.applyStylesheet(ads_xml_obj, None)
     
-    return merge_records_xml(xml_object)
+    #print xml_object.serialize('UTF-8')
+    
+    merged_records, bibcodes_with_problems = merge_records_xml(xml_object)
+    return merged_records
+
+def merge_bibcodes_and_upload(bibcodes):
+    """function that extracts, merges and uploads a bunch of bibcodes"""
+    logger.setLevel(logging.WARNING)
+    merged_records = merge_bibcodes(bibcodes)
+    bibupload_merger(merged_records, logger)
 
 def static_file_merging():
     """runs the record merger from a static XML in a file bypassing the extraction"""
@@ -65,5 +75,6 @@ def static_file_merging():
 
 
 if __name__ == '__main__':
-    merged_record = merge_bibcodes(['1999PASP..111..438F'])
-    #print bibrecord.record_xml_output(merged_record)
+    x = '1999PASP..111..438F'
+    merged_record = merge_bibcodes(['2000eaa..bookE1581W', ])
+    print merged_record

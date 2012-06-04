@@ -434,8 +434,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            -->
 			               	<xsl:if test="journal">
 			                	<datafield tag="773" ind1="" ind2="">
-			                		<!-- Journal name will come from another tag -->
-			                       <subfield code="p"><xsl:value-of select="substring-before(journal,',')"/></subfield>
+			                       <subfield code="p"><xsl:value-of select="canonical_journal"/></subfield>
 			                       <xsl:if test="volume">
 			                           <subfield code="v"><xsl:value-of select="volume"/></subfield>
 			                       </xsl:if>
@@ -444,6 +443,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                       </xsl:if>
 			                       <xsl:if test="page">
 			                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
+			                       </xsl:if>
+			                       <xsl:if test="article_id">
+			                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
 			                       </xsl:if>
 			                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
 			                       <!-- Full string of the journal -->

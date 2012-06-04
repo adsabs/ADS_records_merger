@@ -72,8 +72,13 @@ def priority_based_merger(fields1, fields2, tag):
             return fields1
         else:
             for field1, field2 in zip(fields1, fields2):
-                if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same
+                #if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same also excluding the origin
+                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
                     raise
+                else:
+                    logger.info('      Equal fields (origin excluded): picking the first one.')
             # Equal fields
             return fields1
 
@@ -167,8 +172,13 @@ def author_merger(fields1, fields2, tag):
             raise
         else:
             for field1, field2 in zip(fields1, fields2):
-                if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same
+                #if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same also excluding the origin
+                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
                     raise
+                else:
+                    logger.info('      Equal fields (origin excluded): picking the first one.')
             # Equal fields
             return fields1
 
@@ -231,8 +241,13 @@ def title_merger(fields1, fields2, tag):
             raise
         else:
             for field1, field2 in zip(fields1, fields2):
-                if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same
+                #if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same also excluding the origin
+                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
                     raise
+                else:
+                    logger.info('      Equal fields (origin excluded): picking the first one.')
             # Equal fields
             return fields1
 
@@ -252,8 +267,13 @@ def abstract_merger(fields1, fields2, tag):
             raise
         else:
             for field1, field2 in zip(fields1, fields2):
-                if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same
+                #if not bibrecord._compare_fields(field1, field2, strict=False):
+                #if they are not exactly the same also excluding the origin
+                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
                     raise
+                else:
+                    logger.info('      Equal fields (origin excluded): picking the first one.')
             # Equal fields
             return fields1
 
@@ -384,4 +404,4 @@ def get_trusted_and_untrusted_fields(fields1, fields2, tag):
         logger.info('      Selected fields from record 2 (%s over %s).' % (origin2, origin1))
         return fields2, fields1
     else:
-        raise EqualOrigins(origin1)
+        raise EqualOrigins(str(origin1) + ' - ' + str(origin2))
