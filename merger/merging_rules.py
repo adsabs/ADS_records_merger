@@ -385,15 +385,15 @@ def _get_best_fields(fields1, fields2, tag):
     #first check: are the two set of fields exactly the same? if so I take the first one
     if len(fields1) == len(fields2) and all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
         logger.info('      The two set of fields are exactly the same: picking the first one.')
-        return fields1, fields2
+        return (fields1, fields2)
     #second check: are them the same not considering the origin? If so I take the first one
     if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]) for field1, field2 in zip(fields1, fields2)):
         logger.info('      The two set of fields are the same (origin excluded): picking the first one.')
-        return fields1, fields2
+        return (fields1, fields2)
     #third check: which one has more fields? If there is one I return this one
     if len(fields1) != len(fields2):
         logger.info('      The two set of fields have different length: picking the longest one.')
-        return fields1, fields2 if len(fields1) > len(fields2) else fields2, fields1
+        return (fields1, fields2) if len(fields1) > len(fields2) else (fields2, fields1)
     #fourth check: which one has more subfields? If there is one I return this one
     subfields1 = subfields2 = 0
     for field in fields1:
@@ -402,7 +402,7 @@ def _get_best_fields(fields1, fields2, tag):
         subfields2 += len(field[0]) 
     if subfields1 != subfields2:
         logger.info('      The two set of fields have different number of subfields: picking the set with more subfields.')
-        return fields1, fields2 if subfields1 > subfields2 else fields2, fields1
+        return (fields1, fields2) if subfields1 > subfields2 else (fields2, fields1)
     #fifth check: the sum of all the length of all the strings in the subfields
     subfields_strlen1 = subfields_strlen2 = 0
     for field in fields1:
@@ -413,7 +413,7 @@ def _get_best_fields(fields1, fields2, tag):
             subfields_strlen2 += len(subfield[1])
     if subfields_strlen1 != subfields_strlen2:
         logger.info('      The two set of fields have subfields with different length: picking the set with longer subfields.')
-        return fields1, fields2 if subfields_strlen1 > subfields_strlen2 else fields2, fields1
+        return (fields1, fields2) if subfields_strlen1 > subfields_strlen2 else (fields2, fields1)
     
     #if all the checks fail the two set of records are too similar for a script
     raise EqualFields('Sets of fields too similar to have an automatic choice')

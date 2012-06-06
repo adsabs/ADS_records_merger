@@ -6,6 +6,7 @@ import unittest
 
 import merger.merging_rules as m
 import pipeline_settings
+from merger.merger_errors import EqualOrigins, EqualFields
 
 import logging
 logging.basicConfig(format=pipeline_settings.LOGGING_FORMAT)
@@ -13,7 +14,92 @@ logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
 logger.setLevel(logging.ERROR)
 
 class TestMergingRules(unittest.TestCase):
-
+    ####################
+    #test of get_trusted_and_untrusted_fields
+    def test_get_trusted_and_untrusted_fields_1(self):
+        #two different fields
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)]
+        out =([([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)],
+              [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)])
+        self.assertEqual(m.get_trusted_and_untrusted_fields(fields1, fields2, '100'), out)
+    def test_get_trusted_and_untrusted_fields_2(self):
+        #same field with different origins with different priority
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)],
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)])
+        self.assertEqual(m.get_trusted_and_untrusted_fields(fields1, fields2, '100'), out)
+    def test_get_trusted_and_untrusted_fields_3(self):
+        #same field with different origin having the same priority
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        self.assertRaises(EqualOrigins, m.get_trusted_and_untrusted_fields, fields1, fields2, '100')
+    def test_get_trusted_and_untrusted_fields_4(self):
+        #two different fields with same origin
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)]
+        self.assertRaises(EqualOrigins, m.get_trusted_and_untrusted_fields, fields1, fields2, '100')
+    def test_get_trusted_and_untrusted_fields_5(self):
+        #exactly same field
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        self.assertRaises(EqualOrigins, m.get_trusted_and_untrusted_fields, fields1, fields2, '100')
+    ####################
+    #test of _get_best_fields
+    def test_get_best_fields(self):
+        #exactly same field
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)],
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_1(self):
+        #same field with different origin
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31)], 
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_2(self):
+        #same origin different number of fields
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31),
+                   ([('i', '1965fake...91....1K'), ('e', '1'), ('b', '1965fake...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31),
+                ([('i', '1965fake...91....1K'), ('e', '1'), ('b', '1965fake...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)],
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_3(self):
+        #different origin and different number of fields
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31),
+                   ([('i', '1965fake...91....1K'), ('e', '1'), ('b', '1965fake...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31),
+                ([('i', '1965fake...91....1K'), ('e', '1'), ('b', '1965fake...91....1K'), ('8', 'BAAA')], 'C', '5', '', 31)],
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'AUTHOR')], 'C', '5', '', 31)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_4(self):
+        #two different fields with same origin and different number of subfields
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI'), ('f', 'FOO')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)]
+        out = ([([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI'), ('f', 'FOO')], 'C', '5', '', 31)],
+               [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_5(self):
+        #two different fields with same origin and same number of subfields but different length of the subfields strings
+        fields1 = [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)]
+        fields2 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)]
+        out = ([([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, 389'), ('e', '1')], 'C', '5', '', 22)],
+               [([('i', '1965IBVS...91....1K'), ('e', '1'), ('b', '1965IBVS...91....1K'), ('8', 'ISI')], 'C', '5', '', 31)])
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
+    def test_get_best_fields_6(self):
+        #two different fields with same origin and same number of subfields and same length of the subfields strings but different content of the strings
+        fields1 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, FOO'), ('e', '1')], 'C', '5', '', 22)]
+        fields2 = [([('i', '1982A&A...105..389V'), ('8', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, BAR'), ('e', '1')], 'C', '5', '', 22)]
+        self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+    ####################
+    #tests of the actual merging functions
     def test_take_all_empty(self):
         # Two empty field lists. 
         fields1 = []
