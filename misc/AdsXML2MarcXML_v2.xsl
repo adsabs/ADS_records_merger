@@ -430,28 +430,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                
 			                <!-- 
 		                    Journal
-		                        I consider the name of the journal only before the 1st ",". To extract it correctly we have to split the value into more subfields
+		                        If the current bibcode is different from the canonical one between the 5th and 18th character, then I consider the journal as an additional publication
 				            -->
 			               	<xsl:if test="journal">
-			                	<datafield tag="773" ind1="" ind2="">
-			                       <subfield code="p"><xsl:value-of select="canonical_journal"/></subfield>
-			                       <xsl:if test="volume">
-			                           <subfield code="v"><xsl:value-of select="volume"/></subfield>
-			                       </xsl:if>
-			                       <xsl:if test="issue">
-			                           <subfield code="n"><xsl:value-of select="issue"/></subfield>
-			                       </xsl:if>
-			                       <xsl:if test="page">
-			                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
-			                       </xsl:if>
-			                       <xsl:if test="article_id">
-			                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
-			                       </xsl:if>
-			                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
-			                       <!-- Full string of the journal -->
-			                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
-			                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
-			                	</datafield>
+			               		<xsl:choose>
+			               			<xsl:when test="substring($canonical_bibcode, 5, 14) = substring(bibcode, 5, 14)">
+					                	<datafield tag="773" ind1="" ind2="">
+					                       <subfield code="p"><xsl:value-of select="canonical_journal"/></subfield>
+					                       <xsl:if test="volume">
+					                           <subfield code="v"><xsl:value-of select="volume"/></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="issue">
+					                           <subfield code="n"><xsl:value-of select="issue"/></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="page">
+					                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="article_id">
+					                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
+					                       </xsl:if>
+					                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
+					                       <!-- Full string of the journal -->
+					                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
+					                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+					                	</datafield>
+			                		</xsl:when>
+			                		<xsl:otherwise>
+			                			<datafield tag="775" ind1="" ind2="">
+					                       <subfield code="p"><xsl:value-of select="canonical_journal"/></subfield>
+					                       <xsl:if test="volume">
+					                           <subfield code="v"><xsl:value-of select="volume"/></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="issue">
+					                           <subfield code="n"><xsl:value-of select="issue"/></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="page">
+					                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
+					                       </xsl:if>
+					                       <xsl:if test="article_id">
+					                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
+					                       </xsl:if>
+					                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
+					                       <!-- Full string of the journal -->
+					                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
+					                       <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
+					                	</datafield>
+			                		</xsl:otherwise>
+			                	</xsl:choose>
 							</xsl:if>
 							<!-- Links -->
 							<xsl:if test="links">
@@ -614,6 +639,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                        	</xsl:if>
 			                        	<xsl:if test="not(string-length(.) = 0)">
 			                        		<subfield code="b"><xsl:value-of select="."/></subfield>
+			                        	</xsl:if>
+			                        	<xsl:if test="@extension != ''">
+			                        		<subfield code="w"><xsl:value-of select="@extension"/></subfield>
 			                        	</xsl:if>
 			                        	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield>
