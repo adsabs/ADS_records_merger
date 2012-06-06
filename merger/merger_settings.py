@@ -31,6 +31,7 @@ KEYWORD_ORIGIN_SUBFIELD = '9'
 #subfields for references
 REFERENCE_RESOLVED_KEY = 'i'
 REFERENCE_STRING = 'b'
+REFERENCE_EXTENSION = 'w'
 #subfields for creation and modification date
 CREATION_DATE_SUBFIELD = 'x'
 MODIFICATION_DATE_SUBFIELD = 'c'

@@ -25,7 +25,8 @@ import invenio.bibrecord as bibrecord
 
 from basic_functions import get_origin, get_origin_importance, compare_fields_exclude_subfiels
 from merger_settings import ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
-    MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, REFERENCE_RESOLVED_KEY, REFERENCE_STRING,\
+    MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, \
+    REFERENCE_RESOLVED_KEY, REFERENCE_STRING, REFERENCE_EXTENSION,\
     PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
 from merger_errors import OriginValueNotFound, EqualOrigins
 import pipeline_settings
@@ -308,7 +309,7 @@ def references_merger(fields1, fields2, tag):
                            tag)
     
     #finally I unique the resolved references
-    #taking the reference string from the most trusted origin or 
+    #taking the reference string (and the related extension handler) from the most trusted origin or 
     #from the other if the most trusted origin has an empty reference string
     #or one with only the bibcode
     unique_references_dict = {}
@@ -325,7 +326,7 @@ def references_merger(fields1, fields2, tag):
                 unique_references_dict[bibcode_res] = fieldcp
             #merging of subfields
             else:
-                #I puth in local variable the two list of subfields
+                #I put in local variable the two list of subfields
                 inlist = unique_references_dict[bibcode_res][0]
                 outlist = fieldcp[0]
                 #I create a new dictionary where to merge the results with the subfields of the first list
@@ -340,10 +341,16 @@ def references_merger(fields1, fields2, tag):
                         origin_outlist = subfield[1]
                         origin_imp_outlist = get_origin_importance(tag, subfield[1])
                         break
+                #and I retrieve the reference extension if it exists
+                extension_outlist = None
+                for subfield in outlist:
+                    if subfield[0] == REFERENCE_EXTENSION:
+                        extension_outlist = subfield[1]
+                        break
                 #then I merge
                 for subfield in outlist:
-                    #if I don't have a subfield at all I insert it
-                    if subfield[0] not in new_subfields:
+                    #if I don't have a subfield at all I insert it unless it is a Extension field
+                    if subfield[0] not in new_subfields and subfield[0] != REFERENCE_EXTENSION:
                         logger.info('      Subfield "%s" added to reference "%s".' % (subfield[0], bibcode_res))
                         new_subfields[subfield[0]] = subfield[1]
                     #otherwise if it is a reference string
@@ -354,7 +361,11 @@ def references_merger(fields1, fields2, tag):
                         #if the one already in the list is the bibcode and the other one not I take the other one and I set the origin to the most trusted one
                         if (refstring_in == bibcode_res or len(refstring_in) == 0) and len(refstring_out) != 0:
                             new_subfields[REFERENCE_STRING] = refstring_out
-                            logger.info('      Reference string (bibcode only or empty) replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res))
+                            logger.info('      Reference string (bibcode only or empty) replaced by the one with origin "%s" for reference %s".' % (origin_outlist, bibcode_res))
+                            #if there was an extension for this string I copy also that one
+                            if extension_outlist != None:
+                                new_subfields[REFERENCE_EXTENSION] = extension_outlist
+                                logger.info('      Reference extension replaced by the one with value "%s" for reference %s".' % (extension_outlist, bibcode_res))
                             #I update the origin if the new one is better
                             if origin_imp_outlist > origin_imp_inlist:
                                 #first I print the message because I need the old origin
@@ -366,7 +377,10 @@ def references_merger(fields1, fields2, tag):
                         else:
                             if origin_imp_outlist > origin_imp_inlist:
                                 new_subfields[REFERENCE_STRING] = refstring_out
-                                logger.info('      Reference string replaced by the one with origin "%s for reference %s".' % (origin_outlist, bibcode_res))
+                                logger.info('      Reference string replaced by the one with origin "%s" for reference %s".' % (origin_outlist, bibcode_res))
+                                if extension_outlist != None:
+                                    new_subfields[REFERENCE_EXTENSION] = extension_outlist
+                                    logger.info('      Reference extension replaced by the one with value "%s" for reference %s".' % (extension_outlist, bibcode_res))
                                 #first I print the message because I need the old origin
                                 logger.info('      Reference origin "%s" replaced by the more trusted "%s".' % (new_subfields[ORIGIN_SUBFIELD], origin_outlist))
                                 new_subfields[ORIGIN_SUBFIELD] = origin_outlist
