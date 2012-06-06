@@ -52,6 +52,9 @@ class OriginValueNotFound(Exception):
 class EqualOrigins(Exception):
     pass
 
+class EqualFields(Exception):
+    pass
+
 class DuplicateNormalizedAuthorError(Exception):
     pass
 

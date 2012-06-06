@@ -28,6 +28,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
       <subfield code="a">10</subfield>
       <subfield code="8">A&amp;A</subfield>
     </datafield>
+    <datafield tag="980" ind1="" ind2="">
+        <subfield code="a">ASTRONOMY</subfield>
+        <subfield code="8">ADS metadata</subfield>
+    </datafield>
   </record>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
@@ -41,6 +45,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">10</subfield>
     <subfield code="8">A&amp;A</subfield>
   </datafield>
+  <datafield tag="980" ind1="" ind2="">
+        <subfield code="a">ASTRONOMY</subfield>
+        <subfield code="8">ADS metadata</subfield>
+    </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
@@ -58,6 +66,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
       <subfield code="8">STI</subfield>
+    </datafield>
+    <datafield tag="980" ind1="" ind2="">
+        <subfield code="a">ASTRONOMY</subfield>
+        <subfield code="8">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -80,6 +92,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Le Monde</subfield>
     <subfield code="8">AAS</subfield>
   </datafield>
+  <datafield tag="980" ind1="" ind2="">
+    <subfield code="a">ASTRONOMY</subfield>
+    <subfield code="8">ADS metadata</subfield>
+  </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
@@ -93,6 +109,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
       <subfield code="8">STI</subfield>
+    </datafield>
+    <datafield tag="980" ind1="" ind2="">
+      <subfield code="a">ASTRONOMY</subfield>
+      <subfield code="8">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -111,6 +131,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Libération</subfield>
     <subfield code="8">STI</subfield>
   </datafield>
+  <datafield tag="980" ind1="" ind2="">
+    <subfield code="a">ASTRONOMY</subfield>
+    <subfield code="8">ADS metadata</subfield>
+  </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
@@ -128,6 +152,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
       <subfield code="8">STI</subfield>
+    </datafield>
+    <datafield tag="980" ind1="" ind2="">
+      <subfield code="a">ASTRONOMY</subfield>
+      <subfield code="8">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -160,6 +188,10 @@ class TestPriorityBasedMerger(unittest.TestCase):
     <subfield code="a">Le Monde</subfield>
     <subfield code="8">AAS</subfield>
   </datafield>
+  <datafield tag="980" ind1="" ind2="">
+    <subfield code="a">ASTRONOMY</subfield>
+    <subfield code="8">ADS metadata</subfield>
+  </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
@@ -186,6 +218,10 @@ class TestAuthorMerger(unittest.TestCase):
       <subfield code="a">Henneken, Edwin</subfield>
       <subfield code="b">Henneken, E</subfield>
       <subfield code="8">A&amp;A</subfield>
+    </datafield>
+    <datafield tag="980" ind1="" ind2="">
+      <subfield code="a">ASTRONOMY</subfield>
+      <subfield code="8">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -222,6 +258,10 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="b">Henneken, E</subfield>
     <subfield code="8">A&amp;A</subfield>
   </datafield>
+  <datafield tag="980" ind1="" ind2="">
+    <subfield code="a">ASTRONOMY</subfield>
+    <subfield code="8">ADS metadata</subfield>
+  </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
         self.assertEqual(merged_record, create_record_from_libxml_obj(libxml2.parseDoc(expected), logger)[0])
@@ -236,6 +276,10 @@ class TestAuthorMerger(unittest.TestCase):
       <subfield code="a">Di Milia, Giovanni</subfield>
       <subfield code="b">Di Milia, G</subfield>
       <subfield code="8">A&amp;A</subfield>
+    </datafield>
+    <datafield tag="980" ind1="" ind2="">
+      <subfield code="a">ASTRONOMY</subfield>
+      <subfield code="8">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -253,6 +297,10 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="b">Di Milia, G</subfield>
     <subfield code="u">Center for astrophysics</subfield>
     <subfield code="8">A&amp;A</subfield>
+  </datafield>
+  <datafield tag="980" ind1="" ind2="">
+    <subfield code="a">ASTRONOMY</subfield>
+    <subfield code="8">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         #records = b.create_records(marcxml)

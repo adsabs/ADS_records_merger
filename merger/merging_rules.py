@@ -28,7 +28,7 @@ from merger_settings import ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
     MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, \
     REFERENCE_RESOLVED_KEY, REFERENCE_STRING, REFERENCE_EXTENSION,\
     PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
-from merger_errors import OriginValueNotFound, EqualOrigins
+from merger_errors import GenericError, OriginValueNotFound, EqualOrigins, EqualFields
 import pipeline_settings
 
 logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME)
@@ -63,26 +63,11 @@ def priority_based_merger(fields1, fields2, tag):
     if len(fields1) == 0 or len(fields2) == 0:
         logger.info('        Only one field for "%s".' % tag)
         return fields1+fields2
-    
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
-        if len(fields1) == len(fields2) and \
-                all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
-            logger.info('      Equal fields.')
-            return fields1
-        else:
-            for field1, field2 in zip(fields1, fields2):
-                #if they are not exactly the same
-                #if not bibrecord._compare_fields(field1, field2, strict=False):
-                #if they are not exactly the same also excluding the origin
-                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
-                    raise
-                else:
-                    logger.info('      Equal fields (origin excluded): picking the first one.')
-            # Equal fields
-            return fields1
-
+        #if they have the same origin I try with another approach
+        trusted, untrusted = _get_best_fields(fields1, fields2, tag)
     return trusted
 
 def take_all_no_checks(fields1, fields2, tag):
@@ -102,7 +87,10 @@ def take_all_no_checks(fields1, fields2, tag):
                     try:
                         trusted, untrusted = get_trusted_and_untrusted_fields([field1], [field2], tag)
                     except EqualOrigins:
-                        break
+                        try:
+                            trusted, untrusted = _get_best_fields([field1], [field2], tag)
+                        except EqualFields:
+                            break
                     #if the trusted one is already in the list I don't do anything
                     if trusted[0] == field2:
                         break
@@ -169,19 +157,11 @@ def author_merger(fields1, fields2, tag):
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
-        if len(fields1) != len(fields2):
-            raise
-        else:
-            for field1, field2 in zip(fields1, fields2):
-                #if they are not exactly the same
-                #if not bibrecord._compare_fields(field1, field2, strict=False):
-                #if they are not exactly the same also excluding the origin
-                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
-                    raise
-                else:
-                    logger.info('      Equal fields (origin excluded): picking the first one.')
-            # Equal fields
-            return fields1
+        #if they have the same origin I try with another approach
+        trusted, untrusted = _get_best_fields(fields1, fields2, tag)
+        #and since I am in this case the two sets of fields are already too similar to enrich the trusted one
+        #so I simply return it
+        return trusted
 
     # Sanity check: we have a problem if we have identical normalized author
     # names in the trusted list or if we have identical author names in the
@@ -238,20 +218,8 @@ def title_merger(fields1, fields2, tag):
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
-        if len(fields1) != len(fields2):
-            raise
-        else:
-            for field1, field2 in zip(fields1, fields2):
-                #if they are not exactly the same
-                #if not bibrecord._compare_fields(field1, field2, strict=False):
-                #if they are not exactly the same also excluding the origin
-                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
-                    raise
-                else:
-                    logger.info('      Equal fields (origin excluded): picking the first one.')
-            # Equal fields
-            return fields1
-
+        #if they have the same origin I try with another approach
+        trusted, untrusted = _get_best_fields(fields1, fields2, tag)
     return trusted
 
 @run_checks
@@ -264,20 +232,8 @@ def abstract_merger(fields1, fields2, tag):
     try:
         trusted, untrusted = get_trusted_and_untrusted_fields(fields1, fields2, tag)
     except EqualOrigins:
-        if len(fields1) != len(fields2):
-            raise
-        else:
-            for field1, field2 in zip(fields1, fields2):
-                #if they are not exactly the same
-                #if not bibrecord._compare_fields(field1, field2, strict=False):
-                #if they are not exactly the same also excluding the origin
-                if not compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
-                    raise
-                else:
-                    logger.info('      Equal fields (origin excluded): picking the first one.')
-            # Equal fields
-            return fields1
-
+        #if they have the same origin I try with another approach
+        trusted, untrusted = _get_best_fields(fields1, fields2, tag)
     return trusted
 
 @run_checks
@@ -419,3 +375,45 @@ def get_trusted_and_untrusted_fields(fields1, fields2, tag):
         return fields2, fields1
     else:
         raise EqualOrigins(str(origin1) + ' - ' + str(origin2))
+    
+
+def _get_best_fields(fields1, fields2, tag):
+    """
+    Function that should be called ONLY if "get_trusted_and_untrusted_fields" raises an "EqualOrigins" exception.
+    If so this function decides the most trusted based on the actual content of the two sets of fields
+    """
+    #first check: are the two set of fields exactly the same? if so I take the first one
+    if len(fields1) == len(fields2) and all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
+        logger.info('      The two set of fields are exactly the same: picking the first one.')
+        return fields1, fields2
+    #second check: are them the same not considering the origin? If so I take the first one
+    if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]) for field1, field2 in zip(fields1, fields2)):
+        logger.info('      The two set of fields are the same (origin excluded): picking the first one.')
+        return fields1, fields2
+    #third check: which one has more fields? If there is one I return this one
+    if len(fields1) != len(fields2):
+        logger.info('      The two set of fields have different length: picking the longest one.')
+        return fields1, fields2 if len(fields1) > len(fields2) else fields2, fields1
+    #fourth check: which one has more subfields? If there is one I return this one
+    subfields1 = subfields2 = 0
+    for field in fields1:
+        subfields1 += len(field[0])
+    for field in fields2:
+        subfields2 += len(field[0]) 
+    if subfields1 != subfields2:
+        logger.info('      The two set of fields have different number of subfields: picking the set with more subfields.')
+        return fields1, fields2 if subfields1 > subfields2 else fields2, fields1
+    #fifth check: the sum of all the length of all the strings in the subfields
+    subfields_strlen1 = subfields_strlen2 = 0
+    for field in fields1:
+        for subfield in field[0]:
+            subfields_strlen1 += len(subfield[1])
+    for field in fields2:
+        for subfield in field[0]:
+            subfields_strlen2 += len(subfield[1])
+    if subfields_strlen1 != subfields_strlen2:
+        logger.info('      The two set of fields have subfields with different length: picking the set with longer subfields.')
+        return fields1, fields2 if subfields_strlen1 > subfields_strlen2 else fields2, fields1
+    
+    #if all the checks fail the two set of records are too similar for a script
+    raise EqualFields('Sets of fields too similar to have an automatic choice')
