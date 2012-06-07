@@ -34,6 +34,8 @@ def check_pub_year_consistency(merged_record, type_check):
     """Function that checks if the publication year is consistent 
     with the year at the beginning of the bibcode"""
     logger.info('      running check_pub_year_consistency')
+    #definition of the list of dates I don't want to check with this function
+    dates_to_skip_from_check = ['date-preprint']
     try:
         system_number_fields = merged_record[FIELD_TO_MARC['system number']]
     except KeyError:
@@ -51,6 +53,9 @@ def check_pub_year_consistency(merged_record, type_check):
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
     num_dates_checked = 0
     for date_type_string in PUBL_DATE_TYPE_VAL_SUBFIELD:
+        #I don't want to check the preprint date
+        if date_type_string in dates_to_skip_from_check:
+            continue
         #then I have to extract the right date (there can be different in the same field)
         pubdate = ''
         for field in pub_dates_fields:
