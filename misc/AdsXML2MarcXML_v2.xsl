@@ -414,17 +414,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                       </xsl:if>
 			                   </xsl:for-each>
 			                </xsl:if>
-			                <!-- The category is mapped to a keyword with type sti -->
-			                <xsl:if test="category">
-			                	<xsl:for-each select="category">
-			                		<datafield tag="695" ind1="" ind2="">
-		                            	<subfield code="a"><xsl:value-of select="original"/></subfield>
-		                            	<subfield code="b"/>
-		                                <subfield code="9">STI</subfield>
-		                            	<subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
-									</datafield>
-			                	</xsl:for-each>
-			                </xsl:if>
 			                <!-- Facility/telescope -->
 			                <!-- Collaboration -->
 			                
