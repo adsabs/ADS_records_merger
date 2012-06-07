@@ -92,7 +92,7 @@ def first_author_bibcode_consistency(merged_record, type_check):
         return None
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
     first_author = bibrecord.field_get_subfield_values(first_author_fields[0], AUTHOR_NAME_SUBFIELD)[0]
-    if first_author[0] != system_number[-1]:
+    if first_author[0].lower() != system_number[-1].lower():
         manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check, logger)
     return None
 
