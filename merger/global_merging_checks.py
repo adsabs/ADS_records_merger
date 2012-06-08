@@ -77,6 +77,7 @@ def first_author_bibcode_consistency(merged_record, type_check):
     """Function that checks if the last letter of the main bibcode 
     is consistent with the first letter of the first author"""
     logger.info('      running first_author_bibcode_consistency')
+    bibstems_to_skip_from_check = ['QB']
     try:
         system_number_fields = merged_record[FIELD_TO_MARC['system number']]
     except KeyError:
@@ -97,8 +98,16 @@ def first_author_bibcode_consistency(merged_record, type_check):
         return None
     system_number = bibrecord.field_get_subfield_values(system_number_fields[0], SYSTEM_NUMBER_SUBFIELD)[0]
     first_author = bibrecord.field_get_subfield_values(first_author_fields[0], AUTHOR_NAME_SUBFIELD)[0]
+    #If the bibcode has a bibstem to skip, I don't do anything
+    for elem in bibstems_to_skip_from_check:
+        if system_number[4:4+len(elem)] == elem:
+            return None
     if first_author[0].lower() != system_number[-1].lower():
-        manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check, logger)
+        #if the last letter of the system number is a dot, then I want to give a different message
+        if system_number[-1] == '.':
+            manage_check_error('The main bibcode "%s" doesn\'t have an initial even if there is a First Author "%s"!' % (system_number, first_author), type_check, logger)
+        else:
+            manage_check_error('First Author "%s" not consistent with the main bibcode "%s"!' % (first_author, system_number), type_check, logger)
     return None
 
 def check_collections_existence(merged_record, type_check):
