@@ -381,32 +381,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                <!-- Keywords -->
 			                <xsl:if test="keywords">
 			                   <xsl:for-each select="keywords">
-			                       <xsl:variable name="institute" select="@type" />
+			                       <xsl:variable name="classificationscheme" select="@type" />
 			                       <!-- If the length of the institution is zero, it's a free keyword -->
-			                       <xsl:if test="string-length($institute) = 0">
+			                       <xsl:if test="string-length($classificationscheme) = 0">
 				                       <xsl:for-each select="keyword">
 				                           <xsl:if test="string-length(original) != 0">
 					                           <datafield tag="653" ind1="1" ind2="">
 					                               <subfield code="a"><xsl:value-of select="original"/></subfield>
 					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
-					                               <xsl:if test="$institute != ''">
-					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
-					                               </xsl:if>
 					                               <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
 				                       </xsl:for-each>
 			                       </xsl:if>
 			                       <!-- If the length of the institution is non zero, it's a controlled keyword-->
-			                       <xsl:if test="string-length($institute) != 0">
+			                       <xsl:if test="string-length($classificationscheme) != 0">
 				                       <xsl:for-each select="keyword">
 				                           <xsl:if test="string-length(original) != 0">
 					                           <datafield tag="695" ind1="" ind2="">
 					                               <subfield code="a"><xsl:value-of select="original"/></subfield>
 					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
-					                               <xsl:if test="$institute != ''">
-					                                   <subfield code="9"><xsl:value-of select="$institute"/></subfield>
-					                               </xsl:if>
+					                               <subfield code="2"><xsl:value-of select="$classificationscheme"/></subfield>
 					                               <subfield code="8"><xsl:value-of select="$origin_metadata"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
