@@ -29,6 +29,9 @@ sys.path.append('/proj/adsx/invenio/lib/python')
 
 from ads.ADSExports import ADSRecords
 
+from invenio.bibformat import record_get_xml
+from invenio.dbquery import run_sql
+
 from merger.merger import merge_records_xml
 import pipeline_settings
 from pipeline_invenio_uploader import bibupload_merger
@@ -68,6 +71,21 @@ def merge_bibcodes_and_upload(bibcodes):
     logger.setLevel(logging.WARNING)
     merged_records = merge_bibcodes(bibcodes)
     bibupload_merger(merged_records, logger)
+
+def print_invenio_xml(bibcodes):
+    print '<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">'
+    for bibcode in bibcodes:
+        print '<!-- ################################################################## -->'
+        print '<!-- bibcode: %s -->' % bibcode
+        ids = run_sql('select id_bibrec from bibrec_bib97x where id_bibxxx = (select id from bib97x where value="%s")'%bibcode)
+        if len(ids[0]) == 0:
+            print 'bibcode not found in DB'
+        elif len(ids[0]) > 1:
+            print 'too many ids found for the same bibcode'
+        else:
+            xml = record_get_xml(ids[0][0])
+            print ''.join([l.strip() for l in xml.splitlines()])
+    print '</collection>'
 
 def static_file_merging():
     """runs the record merger from a static XML in a file bypassing the extraction"""
