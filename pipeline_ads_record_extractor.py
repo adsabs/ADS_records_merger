@@ -377,8 +377,8 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
             #########
             #I upload the result
             ##########
-            logger.info('record created, merged but not uploaded')
-            #bibupload_merger(merged_records, local_logger, 'replace_or_insert')
+            #logger.info('record created, merged but not uploaded')
+            bibupload_merger(merged_records, local_logger, 'replace_or_insert')
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]
