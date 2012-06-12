@@ -79,9 +79,9 @@ def print_invenio_xml(bibcodes):
         print '<!-- bibcode: %s -->' % bibcode
         ids = run_sql('select id_bibrec from bibrec_bib97x where id_bibxxx = (select id from bib97x where value="%s")'%bibcode)
         if len(ids[0]) == 0:
-            print 'bibcode not found in DB'
+            print '<!-- bibcode not found in DB -->'
         elif len(ids[0]) > 1:
-            print 'too many ids found for the same bibcode'
+            print '<!-- too many ids found for the same bibcode -->'
         else:
             xml = record_get_xml(ids[0][0])
             print ''.join([l.strip() for l in xml.splitlines()])
