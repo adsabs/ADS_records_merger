@@ -470,7 +470,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                            <subfield code="y"><xsl:value-of select="@title"/></subfield>
 			                            <subfield code="3"><xsl:value-of select="@type"/></subfield>
 			                            <xsl:if test="@count">
-			                            	<subfield code="7"><xsl:value-of select="@count"/></subfield>
+			                            	<subfield code="5"><xsl:value-of select="@count"/></subfield>
 			                            </xsl:if>
 			                            <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
 			                        </datafield> 
