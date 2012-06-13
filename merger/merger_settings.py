@@ -22,7 +22,7 @@ File containing all the settings for the merger: priority lists and other
 #SUBFIELDS DEFINITION
 
 #subfield containing the origin
-ORIGIN_SUBFIELD = '8'
+ORIGIN_SUBFIELD = '7'
 #subfield containing the Author normalized name
 AUTHOR_NORM_NAME_SUBFIELD = 'b'
 #subfields for keywords
