@@ -409,7 +409,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                       </xsl:if>
 			                   </xsl:for-each>
 			                </xsl:if>
-			                <!-- Facility/telescope -->
+			                <!-- Facility/telescope/Instruments -->
+			                <xsl:if test="instruments">
+			                	<xsl:for-each select="instruments">
+			                		<datafield tag="693" ind1="" ind2="">
+			                        	<subfield code="i"><xsl:value-of select="."/></subfield>
+			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    	</datafield>
+			                	</xsl:for-each>
+			                </xsl:if> 
+			                <!-- Objects -->
+			                <xsl:if test="objects">
+			                	<xsl:for-each select="objects/object">
+			                		<datafield tag="694" ind1="" ind2="">
+			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
+			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        	<xsl:if test="@origin">
+			                        		<subfield code="9"><xsl:value-of select="@origin"/></subfield>
+			                        	</xsl:if>
+			                    	</datafield>
+			                	</xsl:for-each>
+			                </xsl:if>
 			                <!-- Collaboration -->
 			                
 			                <!-- 
@@ -482,27 +502,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                		<datafield tag="907" ind1="" ind2="">
 			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
 			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
-			                    	</datafield>
-			                	</xsl:for-each>
-			                </xsl:if>
-			                <!-- Instruments -->
-			                <xsl:if test="instruments">
-			                	<xsl:for-each select="instruments">
-			                		<datafield tag="908" ind1="" ind2="">
-			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
-			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
-			                    	</datafield>
-			                	</xsl:for-each>
-			                </xsl:if>
-			                <!-- Instruments -->
-			                <xsl:if test="objects">
-			                	<xsl:for-each select="objects/object">
-			                		<datafield tag="909" ind1="" ind2="">
-			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
-			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
-			                        	<xsl:if test="@origin">
-			                        		<subfield code="9"><xsl:value-of select="@origin"/></subfield>
-			                        	</xsl:if>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if>

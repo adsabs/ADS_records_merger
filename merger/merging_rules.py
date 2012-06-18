@@ -57,7 +57,7 @@ def run_checks(func):
     return checks_wrapper
 
 @run_checks
-def priority_based_merger(fields1, fields2, tag):
+def take_allpriority_based_merger(fields1, fields2, tag):
     """basic function that merges based on priority"""
     #if one of the two lists is empty, I don't have to do anything
     if len(fields1) == 0 or len(fields2) == 0:
