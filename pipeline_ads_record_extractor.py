@@ -56,7 +56,7 @@ BIBCODES_TO_DELETE_LIST = []
 EXTRACTION_DIRECTORY = ''
 
 
-def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_directory):
+def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_remaining, extraction_directory):
     """manager of the extraction"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
     
@@ -89,7 +89,7 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, extraction_direct
     bibtoprocess_splitted = grouper(settings.NUMBER_OF_BIBCODES_PER_GROUP, BIBCODES_TO_EXTRACT_LIST)
 
     #I define a manager for the workers
-    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, EXTRACTION_DIRECTORY, EXTRACTION_NAME))
+    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, file_to_upload_remaining, EXTRACTION_DIRECTORY, EXTRACTION_NAME))
     #I start the process
     manager.start()
     #I join the process
@@ -185,7 +185,7 @@ def set_extraction_name():
     return extraction_name
 
 
-def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extraction_name):
+def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, extraction_directory, extraction_name):
     """Process that takes care of managing all the other worker processes
         this process also creates new worker processes when the existing ones reach the maximum number of groups of bibcode to process
     """
@@ -214,6 +214,10 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     for grp in bibtoprocess_splitted:
         counter += 1
         q_todo.put([str(counter).zfill(7), grp])
+    #I pre-fill the list of files to upload if there are some
+    file_to_upload_remaining.sort()
+    for file2up in file_to_upload_remaining:
+        q_uplfile.put(('Previous Extraction', file2up))
 
     #I define the number of processes to run
     number_of_processes = settings.NUMBER_WORKERS 

@@ -69,9 +69,9 @@ def manage(mode):
     #otherwise I proceed
     else:
         #retrieve the list of bibcode to extract and the list of bibcodes to delete
-        (bibcodes_to_extract_list, bibcodes_to_delete_list) = retrieve_bibcodes_to_extract()
+        (bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list) = retrieve_bibcodes_to_extract()
         #call the extractor manager
-        pipeline_ads_record_extractor.extract(bibcodes_to_extract_list, bibcodes_to_delete_list, DIRNAME)
+        pipeline_ads_record_extractor.extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list, DIRNAME)
         return
 
 def retrieve_bibcodes_to_extract():
@@ -160,9 +160,9 @@ def check_last_extraction():
         #if I pass all this checks the content is basically fine
         #But then I have to check if the lists of bibcodes are consistent: bibcodes extracted + bibcodes with problems = sum(bibcodes to extract)
         logger.info("Checking if the list of bibcodes actually extracted is equal to the one I had to extract")
-        bibcodes_still_pending = extr_diff_bibs_from_extraction(os.path.join(settings.BASE_OUTPUT_PATH, LATEST_EXTR_DIR))
-        if len(bibcodes_still_pending) == 0:
-            logger.info("All the bibcodes from the last extraction have been processed")
+        bibcodes_still_pending, files_to_upload = extr_diff_bibs_from_extraction(os.path.join(settings.BASE_OUTPUT_PATH, LATEST_EXTR_DIR))
+        if len(bibcodes_still_pending) == 0 and len(files_to_upload) == 0:
+            logger.info("All the bibcodes and all files from the last extraction have been processed")
         else:
             logger.info("Checked last extraction: status returned LATEST NOT ENDED CORRECTLY")
             return 'LATEST NOT ENDED CORRECTLY'
@@ -212,7 +212,7 @@ def extract_full_list_of_bibcodes():
 
     logger.info("Full list of bibcodes and related file generated")
     #finally I return the full list of bibcodes and an empty list for the bibcodes to delete
-    return (bibcode_to_extract, [])
+    return (bibcode_to_extract, [], [])
 
 def extract_update_list_of_bibcodes():
     """Method that extracts the list of bibcodes to update"""
@@ -267,7 +267,7 @@ def extract_update_list_of_bibcodes():
     bibcode_file.close()
 
     #I return the list of bibcodes to extract and the list of bibcodes to delete
-    return (bibcodes_to_extract, bibcodes_to_delete)
+    return (bibcodes_to_extract, bibcodes_to_delete, [])
 
 def get_published_from_preprint(preprint_bibcodes):
     """method that given a list of preprint bibcodes, returns a list of published ones (if there are)"""
@@ -298,7 +298,13 @@ def extr_diff_bibs_from_extraction(extraction_dir):
     bibcodes_done = read_bibcode_file(os.path.join(extraction_dir, settings.BASE_FILES['done']))
     #then I extract the ones remaining
     bibcodes_remaining = list((set(bibcodes_to_extract).union(set(bibcodes_to_delete))) - (set(bibcodes_probl).union(set(bibcodes_done))))
-    return bibcodes_remaining
+    
+    #then I extract the files to upload and the ones uploaded
+    files_to_upload = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_CREATED))
+    files_uploaded = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_UPLOADED))
+    files_remaining = list(set(files_to_upload) - set(files_uploaded))
+    
+    return bibcodes_remaining, files_remaining
 
 
 def rem_bibs_to_extr_del(extraction_dir):
@@ -329,8 +335,12 @@ def rem_bibs_to_extr_del(extraction_dir):
         other_remaining = list(set(bibcodes_to_extract_remaining) - set(remaining_preprint))
         other_remaining.sort()
         bibcodes_to_extract_remaining =  remaining_preprint + other_remaining
-
-    return (bibcodes_to_extract_remaining, bibcodes_to_delete_remaining)
+    #then I extract the files to upload and the ones uploaded
+    files_to_upload = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_CREATED))
+    files_uploaded = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_UPLOADED))
+    files_remaining = list(set(files_to_upload) - set(files_uploaded))
+    
+    return (bibcodes_to_extract_remaining, bibcodes_to_delete_remaining, files_remaining)
 
 def get_all_bibcodes():
     """Method that retrieves the complete list of bibcodes"""
