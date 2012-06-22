@@ -27,7 +27,8 @@ def bibupload_merger(merged_bibrecords, logger, opt_mode="replace_or_insert", pr
     def write_message(msg, stream=sys.stdout, verbose=False):
         """Custom definition of write_message 
         to override the Invenio log"""
-        logger.info(msg)
+        #logger.info(msg)
+        pass
     #I override the function inside Invenio
     bibupload.write_message = write_message
     

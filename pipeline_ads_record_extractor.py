@@ -225,7 +225,7 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     problbib = multiprocessing.Process(target=problematic_extraction_process, args=(q_probl, number_of_processes, lock_stdout, q_life, extraction_directory))
     
     logger.info(multiprocessing.current_process().name + ' (Manager) Creating the upload workers')
-    upload_processes = [multiprocessing.Process(target=upload_process, args=(q_uplfile, number_of_processes, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name)) for i in range(settings.NUMBER_UPLOAD_WORKER)]
+    upload_processes = [multiprocessing.Process(target=upload_process, args=(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name)) for i in range(settings.NUMBER_UPLOAD_WORKER)]
     
     logger.info(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers')
     #I define the worker processes
@@ -241,8 +241,8 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     donebib.start()
     problbib.start()
     #I start the upload processes
-    for p in upload_processes:
-        p.start()
+    for pu in upload_processes:
+        pu.start()
     #I start the worker processes
     for p in processes:
         p.start()
@@ -272,6 +272,13 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
             lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s workers waiting to finish their job' % str(active_workers))
             lock_stdout.release()
+            #if there are no more worker processes active, it means that I can tell the uploader that they can exit as soon as the are done
+            if active_workers == 0:
+                lock_stdout.acquire()
+                logger.info(multiprocessing.current_process().name + ' (Manager) Telling the upload workers that the extraction workers are done')
+                lock_stdout.release()
+                for i in range(settings.NUMBER_UPLOAD_WORKER):
+                    q_uplfile.put(['WORKERS DONE'])
         elif death_reason[0] == 'PROBLEMBIBS DONE':
             additional_workers = additional_workers - 1
             lock_stdout.acquire()
@@ -430,7 +437,6 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
         #I tell the output processes that I'm done
         q_done.put(['WORKER DONE'])
         q_probl.put(['WORKER DONE'])
-        q_uplfile.put(('WORKER DONE',))
         #I tell the manager that I'm dying because the queue is empty
         q_life.put(['QUEUE EMPTY'])
         #I set a variable to skip the messages outside the loop
@@ -540,7 +546,7 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
 
-def upload_process(q_uplfile, num_active_workers, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name):
+def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name):
     """Worker that uploads the data in invenio"""
     lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (upload worker) Process started')
@@ -559,12 +565,12 @@ def upload_process(q_uplfile, num_active_workers, lock_stdout, lock_donefiles, q
     
     while(True):
         file_to_upload = q_uplfile.get()
-        #first of all I check if the group I'm getting is a message from a process that finished
-        if file_to_upload[0] == 'WORKER DONE':
-            num_active_workers = num_active_workers - 1
-            #if there are no active worker any more, I'm done with processing output
-            if num_active_workers == 0:
-                break
+        if len(file_to_upload) == 2:
+            local_logger.info('Processing group "%s" with file "%s"' % (file_to_upload[0], file_to_upload[1]))
+        #first of all I check if the group I'm getting is a message from the manager saying that the workers are done
+        if file_to_upload[0] == 'WORKERS DONE':
+            local_logger.info('No more workers active: stopping to upload...')
+            break
         else:
             #otherwise I have to upload the file
             filepath = file_to_upload[1]
