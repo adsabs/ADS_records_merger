@@ -89,6 +89,8 @@ def retrieve_bibcodes_to_extract():
         os.mkdir(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), 0755)
         #I create a directory for the logs
         os.mkdir(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, pipeline_settings.BASE_LOGGING_PATH), 0755)
+        #I create the directory where to store the bibrecord files
+        os.mkdir(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, pipeline_settings.BASE_BIBRECORD_FILES_DIR), 0755)
         for filetype in settings.BASE_FILES:
             fileobj = open(os.path.join(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), settings.BASE_FILES[filetype]),'w')
             fileobj.write('')
@@ -97,6 +99,14 @@ def retrieve_bibcodes_to_extract():
         fileobj = open(os.path.join(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), settings.EXTRACTION_FILENAME_LOG),'w')
         fileobj.write('')
         fileobj.close()
+        #And I create the files for the logs of the files containing the bibrecord objects
+        fileobj = open(os.path.join(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), settings.LIST_BIBREC_CREATED),'w')
+        fileobj.write('')
+        fileobj.close()
+        fileobj = open(os.path.join(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME), settings.LIST_BIBREC_UPLOADED),'w')
+        fileobj.write('')
+        fileobj.close()
+        
         del fileobj
         #then I extract the list of bibcodes according to "mode"
         if MODE == 'full':

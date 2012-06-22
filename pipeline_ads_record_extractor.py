@@ -32,6 +32,7 @@ import multiprocessing
 import libxml2
 import itertools
 import os
+import pickle
 
 from ads.ADSExports import ADSRecords
 
@@ -199,6 +200,12 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     lock_stdout = multiprocessing.Lock()
     #a queue for the messages from the workers that have to tell the manager when they reach the maximum number of chunks to process
     q_life = multiprocessing.Queue()
+    #a queue to pass the files to upload to the dedicated processes
+    q_uplfile = multiprocessing.Queue()
+    #a lock for the worker processes to access the log of the done files
+    lock_createdfiles = multiprocessing.Lock()
+    #a lock for the uploader processes to access the log of the uploaded files
+    lock_donefiles = multiprocessing.Lock()
 
     logger.info(multiprocessing.current_process().name + ' (Manager) Filling the queue with the tasks')
 
@@ -207,8 +214,6 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     for grp in bibtoprocess_splitted:
         counter += 1
         q_todo.put([str(counter).zfill(7), grp])
-
-    logger.info(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers')
 
     #I define the number of processes to run
     number_of_processes = settings.NUMBER_WORKERS 
@@ -219,8 +224,12 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     #I define a "problematic bibcode" worker
     problbib = multiprocessing.Process(target=problematic_extraction_process, args=(q_probl, number_of_processes, lock_stdout, q_life, extraction_directory))
     
+    logger.info(multiprocessing.current_process().name + ' (Manager) Creating the upload workers')
+    upload_processes = [multiprocessing.Process(target=upload_process, args=(q_uplfile, number_of_processes, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name)) for i in range(settings.NUMBER_UPLOAD_WORKER)]
+    
+    logger.info(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers')
     #I define the worker processes
-    processes = [multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name)) for i in range(number_of_processes)]
+    processes = [multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name)) for i in range(number_of_processes)]
     #I append to the todo queue a list of commands to stop the worker processes
     for i in range(number_of_processes):
         q_todo.put(['STOP', ''])
@@ -231,6 +240,9 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     #I start the output handlers
     donebib.start()
     problbib.start()
+    #I start the upload processes
+    for p in upload_processes:
+        p.start()
     #I start the worker processes
     for p in processes:
         p.start()
@@ -239,13 +251,14 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
     #in the first case I have to start another process
     #in the second I have to decrease the counter of active workers
     active_workers = settings.NUMBER_WORKERS
+    active_upload_workers = settings.NUMBER_UPLOAD_WORKER
     additional_workers = 2
-    while active_workers > 0 or additional_workers > 0:
+    while active_workers > 0 or additional_workers > 0 or active_upload_workers > 0:
         #I get the message from the worker
         death_reason = q_life.get()
         #if the reason of the death is that the process reached the max number of groups to process, then I have to start another one
         if death_reason[0] == 'MAX LIFE REACHED':
-            newprocess = multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name))
+            newprocess = multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name))
             newprocess.start()
             #!!!!!!!!!!!!!!!!!!!!!!!!
             #this call is probably wrong: to check
@@ -269,13 +282,18 @@ def extractor_manager_process(bibtoprocess_splitted, extraction_directory, extra
             lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers))
             lock_stdout.release()
+        elif death_reason[0] == 'UPLOAD DONE':
+            active_upload_workers = active_upload_workers - 1
+            lock_stdout.acquire()
+            logger.info(multiprocessing.current_process().name + ' (Manager) %s upload workers waiting to finish their job' % str(active_upload_workers))
+            lock_stdout.release()
 
     lock_stdout.acquire()
     logger.info(multiprocessing.current_process().name + ' (Manager) All the workers are done. Exiting...')
     lock_stdout.release()
 
 
-def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_directory, extraction_name):
+def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name):
     """Worker function for the extraction of bibcodes from ADS
         it has been defined outside any class because it's more simple to treat with multiprocessing """
     lock_stdout.acquire()
@@ -375,10 +393,25 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
                 bibcodes_ok.remove(elem[0])
             bibcodes_probl = bibcodes_probl + records_with_merging_probl
             #########
-            #I upload the result
+            #I write the object in a file
             ##########
+            filepath = os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_BIBRECORD_FILES_DIR, pipeline_settings.BIBREC_FILE_BASE_NAME+'_'+extraction_name+'_'+task_todo[0])
+            output = open(filepath, 'wb')
+            pickle.dump(merged_records, output)
+            output.close()
+            #then I write the filepath to a file for eventual future recovery
+            lock_createdfiles.acquire()
+            bibrec_file_obj = open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_CREATED), 'a')
+            bibrec_file_obj.write(filepath + '\n')
+            bibrec_file_obj.close()
+            lock_createdfiles.release()
+            #finally I append the file to the queue
+            q_uplfile.put((task_todo[0],filepath))
+            
             #logger.info('record created, merged but not uploaded')
-            bibupload_merger(merged_records, local_logger, 'replace_or_insert')
+            #bibupload_merger(merged_records, local_logger, 'replace_or_insert')
+            
+            
         #otherwise I put all the bibcodes in the problematic
         else:
             bibcodes_probl = bibcodes_probl + [(bib, 'Bibcode extraction ok, but xml generation failed') for bib in bibcodes_ok]
@@ -397,6 +430,7 @@ def extractor_process(q_todo, q_done, q_probl, lock_stdout, q_life, extraction_d
         #I tell the output processes that I'm done
         q_done.put(['WORKER DONE'])
         q_probl.put(['WORKER DONE'])
+        q_uplfile.put(('WORKER DONE',))
         #I tell the manager that I'm dying because the queue is empty
         q_life.put(['QUEUE EMPTY'])
         #I set a variable to skip the messages outside the loop
@@ -495,9 +529,7 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
                 w2f = write_files.WriteFile(extraction_directory, local_logger)
                 w2f.write_problem_bibcodes_to_file(group_probl[1])
 
-                lock_stdout.acquire()
                 local_logger.warning(multiprocessing.current_process().name + (' wrote problematic bibcodes for group %s' % group_probl[0]))
-                lock_stdout.release()
 
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['PROBLEMBIBS DONE'])
@@ -507,4 +539,58 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
     lock_stdout.release()
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
+
+def upload_process(q_uplfile, num_active_workers, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name):
+    """Worker that uploads the data in invenio"""
+    lock_stdout.acquire()
+    logger.warning(multiprocessing.current_process().name + ' (upload worker) Process started')
+    lock_stdout.release()
+    
+    #I create a local logger
+    fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_uploader_bibcodes.log'))
+    fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
+    fh.setFormatter(fmt)
+    local_logger = logging.getLogger(pipeline_settings.LOGGING_UPLOAD_NAME)
+    local_logger.addHandler(fh)
+    local_logger.setLevel(logger.level)
+    local_logger.propagate = False
+    #I print the same message for the local logger
+    local_logger.warning(multiprocessing.current_process().name + ' Process started')
+    
+    while(True):
+        file_to_upload = q_uplfile.get()
+        #first of all I check if the group I'm getting is a message from a process that finished
+        if file_to_upload[0] == 'WORKER DONE':
+            num_active_workers = num_active_workers - 1
+            #if there are no active worker any more, I'm done with processing output
+            if num_active_workers == 0:
+                break
+        else:
+            #otherwise I have to upload the file
+            filepath = file_to_upload[1]
+            file_obj = open(filepath, 'rb')
+            # I load the object in the file
+            merged_records = pickle.load(file_obj)
+            file_obj.close()
+            #finally I upload
+            local_logger.warning('Upload of the group "%s" started' % file_to_upload[0])
+            bibupload_merger(merged_records, local_logger, 'replace_or_insert')
+            #I log that I uploaded the file
+            lock_donefiles.acquire()
+            bibrec_file_obj = open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_UPLOADED), 'a')
+            bibrec_file_obj.write(filepath + '\n')
+            bibrec_file_obj.close()
+            lock_donefiles.release()
+            local_logger.warning('Upload of the group "%s" ended' % file_to_upload[0])
+            
+    #I tell the manager that I'm done and I'm exiting
+    q_life.put(['UPLOAD DONE'])
+
+    lock_stdout.acquire()
+    logger.warning(multiprocessing.current_process().name + ' (upload worker) job finished: exiting')
+    lock_stdout.release()
+    local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
+    return
+
+
 

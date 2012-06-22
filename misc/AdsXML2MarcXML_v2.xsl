@@ -520,23 +520,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							<!-- main collections: databases -->
 							<xsl:if test="databases">
 								<xsl:for-each select="databases/database">
-									<datafield tag="980" ind1="" ind2="">
-										<xsl:choose>
-											<xsl:when test=". = 'AST'">
-												<subfield code="a">ASTRONOMY</subfield>
-											</xsl:when>
-											<xsl:when test=". = 'PHY'">
-												<subfield code="a">PHYSICS</subfield>
-											</xsl:when>
-											<xsl:when test=". = 'GEN'">
-												<subfield code="a">GENERAL</subfield>
-											</xsl:when>
-											<xsl:otherwise>
-												<subfield code="a"><xsl:value-of select="." /></subfield>
-											</xsl:otherwise>
-										</xsl:choose>
-										<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
-									</datafield>
+									<xsl:if test=". != 'PRE'">
+										<datafield tag="980" ind1="" ind2="">
+											<xsl:choose>
+												<xsl:when test=". = 'AST'">
+													<subfield code="a">ASTRONOMY</subfield>
+												</xsl:when>
+												<xsl:when test=". = 'PHY'">
+													<subfield code="a">PHYSICS</subfield>
+												</xsl:when>
+												<xsl:when test=". = 'GEN'">
+													<subfield code="a">GENERAL</subfield>
+												</xsl:when>
+												<xsl:otherwise>
+													<subfield code="a"><xsl:value-of select="." /></subfield>
+												</xsl:otherwise>
+											</xsl:choose>
+											<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+										</datafield>
+									</xsl:if>
 								</xsl:for-each>
 							</xsl:if>
 							<!-- other collections (SOMETHING MISSING?????)-->
