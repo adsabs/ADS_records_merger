@@ -580,10 +580,10 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
             filepath = file_to_upload[1]
             file_obj = open(filepath, 'rb')
             # I load the object in the file
+            local_logger.warning('Upload of the group "%s" started' % file_to_upload[0])
             merged_records = pickle.load(file_obj)
             file_obj.close()
             #finally I upload
-            local_logger.warning('Upload of the group "%s" started' % file_to_upload[0])
             bibupload_merger(merged_records, local_logger, 'replace_or_insert')
             #I log that I uploaded the file
             lock_donefiles.acquire()
