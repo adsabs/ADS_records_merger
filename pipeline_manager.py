@@ -176,39 +176,22 @@ def extract_full_list_of_bibcodes():
         it first extracts the list of arxiv bibcodes and then all the others
     """
     logger.info("In function %s" % (inspect.stack()[0][3],))
-
-    #first I extract the list of preprint
-    preprint_bibcodes = read_bibcode_file(settings.BIBCODES_PRE)
-    #I copy the preprint file, because I need a copy locally
-    try:
-        shutil.copy(settings.BIBCODES_PRE, os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, 'PRE_'+os.path.basename(settings.BIBCODES_PRE)))
-    except:
-        err_msg = 'Impossible to copy a mandatory file from %s to %s' % (settings.BIBCODES_PRE, os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME))
-        logger.critical(err_msg)
-        raise GenericError(err_msg)
-    #then I extract the complete list
-    #all_bibcodes = self.read_bibcode_file(settings.BIBCODES_ALL)
+    
+    #I extract the list of published preprint
+    publ_prepr = read_bibcode_file(settings.ARXIV2PUB)
+    
+    #then I extract the complete list    
     all_bibcodes = get_all_bibcodes()
-    not_pre_bibcodes = list(set(all_bibcodes) - set(preprint_bibcodes))
-    not_pre_bibcodes.sort()
+    bibcode_to_extract = list(set(all_bibcodes) - set(publ_prepr))
+    bibcode_to_extract.sort()
 
     #I write these lists bibcodes to the file of bibcodes to extract
-    #and in the meanwhile I create the list with first the preprint and then the published
     bibcode_file = open(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, settings.BASE_FILES['new']), 'a')
-    bibcode_to_extract = []
-    #first the preprints because they can be overwritten by the published ones
-    preprint_bibcodes.sort()
-    for bibcode in preprint_bibcodes:
-        bibcode_file.write(bibcode + '\n')
-        bibcode_to_extract.append(bibcode)
     #then all the other bibcodes
-    not_pre_bibcodes.sort()
-    for bibcode in not_pre_bibcodes:
+    for bibcode in bibcode_to_extract:
         bibcode_file.write(bibcode + '\n')
-        bibcode_to_extract.append(bibcode)
     bibcode_file.close()
-    del bibcode
-    del bibcode_file
+    del bibcode, bibcode_file
 
     logger.info("Full list of bibcodes and related file generated")
     #finally I return the full list of bibcodes and an empty list for the bibcodes to delete
@@ -223,38 +206,18 @@ def extract_update_list_of_bibcodes():
     #I merge the add and modif because I have to extract them in any case
     new_mod_bibcodes_to_extract = list(records_added) + list(records_modified)
 
-    #I extract all the preprint only because then I need to do a diff with the others
-    all_preprint_bibcodes = read_bibcode_file(settings.BIBCODES_PRE)
-    #I copy the preprint file, because I need a copy locally
-    try:
-        shutil.copy(settings.BIBCODES_PRE, os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, 'PRE_'+os.path.basename(settings.BIBCODES_PRE)))
-    except:
-        err_msg = 'Impossible to copy a mandatory file from %s to %s' % (settings.BIBCODES_PRE, os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME))
-        logger.critical(err_msg)
-        raise GenericError(err_msg)
+    #I extract the list of published preprint
+    publ_prepr = read_bibcode_file(settings.ARXIV2PUB)
+    
     #I extract the not preprint first
-    not_pre_bibcodes = list(set(new_mod_bibcodes_to_extract) - set(all_preprint_bibcodes))
-    #and then I calculate which are the preprint
-    preprint_bibcodes = list(set(new_mod_bibcodes_to_extract) - set(not_pre_bibcodes))
-    #then if a preprint that I have to extract has been published, I have to extract also the published bibcode
-    published_from_preprint = get_published_from_preprint(preprint_bibcodes)
-
-    bibcodes_to_extract = []
+    bibcodes_to_extract = list(set(new_mod_bibcodes_to_extract) - set(publ_prepr))
+    bibcodes_to_extract.sort()
+    
     #then I write all these bibcodes to the proper files
     #first the one to extract
     bibcode_file = open(os.path.join(settings.BASE_OUTPUT_PATH, DIRNAME, settings.BASE_FILES['new']), 'a')
-    preprint_bibcodes.sort()
-    for bibcode in preprint_bibcodes:
+    for bibcode in bibcodes_to_extract:
         bibcode_file.write(bibcode + '\n')
-        bibcodes_to_extract.append(bibcode)
-    published_from_preprint.sort()
-    for bibcode in published_from_preprint:
-        bibcode_file.write(bibcode + '\n')
-        bibcodes_to_extract.append(bibcode)
-    not_pre_bibcodes.sort()
-    for bibcode in not_pre_bibcodes:
-        bibcode_file.write(bibcode + '\n')
-        bibcodes_to_extract.append(bibcode)
     bibcode_file.close()
 
     bibcodes_to_delete = list(records_deleted)
@@ -269,20 +232,20 @@ def extract_update_list_of_bibcodes():
     #I return the list of bibcodes to extract and the list of bibcodes to delete
     return (bibcodes_to_extract, bibcodes_to_delete, [])
 
-def get_published_from_preprint(preprint_bibcodes):
-    """method that given a list of preprint bibcodes, returns a list of published ones (if there are)"""
-    logger.info("In function %s" % (inspect.stack()[0][3],))
-    #I define a Looker object
-    lk =  Looker.Looker(settings.ARXIV2PUB) #@UndefinedVariable #I need this comment so that Eclipse removes the error
-    #then I extract the bibcodes connected to the arxiv bibcodes
-    published_from_preprint = []
-    for bibcode in preprint_bibcodes:
-        try:
-            pub_bib = map(lambda a: a.split('\t')[1], lk.look(bibcode).strip().split('\n'))[0]
-            published_from_preprint.append(pub_bib)
-        except Exception:
-            pass
-    return published_from_preprint
+#def get_published_from_preprint(preprint_bibcodes):
+#    """method that given a list of preprint bibcodes, returns a list of published ones (if there are)"""
+#    logger.info("In function %s" % (inspect.stack()[0][3],))
+#    #I define a Looker object
+#    lk =  Looker.Looker(settings.ARXIV2PUB) #@UndefinedVariable #I need this comment so that Eclipse removes the error
+#    #then I extract the bibcodes connected to the arxiv bibcodes
+#    published_from_preprint = []
+#    for bibcode in preprint_bibcodes:
+#        try:
+#            pub_bib = map(lambda a: a.split('\t')[1], lk.look(bibcode).strip().split('\n'))[0]
+#            published_from_preprint.append(pub_bib)
+#        except Exception:
+#            pass
+#    return published_from_preprint
 
 
 def extr_diff_bibs_from_extraction(extraction_dir):
@@ -322,19 +285,10 @@ def rem_bibs_to_extr_del(extraction_dir):
     bibcode_processed = list(set(bibcodes_probl).union(set(bibcodes_done)))
     #then I find the ones remaining to extract
     bibcodes_to_extract_remaining = list(set(bibcodes_to_extract) - set(bibcode_processed))
+    bibcodes_to_extract_remaining.sort()
     #then I find the ones remaining to delete
     bibcodes_to_delete_remaining = list(set(bibcodes_to_delete) - set(bibcode_processed))
 
-    #now I want the list of extraction  ordered with first the preprint and then the other bibcodes
-    #only if I have something remaining
-    if len(bibcodes_to_extract_remaining) > 0:
-        #I load the saved preprint file
-        bibcodes_preprint =  read_bibcode_file(os.path.join(settings.BASE_OUTPUT_PATH, extraction_dir, 'PRE_'+os.path.basename(settings.BIBCODES_PRE)))
-        remaining_preprint = list(set(bibcodes_to_extract_remaining).intersection(set(bibcodes_preprint)))
-        remaining_preprint.sort()
-        other_remaining = list(set(bibcodes_to_extract_remaining) - set(remaining_preprint))
-        other_remaining.sort()
-        bibcodes_to_extract_remaining =  remaining_preprint + other_remaining
     #then I extract the files to upload and the ones uploaded
     files_to_upload = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_CREATED))
     files_uploaded = read_bibcode_file(os.path.join(extraction_dir, settings.LIST_BIBREC_UPLOADED))
