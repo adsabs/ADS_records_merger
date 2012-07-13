@@ -376,9 +376,7 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
                 break
         #I exit from both loops
         if max_number_of_bibs_to_skip == 0:
-            lock_stdout.acquire()
-            local_logger.warning(multiprocessing.current_process().name + (' Detected possible error with ADS data access: skipped %s bibcodes in one group' % max(settings.NUMBER_OF_BIBCODES_PER_GROUP / 10, settings.MAX_SKIPPED_BIBCODES)))
-            lock_stdout.release()
+            local_logger.warning(' Detected possible error with ADS data access: skipped %s bibcodes in one group' % max(settings.NUMBER_OF_BIBCODES_PER_GROUP / 10, settings.MAX_SKIPPED_BIBCODES))
             queue_empty = True
             break
 
@@ -401,7 +399,12 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
             merged_records, records_with_merging_probl = merger.merge_records_xml(marcxml)
             #If I had problems to merge some records I remove the bibcodes from the list "bibcodes_ok" and I add them to "bibcodes_probl"
             for elem in records_with_merging_probl:
-                bibcodes_ok.remove(elem[0])
+                try:
+                    bibcodes_ok.remove(elem[0])
+                except ValueError:
+                    local_logger.warning(' Problems to remove bibcode "%s" in group "%s" from the list of bibcodes extracted after merging' % (elem[0], task_todo[0]) )
+                    if elem[0] in bibcodes_probl:
+                        local_logger.error(': bibcode "%s" reached the merger but was in problematic bibcodes!' % elem[0])
             bibcodes_probl = bibcodes_probl + records_with_merging_probl
             #########
             #I write the object in a file
