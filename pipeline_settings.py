@@ -79,10 +79,10 @@ NUMBER_OF_BIBCODES_PER_GROUP = 10000
 MAX_SKIPPED_BIBCODES = NUMBER_OF_BIBCODES_PER_GROUP / 2
 
 #maximum number of worker processes that have to run
-NUMBER_WORKERS = 4
+NUMBER_WORKERS = 16
 
 #number of upload workers
-NUMBER_UPLOAD_WORKER = 2
+NUMBER_UPLOAD_WORKER = 8
 
 #maximum number of groups of bibcodes that each worker can process before dying
 MAX_NUMBER_OF_GROUP_TO_PROCESS = 3
