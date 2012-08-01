@@ -112,3 +112,9 @@ def compare_fields_exclude_subfiels(field1, field2, strict=True, exclude_subfiel
             # Compare subfields in a loose way.
             return set([subfield for subfield in field1[0] if subfield[0] not in exclude_subfields ]) \
                 == set([subfield for subfield in field2[0] if subfield[0] not in exclude_subfields ])
+                
+def record_delete_subfield(rec, tag, subfield_code):
+    """Deletes all subfields with subfield_code in the record.
+    without considering the indicators"""
+    for field in rec.get(tag, []):
+        field[0][:] = [subfield for subfield in field[0] if subfield_code != subfield[0]]

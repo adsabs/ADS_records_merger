@@ -30,7 +30,8 @@ from invenio import bibrecord
 
 from merger_settings import ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
                         MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS, TEMP_SUBFIELDS_LIST
-from basic_functions import get_origin_importance
+from basic_functions import get_origin_importance, record_delete_subfield
+from merger_errors import GenericError
 import pipeline_settings
 import global_merging_checks
 
@@ -127,7 +128,16 @@ def merge_remove_temp_subfields(merged_record):
     #I remove the temporary subfields
     for tmp_subfield in TEMP_SUBFIELDS_LIST:
         for field_key in field_keys:
-            bibrecord.record_delete_subfield(record, field_key, tmp_subfield)
+            record_delete_subfield(record, field_key, tmp_subfield)
+    #then I check if there are still some subfields having a two character code (not allowed by marc and used only for temporary subfields)
+    for field_key in field_keys:
+        for field in record[field_key]:
+            for subfield in field[0]:
+                if len(subfield[0]) > 1:
+                    error_string = 'Temporary subfields still in the record! Field "%s", subfield "%s"' % (field_key, subfield[0])
+                    logger.critical(error_string)
+                    raise GenericError(error_string)
+            
     return record
         
     
