@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<collection>
 					<xsl:for-each select="metadata">
 						<xsl:variable name="origin_metadata" select="@origin" />
+						<xsl:variable name="metadata_primary" select="@primary"/>
+						<xsl:variable name="creation_time" select="creation_time"/>
+						<xsl:variable name="modification_time" select="modification_time"/>
 						<record>
 							<!-- ISBN -->
 							<xsl:if test="isbns">
@@ -35,6 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            	<datafield tag="020" ind1="" ind2="">
 					                    <subfield code="a"><xsl:value-of select="."/></subfield>
 					                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+					                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                </datafield>
 					            </xsl:for-each>
 				            </xsl:if>
@@ -44,6 +50,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					            	<datafield tag="022" ind1="" ind2="">
 					                    <subfield code="a"><xsl:value-of select="."/></subfield>
 					                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+					                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                </datafield>
 					            </xsl:for-each>
 				            </xsl:if>
@@ -53,17 +62,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                    <subfield code="a"><xsl:value-of select="DOI"/></subfield>
 				                    <subfield code="2">DOI</subfield>
 				                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                </datafield>
 				            </xsl:if>
 							<!-- Bibcode -->
 							<datafield tag="970" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
 			                    <subfield code="7"><xsl:value-of select="$adsmetadata"/></subfield>
+			                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                </datafield>
 			                <datafield tag="035" ind1="" ind2="">
 			                    <subfield code="a"><xsl:value-of select="$canonical_bibcode"/></subfield>
 			                    <subfield code="2">ADS bibcode</subfield>
 			                    <subfield code="7"><xsl:value-of select="$adsmetadata"/></subfield>
+			                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                </datafield>
 				            <!-- Alternate bibcodes -->
 				            <xsl:if test="alternates">
@@ -74,6 +92,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							                    <subfield code="z"><xsl:value-of select="."/></subfield>
 							                    <subfield code="2"><xsl:value-of select="@type"/></subfield>
 							                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+							                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+							                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 						                	</datafield>
 					                	</xsl:if>
 					                	<xsl:if test="@type = 'eprint'">
@@ -81,6 +102,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							                    <subfield code="y"><xsl:value-of select="."/></subfield>
 							                    <subfield code="2">eprint bibcode</subfield>
 							                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+							                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+							                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 						                	</datafield>
 					                	</xsl:if>
 					                	<xsl:if test="(@type != 'deleted') and (@type != 'eprint')">
@@ -88,6 +112,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							                    <subfield code="y"><xsl:value-of select="."/></subfield>
 							                    <subfield code="2"><xsl:value-of select="@type"/></subfield>
 							                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+							                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+							                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 						                	</datafield>
 					                	</xsl:if>
 					                </xsl:if>
@@ -99,6 +126,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                    <subfield code="a"><xsl:value-of select="preprintid"/></subfield>
 				                    <subfield code="2">arXiv</subfield>
 				                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                </datafield>
 				            </xsl:if>
 			                <!-- Language code In ADS: this field contains the value of the tag language if exists, otherwise 
@@ -109,6 +139,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             							<datafield tag="041" ind1="" ind2="">
 			                    			<subfield code="a"><xsl:value-of select="language"/></subfield>
 			                    			<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                    			<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                    			<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                    		</datafield>
 				            		</xsl:when>
 		            				<xsl:when test="count(title) = 1">
@@ -116,6 +149,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	            							<datafield tag="041" ind1="" ind2="">
 				                    			<subfield code="a"><xsl:value-of select="title/@lang"/></subfield>
 				                    			<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                    			<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                    			<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                    		</datafield>
 				                    	</xsl:if>
 				            		</xsl:when>
@@ -129,6 +165,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						            							<datafield tag="041" ind1="" ind2="">
 									                    			<subfield code="a"><xsl:value-of select="@lang"/></subfield>
 									                    			<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									                    			<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    								<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									                    			<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 									                    		</datafield>
 									                    	</xsl:if>
 					            						</xsl:when>
@@ -143,6 +182,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						            							<datafield tag="041" ind1="" ind2="">
 									                    			<subfield code="a"><xsl:value-of select="@lang"/></subfield>
 									                    			<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									                    			<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    								<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									                    			<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 									                    		</datafield>
 									                    	</xsl:if>
 					            						</xsl:when>
@@ -186,6 +228,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                	</xsl:for-each>
 				                                </xsl:if>
 				                                <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                                <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                                <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                            </datafield>
 				                        </xsl:when>
 				                        <xsl:otherwise>
@@ -216,6 +261,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                	</xsl:for-each>
 				                                </xsl:if>
 				                                <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                                <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                                <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                            </datafield>
 				                        </xsl:otherwise>
 				                    </xsl:choose>
@@ -231,6 +279,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 					                    	</xsl:if>
 					                    	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                    	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                    	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                	</datafield>
 				            		</xsl:when>
 				            		<!-- In case I have more then one title -->
@@ -248,6 +299,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									                    		<subfield code="a"><xsl:value-of select="."/></subfield>
 									                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 									                    		<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									                    		<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    							<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									                    		<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 							                				</datafield>
 					            						</xsl:when>
 					            						<xsl:otherwise>
@@ -255,6 +309,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									                    		<subfield code="a"><xsl:value-of select="."/></subfield>
 									                    		<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 									                    		<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									                    		<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    							<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									                    		<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 							                				</datafield>
 					            						</xsl:otherwise>
 					            					</xsl:choose>
@@ -266,6 +323,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						                    				<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    			</xsl:if>
 						                    			<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						                    			<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    					<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						                    			<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 							                		</datafield>
 					            				</xsl:for-each>
 				            				</xsl:when>
@@ -280,6 +340,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						                    						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    					</xsl:if>
 						                    					<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						                    					<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    							<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						                    					<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 							                				</datafield>
 					            						</xsl:when>
 					            						<xsl:otherwise>
@@ -289,6 +352,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						                    						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 						                    					</xsl:if>
 						                    					<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						                    					<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    							<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						                    					<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 							                				</datafield>
 					            						</xsl:otherwise>
 					            					</xsl:choose>
@@ -305,6 +371,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                       <subfield code="c"><xsl:value-of select="."/></subfield>
 				                       <subfield code="t"><xsl:value-of select="@type"/></subfield>
 				                       <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                       <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                   	   <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                       <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				                    </datafield>
 			                    </xsl:for-each>
 							</xsl:if>
@@ -314,6 +383,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 								<datafield tag="300" ind1="" ind2="">
 									<subfield code="a"><xsl:value-of select="pagenumber"/></subfield>
 									<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 								</datafield>
 							</xsl:if>
 							
@@ -323,6 +395,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									<subfield code="a"><xsl:value-of select="comment"/></subfield>
 									<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
 									<subfield code="9"><xsl:value-of select="comment/@origin"/></subfield>
+									<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 								</datafield>
 							</xsl:if>
 							
@@ -338,6 +413,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		                  						<subfield code="y"><xsl:value-of select="@lang"/></subfield>
 		                  					</xsl:if>
 		                  					<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+		                  					<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+		                  					<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                    </datafield>
 				                    </xsl:if>
 			                    </xsl:for-each>
@@ -348,6 +426,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                    <datafield tag="542" ind1="" ind2="">
 			                        <subfield code="a"><xsl:value-of select="copyright"/></subfield>
 			                        <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                        <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                    </datafield>
 			                </xsl:if>
 							<!-- Associate papers -->
@@ -357,6 +438,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                            <subfield code="a"><xsl:value-of select="."/></subfield>
 			                            <subfield code="c"><xsl:value-of select="@comment"/></subfield>
 			                            <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                            <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                            <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                        </datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
@@ -368,12 +452,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            			<datafield tag="650" ind1="1" ind2="7">
 				            				<subfield code="a"><xsl:value-of select="."/></subfield>
 				            				<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				            				<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				            				<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				            			</datafield>
 				            		</xsl:if>
 				            		<xsl:if test="@type = ''">
 				            			<datafield tag="650" ind1="2" ind2="7">
 				            				<subfield code="a"><xsl:value-of select="."/></subfield>
 				            				<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				            				<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				            				<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				            			</datafield>
 				            		</xsl:if>
 				            	</xsl:for-each>
@@ -390,6 +480,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                               <subfield code="a"><xsl:value-of select="original"/></subfield>
 					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
 					                               <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                               <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			   <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                               <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
 				                       </xsl:for-each>
@@ -403,6 +496,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                               <subfield code="b"><xsl:value-of select="normalized"/></subfield>
 					                               <subfield code="2"><xsl:value-of select="$classificationscheme"/></subfield>
 					                               <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                               <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    			   <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                               <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                           </datafield>
 				                           </xsl:if>
 				                       </xsl:for-each>
@@ -415,6 +511,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                		<datafield tag="693" ind1="" ind2="">
 			                        	<subfield code="i"><xsl:value-of select="."/></subfield>
 			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                        	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if> 
@@ -427,6 +526,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                        	<xsl:if test="@origin">
 			                        		<subfield code="9"><xsl:value-of select="@origin"/></subfield>
 			                        	</xsl:if>
+			                        	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                        	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
@@ -457,6 +559,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                       <!-- Full string of the journal -->
 					                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
 					                       <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                       <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	   <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                       <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                	</datafield>
 			                		</xsl:when>
 			                		<xsl:otherwise>
@@ -478,6 +583,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                       <!-- Full string of the journal -->
 					                       <subfield code="z"><xsl:value-of select="journal"/></subfield>
 					                       <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+					                       <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	   <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+					                       <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 					                	</datafield>
 			                		</xsl:otherwise>
 			                	</xsl:choose>
@@ -493,6 +601,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                            	<subfield code="5"><xsl:value-of select="@count"/></subfield>
 			                            </xsl:if>
 			                            <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                            <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                     	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                            <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                        </datafield> 
 				                </xsl:for-each>
 			                </xsl:if>
@@ -502,6 +613,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                		<datafield tag="907" ind1="" ind2="">
 			                        	<subfield code="a"><xsl:value-of select="."/></subfield>
 			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                        	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                    	</datafield>
 			                	</xsl:for-each>
 			                </xsl:if>
@@ -512,6 +626,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 										<subfield code="c"><xsl:value-of select="modification_time"/></subfield>
 										<subfield code="x"><xsl:value-of select="creation_time"/></subfield>
 										<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+										<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+										<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 									</datafield>
 								</xsl:if>
 							</xsl:if>
@@ -537,6 +654,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 												</xsl:otherwise>
 											</xsl:choose>
 											<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+											<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    		<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+											<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 										</datafield>
 									</xsl:if>
 								</xsl:for-each>
@@ -546,36 +666,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">COLLECTION</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="nonarticle = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">NONARTICLE</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="ocrabstract = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">OCRABSTRACT</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="openaccess = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">OPENACCESS</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="private = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">PRIVATE</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <xsl:if test="refereed = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">REFEREED</subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
 				            <!-- Special collection "pubtype" -->
@@ -583,6 +721,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p"><xsl:value-of select="translate(pubtype, $smallcase, $uppercase)" /></subfield>
 				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 					        </xsl:if>
 					        <!-- Bibliographig groups -->
@@ -591,6 +732,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 									<datafield tag="980" ind1="" ind2="">
 						             	<subfield code="b"><xsl:value-of select="." /></subfield>
 						             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 						             </datafield>
 								</xsl:for-each>
 							</xsl:if>
@@ -599,6 +743,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 								<datafield tag="995" ind1="" ind2="">
 									<subfield code="a"><xsl:value-of select="JSON_timestamp"/></subfield>
 									<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+									<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+									<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 								</datafield>
 							</xsl:if>
 							<!-- References -->
@@ -629,6 +776,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			                        		<subfield code="w"><xsl:value-of select="@extension"/></subfield>
 			                        	</xsl:if>
 			                        	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+			                        	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+			                        	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 			                        </datafield>
 			               		</xsl:for-each>
 			                </xsl:if>

@@ -44,6 +44,13 @@ PUBL_DATE_TYPE_VAL_SUBFIELD = ('date-published', 'date-preprint', 'date-reprint'
 #subfields for author
 AUTHOR_NAME_SUBFIELD = 'a'
 
+#temporary subfields list
+CREATION_DATE_TMP_SUBFIELD = '97'
+MODIFICATION_DATE_TMP_SUBFIELD = '98'
+PRIMARY_METADATA_SUBFIELD = '99'
+TEMP_SUBFIELDS_LIST = [PRIMARY_METADATA_SUBFIELD, CREATION_DATE_TMP_SUBFIELD, MODIFICATION_DATE_TMP_SUBFIELD]
+
+
 #########################
 
 #mapping between the marc field and the name of the field
@@ -175,7 +182,8 @@ MERGING_RULES_CHECKS_ERRORS = {
 
 #list of merging function to apply to the entire record
 GLOBAL_MERGING_RULES = [
-    'global_merging_rules.merge_creation_modification_dates'
+    'global_merging_rules.merge_creation_modification_dates',
+    'global_merging_rules.merge_remove_temp_subfields',
 ]
 #list of merging checks to apply to the entire record
 GLOBAL_MERGING_CHECKS = {

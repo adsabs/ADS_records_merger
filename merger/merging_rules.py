@@ -27,7 +27,9 @@ from basic_functions import get_origin, get_origin_importance, compare_fields_ex
 from merger_settings import ORIGIN_SUBFIELD, AUTHOR_NORM_NAME_SUBFIELD,  \
     MARC_TO_FIELD, MERGING_RULES_CHECKS_ERRORS, REFERENCES_MERGING_TAKE_ALL_ORIGINS, \
     REFERENCE_RESOLVED_KEY, REFERENCE_STRING, REFERENCE_EXTENSION,\
-    PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD
+    PUBL_DATE_TYPE_VAL_SUBFIELD, PUBL_DATE_SUBFIELD, PUBL_DATE_TYPE_SUBFIELD,\
+    CREATION_DATE_TMP_SUBFIELD, MODIFICATION_DATE_TMP_SUBFIELD, PRIMARY_METADATA_SUBFIELD,\
+    TEMP_SUBFIELDS_LIST
 from merger_errors import GenericError, OriginValueNotFound, EqualOrigins, EqualFields
 import pipeline_settings
 
@@ -77,7 +79,7 @@ def take_all_no_checks(fields1, fields2, tag):
     for field1 in fields1 + fields2:
         for field2 in all_fields:
             #I check if the fields are the same without considering the origin
-            if compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]):
+            if compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]+TEMP_SUBFIELDS_LIST):
                 #then I check if with the origin the subfield are the same
                 #if so I already have the value in the list
                 if bibrecord._compare_fields(field1, field2, strict=False):
@@ -387,7 +389,7 @@ def _get_best_fields(fields1, fields2, tag):
         logger.info('      The two set of fields are exactly the same: picking the first one.')
         return (fields1, fields2)
     #second check: are them the same not considering the origin? If so I take the first one
-    if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]) for field1, field2 in zip(fields1, fields2)):
+    if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]+TEMP_SUBFIELDS_LIST) for field1, field2 in zip(fields1, fields2)):
         logger.info('      The two set of fields are the same (origin excluded): picking the first one.')
         return (fields1, fields2)
     #third check: which one has more fields? If there is one I return this one
@@ -407,13 +409,44 @@ def _get_best_fields(fields1, fields2, tag):
     subfields_strlen1 = subfields_strlen2 = 0
     for field in fields1:
         for subfield in field[0]:
-            subfields_strlen1 += len(subfield[1])
+            if subfield[0] not in TEMP_SUBFIELDS_LIST:
+                subfields_strlen1 += len(subfield[1])
     for field in fields2:
         for subfield in field[0]:
-            subfields_strlen2 += len(subfield[1])
+            if subfield[0] not in TEMP_SUBFIELDS_LIST:
+                subfields_strlen2 += len(subfield[1])
     if subfields_strlen1 != subfields_strlen2:
         logger.info('      The two set of fields have subfields with different length: picking the set with longer subfields.')
         return (fields1, fields2) if subfields_strlen1 > subfields_strlen2 else (fields2, fields1)
-
+    #sixth check: if there is one set of field that has the subfield primary = true I take that one
+    #I count the occorrences of fields with primary true or false
+    primary_occurrences_field1 = [bibrecord.field_get_subfield_values(field, PRIMARY_METADATA_SUBFIELD)[0] for field in fields1]
+    primary_occurrences_field2 = [bibrecord.field_get_subfield_values(field, PRIMARY_METADATA_SUBFIELD)[0] for field in fields2]
+    #then I consider primary = true only if the majority of fields is true
+    if primary_occurrences_field1.count('True') > primary_occurrences_field1.count('False'):
+        primary_field1 = 'True'
+    else:
+        primary_field1 = 'False'
+    if primary_occurrences_field2.count('True') > primary_occurrences_field2.count('False'):
+        primary_field2 = 'True'
+    else:
+        primary_field2 = 'False'
+    #if one of the the two has priority true and the other has false I return the one with true
+    if primary_field1 == 'True' and primary_field2 == 'False':
+        logger.info('      One set of fields has priority set to True: returning this one')
+        return (fields1, fields2)
+    if primary_field1 == 'False' and primary_field2 == 'True':
+        logger.info('      One set of fields has priority set to True: returning this one')
+        return (fields2, fields1)
+    #seventh check: which is the newest file?
+    all_dates1 = [bibrecord.field_get_subfield_values(field, CREATION_DATE_TMP_SUBFIELD)[0] for field in fields1] + [bibrecord.field_get_subfield_values(field, MODIFICATION_DATE_TMP_SUBFIELD)[0] for field in fields1]
+    all_dates2 = [bibrecord.field_get_subfield_values(field, CREATION_DATE_TMP_SUBFIELD)[0] for field in fields2] + [bibrecord.field_get_subfield_values(field, MODIFICATION_DATE_TMP_SUBFIELD)[0] for field in fields2]
+    if max(all_dates1) > max(all_dates2):
+        logger.info('      One set of fields is coming from a more recent file: returning this one')
+        return (fields1, fields2)
+    if max(all_dates2) > max(all_dates1):
+        logger.info('      One set of fields is coming from a more recent file: returning this one')
+        return (fields2, fields1)
+    
     #if all the checks fail the two set of records are too similar for a script
     raise EqualFields('Sets of fields too similar to have an automatic choice')

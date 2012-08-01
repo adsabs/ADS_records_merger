@@ -29,7 +29,7 @@ import logging
 from invenio import bibrecord
 
 from merger_settings import ORIGIN_SUBFIELD, FIELD_TO_MARC, CREATION_DATE_SUBFIELD, \
-                        MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS
+                        MODIFICATION_DATE_SUBFIELD, GLOBAL_MERGING_CHECKS, TEMP_SUBFIELDS_LIST
 from basic_functions import get_origin_importance
 import pipeline_settings
 import global_merging_checks
@@ -87,6 +87,7 @@ def merge_creation_modification_dates(merged_record):
             origin = bibrecord.field_get_subfield_values(field, ORIGIN_SUBFIELD)[0]
         except IndexError:
             origin = ''
+        
         if origin in origins:
             #I have to put or update the creation and modification date
             if len(new_creation_modification_date) == 0:
@@ -109,16 +110,26 @@ def merge_creation_modification_dates(merged_record):
                 old_origin_import = new_creation_modification_date['origin_importance']
                 new_origin_import = get_origin_importance(FIELD_TO_MARC['creation and modification date'], origin)
                 new_creation_modification_date[ORIGIN_SUBFIELD] = old_origin if old_origin_import >= new_origin_import else origin
-                new_creation_modification_date['origin_importance'] = old_origin_import if old_origin_import >= new_origin_import else new_origin_import
-                
+                new_creation_modification_date['origin_importance'] = old_origin_import if old_origin_import >= new_origin_import else new_origin_import            
     #then I upgrade the field
     record[FIELD_TO_MARC['creation and modification date']] = [([(MODIFICATION_DATE_SUBFIELD, new_creation_modification_date[MODIFICATION_DATE_SUBFIELD]), 
                                (CREATION_DATE_SUBFIELD, new_creation_modification_date[CREATION_DATE_SUBFIELD]),
                                (ORIGIN_SUBFIELD, new_creation_modification_date[ORIGIN_SUBFIELD])], ) + creat_mod[0][1:]]
     return record
     
-    
-    
+
+def merge_remove_temp_subfields(merged_record):
+    """Function that removes the temporary subfields from the final record"""
+    #I create a local copy to avoid problems
+    record = deepcopy(merged_record)
+    #I extract all the field codes
+    field_keys = record.keys()
+    #I remove the temporary subfields
+    for tmp_subfield in TEMP_SUBFIELDS_LIST:
+        for field_key in field_keys:
+            bibrecord.record_delete_subfield(record, field_key, tmp_subfield)
+    return record
+        
     
     
     
