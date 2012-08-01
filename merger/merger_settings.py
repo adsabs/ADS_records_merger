@@ -413,7 +413,7 @@ __PRIORITIES_REFERENCES = {
         'SAJ', 'SAO', 'SAS', 'SCI', 'SCIENCE', 'SERB', 'SF2A', 'SLO',
         'SPIE', 'SPIKA', 'SPITZER', 'SPRN', 'STARD', 'STECF',
         'STSCI', 'SerAJ', 'T+F', 'TERRAPUB', 'UCP', 'UMI', 'USCI', 'USNO',
-        'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE'
+        'VATICAN', 'VERSITA', 'WGN', 'WILEY', 'WSPC', 'XMM', 'XTE',
         'ARI', 'KATKAT', 'ARIBIB', 'JSTOR', 'CARL', 'CFA', 'HOLLIS', 'LIBRARY', 
         'POS', 'PRINCETON', 'SIMBAD','UTAL', 'STI', 'WEB',
         'AP', 'GCPD', 'GONG', 'KNUDSEN', 'METBASE', 'NED', 'BLACKWELL', 
