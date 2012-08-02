@@ -26,28 +26,28 @@ class TestPriorityBasedMerger(unittest.TestCase):
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
         <subfield code="a">ASTRONOMY</subfield>
-        <subfield code="8">ADS metadata</subfield>
+        <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">15</subfield>
-      <subfield code="8">NED</subfield>
+      <subfield code="7">NED</subfield>
     </datafield>
   </record>
 </collection></collections>"""
         expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">10</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
         <subfield code="a">ASTRONOMY</subfield>
-        <subfield code="8">ADS metadata</subfield>
+        <subfield code="7">ADS metadata</subfield>
     </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
@@ -61,40 +61,40 @@ class TestPriorityBasedMerger(unittest.TestCase):
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
-      <subfield code="8">STI</subfield>
+      <subfield code="7">STI</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
         <subfield code="a">ASTRONOMY</subfield>
-        <subfield code="8">ADS metadata</subfield>
+        <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Le Monde</subfield>
-      <subfield code="8">AAS</subfield>
+      <subfield code="7">AAS</subfield>
     </datafield>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">15</subfield>
-      <subfield code="8">NED</subfield>
+      <subfield code="7">NED</subfield>
     </datafield>
   </record>
 </collection></collections>"""
         expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">10</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="773" ind1=" " ind2=" ">
     <subfield code="a">Le Monde</subfield>
-    <subfield code="8">AAS</subfield>
+    <subfield code="7">AAS</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
     <subfield code="a">ASTRONOMY</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
@@ -108,32 +108,32 @@ class TestPriorityBasedMerger(unittest.TestCase):
   <record>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
-      <subfield code="8">STI</subfield>
+      <subfield code="7">STI</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
       <subfield code="a">ASTRONOMY</subfield>
-      <subfield code="8">ADS metadata</subfield>
+      <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">15</subfield>
-      <subfield code="8">NED</subfield>
+      <subfield code="7">NED</subfield>
     </datafield>
   </record>
 </collection></collections>"""
         expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">15</subfield>
-    <subfield code="8">NED</subfield>
+    <subfield code="7">NED</subfield>
   </datafield>
   <datafield tag="773" ind1=" " ind2=" ">
     <subfield code="a">Libération</subfield>
-    <subfield code="8">STI</subfield>
+    <subfield code="7">STI</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
     <subfield code="a">ASTRONOMY</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
@@ -147,50 +147,50 @@ class TestPriorityBasedMerger(unittest.TestCase):
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">10</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Libération</subfield>
-      <subfield code="8">STI</subfield>
+      <subfield code="7">STI</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
       <subfield code="a">ASTRONOMY</subfield>
-      <subfield code="8">ADS metadata</subfield>
+      <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">Le Monde</subfield>
-      <subfield code="8">AAS</subfield>
+      <subfield code="7">AAS</subfield>
     </datafield>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">15</subfield>
-      <subfield code="8">NED</subfield>
+      <subfield code="7">NED</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="300" ind1=" " ind2=" ">
       <subfield code="a">5</subfield>
-      <subfield code="8">ADS metadata</subfield>
+      <subfield code="7">ADS metadata</subfield>
     </datafield>
     <datafield tag="773" ind1=" " ind2=" ">
       <subfield code="a">L'Express</subfield>
-      <subfield code="8">OCR</subfield>
+      <subfield code="7">OCR</subfield>
     </datafield>
   </record>
 </collection></collections>"""
         expected = """<collections><collection><record>
   <datafield tag="300" ind1=" " ind2=" ">
     <subfield code="a">5</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
   <datafield tag="773" ind1=" " ind2=" ">
     <subfield code="a">Le Monde</subfield>
-    <subfield code="8">AAS</subfield>
+    <subfield code="7">AAS</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
     <subfield code="a">ASTRONOMY</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
@@ -207,38 +207,38 @@ class TestAuthorMerger(unittest.TestCase):
     <datafield tag="100" ind1=" " ind2=" ">
       <subfield code="a">Di Milia, Giovanni</subfield>
       <subfield code="b">Di Milia, G</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="700" ind1=" " ind2=" ">
       <subfield code="a">Luker, Jay</subfield>
       <subfield code="b">Luker, J</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="700" ind1=" " ind2=" ">
       <subfield code="a">Henneken, Edwin</subfield>
       <subfield code="b">Henneken, E</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
       <subfield code="a">ASTRONOMY</subfield>
-      <subfield code="8">ADS metadata</subfield>
+      <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
     <datafield tag="100" ind1=" " ind2=" ">
       <subfield code="a">Dimilia, Giovanni</subfield>
       <subfield code="b">Dimilia, G</subfield>
-      <subfield code="8">ARXIV</subfield>
+      <subfield code="7">ARXIV</subfield>
     </datafield>
     <datafield tag="700" ind1=" " ind2=" ">
       <subfield code="a">Luker, Jay</subfield>
       <subfield code="b">Luker, J</subfield>
-      <subfield code="8">ARXIV</subfield>
+      <subfield code="7">ARXIV</subfield>
     </datafield>
     <datafield tag="700" ind1=" " ind2=" ">
       <subfield code="a">Henneken, Edwin</subfield>
       <subfield code="b">Henneken, E</subfield>
-      <subfield code="8">ARXIV</subfield>
+      <subfield code="7">ARXIV</subfield>
     </datafield>
   </record>
 </collection></collections>"""
@@ -246,21 +246,21 @@ class TestAuthorMerger(unittest.TestCase):
   <datafield tag="100" ind1=" " ind2=" ">
     <subfield code="a">Di Milia, Giovanni</subfield>
     <subfield code="b">Di Milia, G</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="700" ind1=" " ind2=" ">
     <subfield code="a">Luker, Jay</subfield>
     <subfield code="b">Luker, J</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="700" ind1=" " ind2=" ">
     <subfield code="a">Henneken, Edwin</subfield>
     <subfield code="b">Henneken, E</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
     <subfield code="a">ASTRONOMY</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         merged_record = m.merge_records_xml(libxml2.parseDoc(marcxml))[0]
@@ -275,11 +275,11 @@ class TestAuthorMerger(unittest.TestCase):
     <datafield tag="100" ind1=" " ind2=" ">
       <subfield code="a">Di Milia, Giovanni</subfield>
       <subfield code="b">Di Milia, G</subfield>
-      <subfield code="8">A&amp;A</subfield>
+      <subfield code="7">A&amp;A</subfield>
     </datafield>
     <datafield tag="980" ind1="" ind2="">
       <subfield code="a">ASTRONOMY</subfield>
-      <subfield code="8">ADS metadata</subfield>
+      <subfield code="7">ADS metadata</subfield>
     </datafield>
   </record>
   <record>
@@ -287,7 +287,7 @@ class TestAuthorMerger(unittest.TestCase):
       <subfield code="a">Di Milia, Giancarlo</subfield>
       <subfield code="b">Di Milia, G</subfield>
       <subfield code="u">Center for astrophysics</subfield>
-      <subfield code="8">ARXIV</subfield>
+      <subfield code="7">ARXIV</subfield>
     </datafield>
   </record>
 </collection></collections>"""
@@ -296,11 +296,11 @@ class TestAuthorMerger(unittest.TestCase):
     <subfield code="a">Di Milia, Giovanni</subfield>
     <subfield code="b">Di Milia, G</subfield>
     <subfield code="u">Center for astrophysics</subfield>
-    <subfield code="8">A&amp;A</subfield>
+    <subfield code="7">A&amp;A</subfield>
   </datafield>
   <datafield tag="980" ind1="" ind2="">
     <subfield code="a">ASTRONOMY</subfield>
-    <subfield code="8">ADS metadata</subfield>
+    <subfield code="7">ADS metadata</subfield>
   </datafield>
 </record></collection></collections>"""
         #records = b.create_records(marcxml)
