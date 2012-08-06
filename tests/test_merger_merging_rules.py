@@ -97,7 +97,9 @@ class TestMergingRules(unittest.TestCase):
         #two different fields with same origin and same number of subfields and same length of the subfields strings but different content of the strings
         fields1 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, FOO'), ('e', '1')], 'C', '5', '', 22)]
         fields2 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, BAR'), ('e', '1')], 'C', '5', '', 22)]
-        self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+        #self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+        out = (fields1, fields2)
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
     def test_get_best_fields_7(self):
         #same as test 6 but with one field with primary = TRUE
         fields1 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, FOO'), ('e', '1'), ('99', 'False')], 'C', '5', '', 22)]
@@ -108,7 +110,9 @@ class TestMergingRules(unittest.TestCase):
         #same as test 7 but with one both fields with primary = False
         fields1 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, FOO'), ('e', '1'), ('99', 'False')], 'C', '5', '', 22)]
         fields2 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, BAR'), ('e', '1'), ('99', 'False')], 'C', '5', '', 22)]
-        self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')   
+        #self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+        out = (fields1, fields2)
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
     def test_get_best_fields_9(self):
         #same as test 8 but different timestamps
         fields1 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, FOO'), ('e', '1'), 
@@ -123,7 +127,9 @@ class TestMergingRules(unittest.TestCase):
                      ('97', '2011-05-04T11:29:27'), ('98', '2011-05-04T11:29:27'),('99', 'False')], 'C', '5', '', 22)]
         fields2 = [([('i', '1982A&A...105..389V'), ('7', 'ISI'), ('b', 'Van Hamme, W.:1982, Astron. Astrophys. 105, BAR'), ('e', '1'), 
                      ('97', '2011-05-04T11:29:27'), ('98', '2011-05-04T11:29:27'), ('99', 'False')], 'C', '5', '', 22)]
-        self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+        #self.assertRaises(EqualFields, m._get_best_fields, fields1, fields2, '100')
+        out = (fields1, fields2)
+        self.assertEqual(m._get_best_fields(fields1, fields2, '100'), out)
         
     ####################
     #tests of the actual merging functions

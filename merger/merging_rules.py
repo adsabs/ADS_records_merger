@@ -454,5 +454,9 @@ def _get_best_fields(fields1, fields2, tag):
     except IndexError:
         pass
     
+    #if all checks fail I reached a granularity of problem too small to make a difference, so I simply return the first one.
+    logger.warning('      Set of fields too similar to have an automatic choice: choosing the first one.')
+    return (fields1, fields2) 
+    
     #if all the checks fail the two set of records are too similar for a script
-    raise EqualFields('Sets of fields too similar to have an automatic choice')
+    #raise EqualFields('Sets of fields too similar to have an automatic choice')
