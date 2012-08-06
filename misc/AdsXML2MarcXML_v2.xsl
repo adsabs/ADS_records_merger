@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<xsl:for-each select="metadata">
 						<xsl:variable name="origin_metadata" select="@origin" />
 						<xsl:variable name="metadata_primary" select="@primary"/>
+						<xsl:variable name="alternate_journal" select="@alternate_journal"/>
 						<xsl:variable name="creation_time" select="creation_time"/>
 						<xsl:variable name="modification_time" select="modification_time"/>
 						<record>
@@ -540,7 +541,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				            -->
 			               	<xsl:if test="journal">
 			               		<xsl:choose>
-			               			<xsl:when test="substring($canonical_bibcode, 5, 14) = substring(bibcode, 5, 14)">
+			               			<xsl:when test="$alternate_journal = 'False'">
 					                	<datafield tag="773" ind1="" ind2="">
 					                       <subfield code="p"><xsl:value-of select="canonical_journal"/></subfield>
 					                       <xsl:if test="volume">
