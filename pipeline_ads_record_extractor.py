@@ -37,6 +37,7 @@ import pickle
 from ads.ADSExports import ADSRecords
 
 from invenio import bibrecord
+from invenio.bibtask import task_low_level_submission
 
 import pipeline_settings as settings
 import pipeline_write_files as write_files
@@ -56,7 +57,7 @@ BIBCODES_TO_DELETE_LIST = []
 EXTRACTION_DIRECTORY = ''
 
 
-def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_remaining, extraction_directory):
+def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_remaining, extraction_directory, upload_mode):
     """manager of the extraction"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
     
@@ -76,7 +77,7 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_re
     #So I process them first
     if BIBCODES_TO_DELETE_LIST:
         try:
-            process_bibcodes_to_delete()
+            process_bibcodes_to_delete(extraction_directory, upload_mode)
         except Exception:
             err_msg = 'Unable to process the bibcodes to delete'
             logger.error(err_msg)
@@ -89,7 +90,7 @@ def extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_re
     bibtoprocess_splitted = grouper(settings.NUMBER_OF_BIBCODES_PER_GROUP, BIBCODES_TO_EXTRACT_LIST)
 
     #I define a manager for the workers
-    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, file_to_upload_remaining, EXTRACTION_DIRECTORY, EXTRACTION_NAME))
+    manager = multiprocessing.Process(target=extractor_manager_process, args=(bibtoprocess_splitted, file_to_upload_remaining, EXTRACTION_DIRECTORY, EXTRACTION_NAME, upload_mode))
     #I start the process
     manager.start()
     #I join the process
@@ -111,7 +112,7 @@ def grouper(n, iterable):
     return list(([e for e in t if e != None] for t in itertools.izip_longest(*args)))
 
 
-def process_bibcodes_to_delete():
+def process_bibcodes_to_delete(extraction_directory, upload_mode):
     """method that creates the MarcXML for the bibcodes to delete"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
 
@@ -146,12 +147,22 @@ def process_bibcodes_to_delete():
     #I remove the data
     doc.freeDoc()
     del doc
-
-    #I transform the xml in bibrecords
-    bibrecord_object = bibrecord.create_records(marcxml_string)
-    #I upload the result with option append
-    bibupload_merger(bibrecord_object, logger, 'append')
     
+    if upload_mode == 'concurrent':
+        #I transform the xml in bibrecords
+        bibrecord_object = bibrecord.create_records(marcxml_string)
+        #I upload the result with option append
+        logger.warning('Upload of records to delete started.')
+        bibupload_merger(bibrecord_object, logger, 'append')
+        logger.warning('Upload of records to delete ended.')
+    elif upload_mode == 'bibupload':
+        filepath = os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory, settings.BASE_BIBRECORD_FILES_DIR, settings.BIBCODE_TO_DELETE_OUT_NAME)
+        with open(filepath, 'w') as marcxml_to_del_file:
+            marcxml_to_del_file.write(marcxml_string)
+        task_low_level_submission('bibupload', 'admin', '-a', filepath)
+        logger.warning('File "%s" submitted to bibupload.' % filepath)
+    else:
+        logger.error('Upload mode "%s" not supported! File not uploaded' % upload_mode)
     return True
 
 def set_extraction_name():
@@ -185,7 +196,7 @@ def set_extraction_name():
     return extraction_name
 
 
-def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, extraction_directory, extraction_name):
+def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, extraction_directory, extraction_name, upload_mode):
     """Process that takes care of managing all the other worker processes
         this process also creates new worker processes when the existing ones reach the maximum number of groups of bibcode to process
     """
@@ -229,7 +240,7 @@ def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, e
     problbib = multiprocessing.Process(target=problematic_extraction_process, args=(q_probl, number_of_processes, lock_stdout, q_life, extraction_directory))
     
     logger.info(multiprocessing.current_process().name + ' (Manager) Creating the upload workers')
-    upload_processes = [multiprocessing.Process(target=upload_process, args=(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name)) for i in range(settings.NUMBER_UPLOAD_WORKER)]
+    upload_processes = [multiprocessing.Process(target=upload_process, args=(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name, upload_mode)) for i in range(settings.NUMBER_UPLOAD_WORKER)]
     
     logger.info(multiprocessing.current_process().name + ' (Manager) Creating the first pool of workers')
     #I define the worker processes
@@ -553,7 +564,7 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
 
-def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name):
+def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name, upload_mode):
     """Worker that uploads the data in invenio"""
     lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (upload worker) Process started')
@@ -581,20 +592,27 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
         else:
             #otherwise I have to upload the file
             filepath = file_to_upload[1]
-            file_obj = open(filepath, 'rb')
-            # I load the object in the file
-            local_logger.warning('Upload of the group "%s" started' % file_to_upload[0])
-            merged_records = pickle.load(file_obj)
-            file_obj.close()
-            #finally I upload
-            bibupload_merger(merged_records, local_logger, 'replace_or_insert')
-            #I log that I uploaded the file
-            lock_donefiles.acquire()
-            bibrec_file_obj = open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_UPLOADED), 'a')
-            bibrec_file_obj.write(filepath + '\n')
-            bibrec_file_obj.close()
-            lock_donefiles.release()
-            local_logger.warning('Upload of the group "%s" ended' % file_to_upload[0])
+            if upload_mode == 'concurrent':
+                file_obj = open(filepath, 'rb')
+                # I load the object in the file
+                local_logger.warning('Upload of the group "%s" started' % file_to_upload[0])
+                merged_records = pickle.load(file_obj)
+                file_obj.close()
+                #finally I upload
+                bibupload_merger(merged_records, local_logger, 'replace_or_insert')
+                #I log that I uploaded the file
+                lock_donefiles.acquire()
+                with open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_UPLOADED), 'a') as bibrec_file_obj:
+                    bibrec_file_obj.write(filepath + '\n')
+                lock_donefiles.release()
+                local_logger.warning('Upload of the group "%s" ended' % file_to_upload[0])
+            elif upload_mode == 'bibupload':
+                task_low_level_submission('bibupload', 'admin', '-i', '-r', filepath)
+                with open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_UPLOADED), 'a') as bibrec_file_obj:
+                    bibrec_file_obj.write(filepath + '\n')
+                local_logger.warning('File "%s" submitted to bibupload.' % filepath)
+            else:
+                local_logger.error('Upload mode "%s" not supported! File not uploaded' % upload_mode)
             
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['UPLOAD DONE'])

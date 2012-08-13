@@ -54,7 +54,7 @@ DIRNAME = ''
 LATEST_EXTR_DIR = ''
 MODE = ''
 
-def manage(mode):
+def manage(mode, upload_mode):
     """public function"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
     
@@ -71,7 +71,7 @@ def manage(mode):
         #retrieve the list of bibcode to extract and the list of bibcodes to delete
         (bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list) = retrieve_bibcodes_to_extract()
         #call the extractor manager
-        pipeline_ads_record_extractor.extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list, DIRNAME)
+        pipeline_ads_record_extractor.extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list, DIRNAME, upload_mode)
         return
 
 def retrieve_bibcodes_to_extract():

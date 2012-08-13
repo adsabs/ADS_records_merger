@@ -66,7 +66,7 @@ ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 STYLESHEET_PATH = BASEDIR + 'misc/AdsXML2MarcXML_v2.xsl'
 
 #base name for the file of bibcodes to delete
-#BIBCODE_TO_DELETE_OUT_NAME = 'marcxml_to_delete'
+BIBCODE_TO_DELETE_OUT_NAME = 'marcxml_to_delete.xml'
 #base name for the bibrecord files
 BIBREC_FILE_BASE_NAME = 'bibrecord_to_add'
 #extension for marcxml files
