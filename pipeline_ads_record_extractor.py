@@ -150,7 +150,7 @@ def process_bibcodes_to_delete(extraction_directory, upload_mode):
     
     if upload_mode == 'concurrent':
         #I transform the xml in bibrecords
-        bibrecord_object = bibrecord.create_records(marcxml_string)
+        bibrecord_object = [elem[0] for elem in bibrecord.create_records(marcxml_string)]
         #I upload the result with option append
         logger.warning('Upload of records to delete started.')
         bibupload_merger(bibrecord_object, logger, 'append')
