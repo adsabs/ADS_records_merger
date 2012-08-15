@@ -147,6 +147,10 @@ def process_bibcodes_to_delete(extraction_directory, upload_mode):
     #I remove the data
     doc.freeDoc()
     del doc
+    #I write the bibcodes in the done bibcodes file
+    w2f = write_files.WriteFile(extraction_directory, logger)
+    w2f.write_done_bibcodes_to_file(BIBCODES_TO_DELETE_LIST)
+    del w2f
     
     if upload_mode == 'concurrent':
         #I transform the xml in bibrecords
