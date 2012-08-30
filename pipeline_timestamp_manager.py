@@ -93,23 +93,26 @@ def _get_invenio_timestamps():
     """
     logger.info("In function %s" % (inspect.stack()[0][3],))
     # First get the list of deleted records, i.e. records which have DELETED in 980__c.
-    query = "SELECT DISTINCT(b97.value) FROM bib97x AS b97, bibrec_bib97x AS bb97, bib98x AS b98, bibrec_bib98x AS bb98 " \
-            "WHERE b98.tag='980__c' AND b98.value='DELETED' AND b98.id=bb98.id_bibxxx AND " \
-            "b97.id=bb97.id_bibxxx AND b97.tag='970__a' AND " \
-            "bb98.id_bibrec=bb97.id_bibrec"
-    deleted_bibcodes = [line[0] for line in run_sql(query)]
+    query = "SELECT bb.id_bibrec FROM bib98x AS b, bibrec_bib98x AS bb " \
+            "WHERE b.tag='980__c' AND b.value='DELETED' AND b.id=bb.id_bibxxx"
+    deleted_recids = set(line[0] for line in run_sql(query))
 
-    # Then get all the timestamps.
-    query = "SELECT b97.value, b99.value FROM bib99x AS b99, " \
-            "bibrec_bib99x AS bb99, bib97x AS b97, bibrec_bib97x AS bb97 " \
-            "WHERE b99.tag='995__a' AND b99.id=bb99.id_bibxxx AND " \
-            "b97.id=bb97.id_bibxxx AND bb97.id_bibrec=bb99.id_bibrec"
+    # Get the correspondence between recid and bibcode.
+    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib97x AS bb, bib97x AS b " \
+            "WHERE bb.id_bibxxx=b.id AND b.tag='970__a'"
+    recid_bibcode = dict(run_sql(query))
 
-    # Finally, return only the records that are not deleted.
+    # Now get the timestamps.
+    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib99x AS bb, bib99x AS b " \
+            "WHERE bb.id_bibxxx=b.id AND b.tag='995__a'"
     timestamps = {}
-    for bibcode, timestamp in run_sql(query):
-        if bibcode not in deleted_bibcodes:
-            timestamps[bibcode] = timestamp
+    for recid, timestamp in run_sql(query):
+        if recid not in deleted_recids:
+            bibcode = recid_bibcode.get(recid)
+            if bibcode is None:
+                print 'ERROR: Record %d has no bibcode.' % recid
+            else:
+                timestamps[bibcode] = timestamp
 
     return timestamps
 
