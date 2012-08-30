@@ -110,7 +110,7 @@ def _get_invenio_timestamps():
         if recid not in deleted_recids:
             bibcode = recid_bibcode.get(recid)
             if bibcode is None:
-                print 'ERROR: Record %d has no bibcode.' % recid
+                logger.error( 'ERROR: Record %d has no bibcode.' % recid)
             else:
                 timestamps[bibcode] = timestamp
 
