@@ -277,8 +277,15 @@ def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, e
         death_reason = q_life.get()
         #if the reason of the death is that the process reached the max number of groups to process, then I have to start another one
         if death_reason[0] == 'MAX LIFE REACHED':
+            #I get the process ID from the dead process
+            dead_pid = death_reason[1]
+            for proc in processes:
+                if proc.pid == dead_pid and proc.is_alive():
+                    logger.warning(multiprocessing.current_process().name + ' Killing processe #%s' % dead_pid )
+                    proc.terminate()
             newprocess = multiprocessing.Process(target=extractor_process, args=(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name))
             newprocess.start()
+            processes.append(newprocess)
             #!!!!!!!!!!!!!!!!!!!!!!!!
             #this call is probably wrong: to check
             #additional_workers = additional_workers - 1
@@ -454,13 +461,13 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
 
         local_logger.warning(multiprocessing.current_process().name + (' finished to process group %s' % task_todo[0]))
 
-
+    cur_pid = os.getpid()
     if queue_empty:
         #I tell the output processes that I'm done
-        q_done.put(['WORKER DONE'])
-        q_probl.put(['WORKER DONE'])
+        q_done.put(['WORKER DONE', cur_pid])
+        q_probl.put(['WORKER DONE', cur_pid])
         #I tell the manager that I'm dying because the queue is empty
-        q_life.put(['QUEUE EMPTY'])
+        q_life.put(['QUEUE EMPTY', cur_pid])
         #I set a variable to skip the messages outside the loop
         lock_stdout.acquire()
         logger.warning(multiprocessing.current_process().name + ' (worker) Queue empty: exiting')
@@ -468,7 +475,7 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
         local_logger.warning(multiprocessing.current_process().name + ' Queue empty: exiting')
     else:
         #I tell the manager that I'm dying because I reached the maximum amount of group to process
-        q_life.put(['MAX LIFE REACHED'])
+        q_life.put(['MAX LIFE REACHED', cur_pid])
         lock_stdout.acquire()
         logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting')
         lock_stdout.release()
@@ -516,7 +523,8 @@ def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, ext
 
 
     #I tell the manager that I'm done and I'm exiting
-    q_life.put(['DONEBIBS DONE'])
+    cur_pid = os.getpid()
+    q_life.put(['DONEBIBS DONE', cur_pid])
 
     lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) job finished: exiting')
@@ -560,7 +568,8 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
                 local_logger.warning(multiprocessing.current_process().name + (' wrote problematic bibcodes for group %s' % group_probl[0]))
 
     #I tell the manager that I'm done and I'm exiting
-    q_life.put(['PROBLEMBIBS DONE'])
+    cur_pid = os.getpid()
+    q_life.put(['PROBLEMBIBS DONE', cur_pid])
 
     lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (problematic bibcodes worker) job finished: exiting')
@@ -619,7 +628,8 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
                 local_logger.error('Upload mode "%s" not supported! File not uploaded' % upload_mode)
             
     #I tell the manager that I'm done and I'm exiting
-    q_life.put(['UPLOAD DONE'])
+    cur_pid = os.getpid()
+    q_life.put(['UPLOAD DONE', cur_pid])
 
     lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (upload worker) job finished: exiting')
