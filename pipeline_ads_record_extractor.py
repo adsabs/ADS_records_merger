@@ -284,40 +284,26 @@ def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, e
             #this call is probably wrong: to check
             #additional_workers = additional_workers - 1
             #!!!!!!!!!!!!!!!!!!!!!!!!
-            lock_stdout.acquire()
             logger.warning(multiprocessing.current_process().name + ' (Manager) New worker created')
-            lock_stdout.release()
         elif death_reason[0] == 'QUEUE EMPTY':
             active_workers = active_workers - 1
-            lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s workers waiting to finish their job' % str(active_workers))
-            lock_stdout.release()
             #if there are no more worker processes active, it means that I can tell the uploader that they can exit as soon as the are done
             if active_workers == 0:
-                lock_stdout.acquire()
                 logger.info(multiprocessing.current_process().name + ' (Manager) Telling the upload workers that the extraction workers are done')
-                lock_stdout.release()
                 for i in range(settings.NUMBER_UPLOAD_WORKER):
                     q_uplfile.put(['WORKERS DONE'])
         elif death_reason[0] == 'PROBLEMBIBS DONE':
             additional_workers = additional_workers - 1
-            lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers))
-            lock_stdout.release()
         elif death_reason[0] == 'DONEBIBS DONE':
             additional_workers = additional_workers - 1
-            lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s additional workers waiting to finish their job' % str(additional_workers))
-            lock_stdout.release()
         elif death_reason[0] == 'UPLOAD DONE':
             active_upload_workers = active_upload_workers - 1
-            lock_stdout.acquire()
             logger.info(multiprocessing.current_process().name + ' (Manager) %s upload workers waiting to finish their job' % str(active_upload_workers))
-            lock_stdout.release()
 
-    lock_stdout.acquire()
     logger.info(multiprocessing.current_process().name + ' (Manager) All the workers are done. Exiting...')
-    lock_stdout.release()
 
 
 def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name):
@@ -334,6 +320,12 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
     local_logger.propagate = False
     #I print the same message for the local logger
     local_logger.warning(multiprocessing.current_process().name + ' Process started')
+    
+    #I remove the automatic join from the queues
+    q_done.cancel_join_thread()
+    q_probl.cancel_join_thread()
+    q_uplfile.cancel_join_thread()
+    q_life.cancel_join_thread()
     
     #I get the maximum number of groups I can process
     max_num_groups = settings.MAX_NUMBER_OF_GROUP_TO_PROCESS
@@ -469,11 +461,6 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
         q_life.put(['MAX LIFE REACHED'])
         logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting (pid #%s)' % os.getpid())
         local_logger.warning(multiprocessing.current_process().name + ' Maximum amount of groups of bibcodes reached: exiting')
-    #finally I remove the automatic join from the queues
-    q_done.cancel_join_thread()
-    q_probl.cancel_join_thread()
-    q_uplfile.cancel_join_thread()
-    q_life.cancel_join_thread()
     return
 
 
