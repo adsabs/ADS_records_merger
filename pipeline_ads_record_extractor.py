@@ -610,6 +610,7 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
                     bibrec_file_obj.write(filepath + '\n')
                 lock_donefiles.release()
                 local_logger.warning('Upload of the group "%s" ended' % file_to_upload[0])
+                del merged_records
             elif upload_mode == 'bibupload':
                 task_low_level_submission('bibupload', 'admin', '-i', '-r', filepath)
                 with open(os.path.join(settings.BASE_OUTPUT_PATH, extraction_directory,settings.LIST_BIBREC_UPLOADED), 'a') as bibrec_file_obj:
