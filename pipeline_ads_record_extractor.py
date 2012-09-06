@@ -463,14 +463,14 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
         q_life.put(['QUEUE EMPTY'])
         #I set a variable to skip the messages outside the loop
         lock_stdout.acquire()
-        logger.warning(multiprocessing.current_process().name + ' (worker) Queue empty: exiting')
+        logger.warning(multiprocessing.current_process().name + ' (worker) Queue empty: exiting (pid #%s)' % os.getpid())
         lock_stdout.release()
         local_logger.warning(multiprocessing.current_process().name + ' Queue empty: exiting')
     else:
         #I tell the manager that I'm dying because I reached the maximum amount of group to process
         q_life.put(['MAX LIFE REACHED'])
         lock_stdout.acquire()
-        logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting')
+        logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting (pid #%s)' % os.getpid())
         lock_stdout.release()
         local_logger.warning(multiprocessing.current_process().name + ' Maximum amount of groups of bibcodes reached: exiting')
     #finally I remove the automatic join from the queues
