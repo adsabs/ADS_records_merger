@@ -323,9 +323,7 @@ def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, e
 def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_createdfiles, q_life, extraction_directory, extraction_name):
     """Worker function for the extraction of bibcodes from ADS
         it has been defined outside any class because it's more simple to treat with multiprocessing """
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (worker) Process started')
-    lock_stdout.release()
     #I create a local logger
     fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_worker.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
@@ -469,9 +467,7 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
     else:
         #I tell the manager that I'm dying because I reached the maximum amount of group to process
         q_life.put(['MAX LIFE REACHED'])
-        lock_stdout.acquire()
         logger.warning(multiprocessing.current_process().name + ' (worker) Maximum amount of groups of bibcodes reached: exiting (pid #%s)' % os.getpid())
-        lock_stdout.release()
         local_logger.warning(multiprocessing.current_process().name + ' Maximum amount of groups of bibcodes reached: exiting')
     #finally I remove the automatic join from the queues
     q_done.cancel_join_thread()
@@ -485,9 +481,7 @@ def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, ext
     """Worker that takes care of the groups of bibcodes processed and writes the bibcodes to the related file
         NOTE: this can be also the process that submiths the upload processes to invenio
     """
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) Process started')
-    lock_stdout.release()
     #I create a local logger
     fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_done_bibcodes.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
@@ -523,18 +517,14 @@ def done_extraction_process(q_done, num_active_workers, lock_stdout, q_life, ext
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['DONEBIBS DONE'])
 
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (done bibcodes worker) job finished: exiting')
-    lock_stdout.release()
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
 
 
 def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_life, extraction_directory):
     """Worker that takes care of the bibcodes that couldn't be extracted and writes them to the related file"""
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (probl. bibcodes worker) Process started')
-    lock_stdout.release()
     #I create a local logger
     fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_probl_bibcodes.log'))
     fmt = logging.Formatter(pipeline_settings.LOGGING_FORMAT)
@@ -567,17 +557,13 @@ def problematic_extraction_process(q_probl, num_active_workers, lock_stdout, q_l
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['PROBLEMBIBS DONE'])
 
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (problematic bibcodes worker) job finished: exiting')
-    lock_stdout.release()
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
 
 def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_directory, extraction_name, upload_mode):
     """Worker that uploads the data in invenio"""
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (upload worker) Process started')
-    lock_stdout.release()
     
     #I create a local logger
     fh = logging.FileHandler(os.path.join(pipeline_settings.BASE_OUTPUT_PATH, extraction_directory, pipeline_settings.BASE_LOGGING_PATH, multiprocessing.current_process().name+'_uploader_bibcodes.log'))
@@ -627,9 +613,7 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
     #I tell the manager that I'm done and I'm exiting
     q_life.put(['UPLOAD DONE'])
 
-    lock_stdout.acquire()
     logger.warning(multiprocessing.current_process().name + ' (upload worker) job finished: exiting')
-    lock_stdout.release()
     local_logger.warning(multiprocessing.current_process().name + ' job finished: exiting')
     return
 
