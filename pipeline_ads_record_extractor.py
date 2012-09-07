@@ -321,11 +321,8 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
     #I print the same message for the local logger
     local_logger.warning(multiprocessing.current_process().name + ' Process started')
     
-    #I remove the automatic join from the queues
-    q_done.cancel_join_thread()
-    q_probl.cancel_join_thread()
+    #I remove the automatic join from the queue of the files to upload
     q_uplfile.cancel_join_thread()
-    q_life.cancel_join_thread()
     
     #I get the maximum number of groups I can process
     max_num_groups = settings.MAX_NUMBER_OF_GROUP_TO_PROCESS
