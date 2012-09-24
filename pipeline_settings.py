@@ -76,7 +76,7 @@ BIBREC_EXTENSION = '.bib'
 NUMBER_OF_BIBCODES_PER_GROUP = 5000
 
 #maximum amount of bibcodes that can be skipped for each group
-MAX_SKIPPED_BIBCODES = NUMBER_OF_BIBCODES_PER_GROUP / 2
+MAX_SKIPPED_BIBCODES = NUMBER_OF_BIBCODES_PER_GROUP #/ 2
 
 #maximum number of worker processes that have to run
 NUMBER_WORKERS = 16
