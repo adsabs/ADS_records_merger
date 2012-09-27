@@ -270,6 +270,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                    </xsl:choose>
 				                </xsl:for-each>
 							</xsl:if>
+							<!-- Conference metadata -->
+							<xsl:if test="conf_metadata">
+								<datafield tag="111" ind1="" ind2="">
+				                    <subfield code="a"><xsl:value-of select="conf_metadata"/></subfield>
+				                    <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				                    <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				                    <subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
+				                </datafield>
+							</xsl:if>
 							<!-- title -->
 				            <xsl:if test="title">
 				            	<xsl:choose>
@@ -553,8 +563,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                       <xsl:if test="page">
 					                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
 					                       </xsl:if>
-					                       <xsl:if test="article_id">
-					                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
+					                       <xsl:if test="electronic_id">
+					                           <subfield code="i"><xsl:value-of select="electronic_id"/></subfield>
 					                       </xsl:if>
 					                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
 					                       <!-- Full string of the journal -->
@@ -577,8 +587,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					                       <xsl:if test="page">
 					                           <subfield code="c"><xsl:value-of select="page"/><xsl:if test="lastpage"><xsl:text>-</xsl:text><xsl:value-of select="lastpage"/></xsl:if></subfield>
 					                       </xsl:if>
-					                       <xsl:if test="article_id">
-					                           <subfield code="i"><xsl:value-of select="article_id"/></subfield>
+					                       <xsl:if test="electronic_id">
+					                           <subfield code="i"><xsl:value-of select="electronic_id"/></subfield>
 					                       </xsl:if>
 					                       <subfield code="y"><xsl:value-of select="substring($canonical_bibcode, 1, 4)"/></subfield>
 					                       <!-- Full string of the journal -->
