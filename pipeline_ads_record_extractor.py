@@ -232,6 +232,7 @@ def extractor_manager_process(bibtoprocess_splitted, file_to_upload_remaining, e
     #I pre-fill the list of files to upload if there are some
     file_to_upload_remaining.sort()
     for file2up in file_to_upload_remaining:
+        logger.info('Putting in upload queue the file "%s" from previous extraction' % file2up)
         q_uplfile.put(('Previous Extraction', file2up))
 
     #I define the number of processes to run
@@ -423,6 +424,7 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
             bibrec_file_obj.close()
             lock_createdfiles.release()
             #finally I append the file to the queue
+            local_logger.info('Insert in queue for upload the file "%s" of the group "%s" ' % (filepath, task_todo[0]))
             q_uplfile.put((task_todo[0],filepath))
             
             #logger.info('record created, merged but not uploaded')
@@ -444,6 +446,7 @@ def extractor_process(q_todo, q_done, q_probl, q_uplfile, lock_stdout, lock_crea
 
     if queue_empty:
         #I tell the output processes that I'm done
+        local_logger.info('Telling the queue of done and problematic bibcodes that the queue is empty')
         q_done.put(['WORKER DONE'])
         q_probl.put(['WORKER DONE'])
         #I tell the manager that I'm dying because the queue is empty
