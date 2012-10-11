@@ -575,7 +575,7 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
             try:
                 filepath = file_to_upload[1]
             except IndexError:
-                logger.error('Received the unexpected message "%s" from upload queue.')
+                logger.error('Received the unexpected message "%s" from upload queue.' % file_to_upload[0])
                 break
             if upload_mode == 'concurrent':
                 file_obj = open(filepath, 'rb')
