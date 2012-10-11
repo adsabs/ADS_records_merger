@@ -564,13 +564,19 @@ def upload_process(q_uplfile, lock_stdout, lock_donefiles, q_life, extraction_di
         file_to_upload = q_uplfile.get()
         if len(file_to_upload) == 2:
             local_logger.info('Processing group "%s" with file "%s"' % (file_to_upload[0], file_to_upload[1]))
+        else:
+            local_logger.info('Message in queue "%s" ' % file_to_upload[0])
         #first of all I check if the group I'm getting is a message from the manager saying that the workers are done
         if file_to_upload[0] == 'WORKERS DONE':
             local_logger.info('No more workers active: stopping to upload...')
             break
         else:
             #otherwise I have to upload the file
-            filepath = file_to_upload[1]
+            try:
+                filepath = file_to_upload[1]
+            except IndexError:
+                logger.error('Received the unexpected message "%s" from upload queue.')
+                break
             if upload_mode == 'concurrent':
                 file_obj = open(filepath, 'rb')
                 # I load the object in the file
