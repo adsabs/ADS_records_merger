@@ -727,6 +727,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
+				            <xsl:if test="ads_scan = '1'">
+				             <datafield tag="980" ind1="" ind2="">
+				             	<subfield code="p">ADS_SCAN</subfield>
+				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
+				             </datafield>
+				            </xsl:if>
 				            <!-- Special collection "pubtype" -->
 				            <xsl:if test="pubtype">
 				             <datafield tag="980" ind1="" ind2="">
@@ -742,6 +751,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 								<xsl:for-each select="bibgroups/bibgroup">
 									<datafield tag="980" ind1="" ind2="">
 						             	<subfield code="b"><xsl:value-of select="." /></subfield>
+						             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
+						             </datafield>
+								</xsl:for-each>
+							</xsl:if>
+							<!-- Data Sources -->
+					        <xsl:if test="data_sources">
+								<xsl:for-each select="data_sources/data_source">
+									<datafield tag="980" ind1="" ind2="">
+						             	<subfield code="s"><xsl:value-of select="." /></subfield>
+						             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+						             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+						             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
+						             </datafield>
+								</xsl:for-each>
+							</xsl:if>
+							<!-- Vizier Tables -->
+					        <xsl:if test="vizier_tables">
+								<xsl:for-each select="vizier_tables/vizier_table">
+									<datafield tag="980" ind1="" ind2="">
+						             	<subfield code="v"><xsl:value-of select="." /></subfield>
 						             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
 						             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
 				                    	<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>

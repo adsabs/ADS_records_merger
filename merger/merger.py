@@ -41,7 +41,7 @@ import global_merging_rules
 
 def merge_records_xml(marcxml_obj):
     """Function that takes in input a marcxml string and returns containing 
-    multiple records identified by the tag "collection" and for each calls the 
+    multiple records identified by the tag "collection" and for each one calls the 
     function to merge the different flavors of the same record 
     (identified by the tag "record"). """
     logger.info(' Merger started.')

@@ -43,7 +43,7 @@ logger = logging.getLogger(pipeline_settings.LOGGING_WORKER_NAME) #I use this na
 logger.setLevel(logging.INFO)
 logger.warning('Test for merger')
 
-def merge_bibcodes(bibcodes, print_adsxml=False, print_marcxml=False):
+def merge_bibcodes(bibcodes, print_adsxml=False, print_marcxml=False, write_xml_to_disk=False):
     """
     Returns a merged version of the record identified by bibcode.
     """
@@ -55,6 +55,9 @@ def merge_bibcodes(bibcodes, print_adsxml=False, print_marcxml=False):
     
     if print_adsxml:
         print ads_xml_obj.serialize('UTF-8')
+    if write_xml_to_disk:
+        with open('/tmp/adsxml.xml', 'w') as f:
+            f.write(ads_xml_obj.serialize('UTF-8'))
     
     # Convert to MarcXML.
     stylesheet = libxslt.parseStylesheetDoc(libxml2.parseFile(XSLT))
@@ -62,6 +65,9 @@ def merge_bibcodes(bibcodes, print_adsxml=False, print_marcxml=False):
     
     if print_marcxml:
         print xml_object.serialize('UTF-8')
+    if write_xml_to_disk:
+        with open('/tmp/marcxml.xml', 'w') as f:
+            f.write(xml_object.serialize('UTF-8'))
     
     merged_records, bibcodes_with_problems = merge_records_xml(xml_object)
     return merged_records
