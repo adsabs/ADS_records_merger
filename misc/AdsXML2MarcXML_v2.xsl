@@ -727,6 +727,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
 				             </datafield>
 				            </xsl:if>
+				            <xsl:if test="refereed = '0'">
+				             <datafield tag="980" ind1="" ind2="">
+				             	<subfield code="p">NOT REFEREED</subfield>
+				             	<subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
+				             	<subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
+			                    <subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
+				             	<subfield code="99"><xsl:value-of select="$metadata_primary"/></subfield>
+				             </datafield>
+				            </xsl:if>
 				            <xsl:if test="ads_scan = '1'">
 				             <datafield tag="980" ind1="" ind2="">
 				             	<subfield code="p">ADS_SCAN</subfield>
