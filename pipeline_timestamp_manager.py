@@ -95,16 +95,17 @@ def _get_invenio_timestamps():
     # First get the list of deleted records, i.e. records which have DELETED in 980__c.
     query = "SELECT bb.id_bibrec FROM bib98x AS b, bibrec_bib98x AS bb " \
             "WHERE b.tag='980__c' AND b.value='DELETED' AND b.id=bb.id_bibxxx"
+    logger.info("Running query 1")
     deleted_recids = set(line[0] for line in run_sql(query))
 
     # Get the correspondence between recid and bibcode.
-    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib97x AS bb, bib97x AS b " \
-            "WHERE bb.id_bibxxx=b.id AND b.tag='970__a'"
+    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib97x AS bb JOIN bib97x AS b ON (bb.id_bibxxx=b.id AND b.tag='970__a')"
+    logger.info("Running query 2")
     recid_bibcode = dict(run_sql(query))
 
     # Now get the timestamps.
-    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib99x AS bb, bib99x AS b " \
-            "WHERE bb.id_bibxxx=b.id AND b.tag='995__a'"
+    query = "SELECT bb.id_bibrec, b.value FROM bibrec_bib99x AS bb JOIN bib99x AS b ON (bb.id_bibxxx=b.id AND b.tag='995__a')"
+    logger.info("Running query 3")
     timestamps = {}
     for recid, timestamp in run_sql(query):
         if recid not in deleted_recids:
