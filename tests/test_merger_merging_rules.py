@@ -214,6 +214,70 @@ class TestMergingRules(unittest.TestCase):
                    ([('i', '1974IBVS..888....1C'), ('e', '1'), ('f', 'PUBLISHER'), ('b', 'Castore de Sister6, M.E., Sister6, R.F.:1974, Inf Bull Var. Stars No. 888'), ('7', 'PUBLISHER')], 'C', '5', '', 27)]
         merged = m.references_merger(fields1, fields2, '999')
         self.assertEqual([(sorted(elem[0]),)+elem[1:] for elem in sorted(merged)], [(sorted(elem[0]),)+elem[1:] for elem in sorted(out)])
+        
+    def test_pub_date_merger_1(self):
+        #merging two dates and the first is from primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T14:30:20'), ('98', '2012-09-10T14:30:20'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6), 
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'True')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_2(self):
+        #merging two dates and none is primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T14:30:20'), ('98', '2012-09-10T14:30:20'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6), 
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'False')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_3(self):
+        #merging two dates and they are different and the first is primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6), 
+               ([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6),
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'True')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_4(self):
+        #merging two dates and they are different and none is primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6), 
+               ([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6),
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'False')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_5(self):
+        #merging two dates and one set has already a main primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6),
+                   ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'True')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'True')], ' ', ' ', '', 6), 
+               ([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6),
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'True')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_6(self):
+        #merging two dates and one set has already a main non primary ant the other is not primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6),
+                   ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'False')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6), 
+               ([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'False')], ' ', ' ', '', 6),
+               ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'False')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
+        
+    def test_pub_date_merger_7(self):
+        #merging two dates and one set has already a main non primary ant the other is primary
+        fields1 = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6),
+                   ([('c', '1973-00-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'False')], ' ', ' ', '', 6)]
+        fields2 = [([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'True')], ' ', ' ', '', 6)]
+        out = [([('c', '1973-00-00'), ('t', 'date-published'), ('7', 'ARI'), ('97', '2011-11-15T23:41:14'), ('98', '2011-11-15T23:41:14'), ('99', 'False')], ' ', ' ', '', 6), 
+               ([('c', '2009-06-00'), ('t', 'date-published'), ('7', 'SIMBAD'), ('97', '2012-09-10T18:48:37'), ('98', '2012-09-10T18:48:37'), ('99', 'True')], ' ', ' ', '', 6),
+               ([('c', '2009-06-00'), ('t', 'main-date'), ('7', 'ADS metadata'), ('99', 'True')], ' ', ' ', '', 6)]
+        self.assertEqual(sorted(m.pub_date_merger(fields1, fields2, '260')), sorted(out))
 
 if __name__ == '__main__':
     unittest.main()

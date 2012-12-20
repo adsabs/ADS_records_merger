@@ -115,32 +115,47 @@ def pub_date_merger(fields1, fields2, tag):
     """function to merge dates. the peculiarity of this merge is that 
     we need to create a new field based on which date is available"""
     all_dates = take_all_no_checks(fields1, fields2, tag)
-        
     if len(all_dates) > 0:
-        #I remove the main-date if exists because I need to re-create it
         for date in all_dates:
+            #if there is already a main date and it has been created from the primary bibcode I'm done and I can simply return the  merged list
             if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == 'main-date':
-                del(all_dates[all_dates.index(date)])
-                break
-        
-        dates = {}
-        #I create a dictionary of dates and their date type
-        for field in all_dates:
-            dates[bibrecord.field_get_subfield_values(field, PUBL_DATE_TYPE_SUBFIELD)[0]] = bibrecord.field_get_subfield_values(field, PUBL_DATE_SUBFIELD)[0]
+                if bibrecord.field_get_subfield_values(date, PRIMARY_METADATA_SUBFIELD)[0] == 'True':
+                    logger.info('        Main date already available: returning the dates.')
+                    return all_dates
+                #otherwise I need to re-create the main date
+                #I remove the main-date because I need to re-create it
+                else:
+                    logger.info('        Main date available but it has not been generated from the canonical metadata: trying to re-create it...')
+                    del(all_dates[all_dates.index(date)])
+                    break
                 
-        #then I try to extract with a prefixed order
-        main_pub_date = ''
-        for datet in PUBL_DATE_TYPE_VAL_SUBFIELD:
-            #I extract only the first one available
-            if datet in dates:
-                main_pub_date = dates[datet]
-                break
+        #I need to extract the best date available
+        main_pub_date = None
+        main_pub_date_primary = 'False'
+        #first I try to extract it from the canonical metadata
+        for date_type in PUBL_DATE_TYPE_VAL_SUBFIELD:
+            for date in all_dates:
+                if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == date_type and bibrecord.field_get_subfield_values(date, PRIMARY_METADATA_SUBFIELD)[0] == 'True':
+                    main_pub_date = bibrecord.field_get_subfield_values(date, PUBL_DATE_SUBFIELD)[0]
+                    main_pub_date_primary = 'True'
+                    break
+        #if I'm not successful I try with a normal metadata
+        if main_pub_date == None:
+            for date_type in PUBL_DATE_TYPE_VAL_SUBFIELD:
+                for date in all_dates:
+                    if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == date_type:
+                        main_pub_date = bibrecord.field_get_subfield_values(date, PUBL_DATE_SUBFIELD)[0]
+                        break
         #if I still don't have a main date it means that I have a date that is not in the list of expected dates
-        #so I take the first one
-        if main_pub_date == '':
-            main_pub_date = dates.itervalues().next()
-        #finally I create the main_date field and I return the value
-        all_dates.append(([(PUBL_DATE_SUBFIELD, main_pub_date), (PUBL_DATE_TYPE_SUBFIELD, 'main-date'), (ORIGIN_SUBFIELD, 'ADS metadata')],) + all_dates[0][1:])
+        #so I take the first one 
+        #P.S. I should never get a this point
+        if main_pub_date == None:
+            logger.info('        All the dates available are not recognized as good for a main date: picking the first available')
+            main_pub_date = bibrecord.field_get_subfield_values(all_dates[0], PUBL_DATE_SUBFIELD)[0]
+
+        #finally I append the main date to the list of dates
+        all_dates.append(([(PUBL_DATE_SUBFIELD, main_pub_date), (PUBL_DATE_TYPE_SUBFIELD, 'main-date'), (ORIGIN_SUBFIELD, 'ADS metadata'), 
+                           (PRIMARY_METADATA_SUBFIELD, main_pub_date_primary)],) + all_dates[0][1:])
         return all_dates
     else:
         return all_dates
