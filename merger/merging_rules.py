@@ -116,35 +116,36 @@ def pub_date_merger(fields1, fields2, tag):
     we need to create a new field based on which date is available"""
     all_dates = take_all_no_checks(fields1, fields2, tag)
     if len(all_dates) > 0:
+        #removing the main-date if present
         for date in all_dates:
-            #if there is already a main date and it has been created from the primary bibcode I'm done and I can simply return the  merged list
             if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == 'main-date':
-                if bibrecord.field_get_subfield_values(date, PRIMARY_METADATA_SUBFIELD)[0] == 'True':
-                    logger.info('        Main date already available: returning the dates.')
-                    return all_dates
-                #otherwise I need to re-create the main date
-                #I remove the main-date because I need to re-create it
-                else:
-                    logger.info('        Main date available but it has not been generated from the canonical metadata: trying to re-create it...')
-                    del(all_dates[all_dates.index(date)])
-                    break
-                
+                logger.info('        Main date already available: trying to re-create it')
+                del(all_dates[all_dates.index(date)])
+                break
         #I need to extract the best date available
         main_pub_date = None
         main_pub_date_primary = 'False'
         #first I try to extract it from the canonical metadata
+        done = False
         for date_type in PUBL_DATE_TYPE_VAL_SUBFIELD:
+            if done:
+                break
             for date in all_dates:
                 if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == date_type and bibrecord.field_get_subfield_values(date, PRIMARY_METADATA_SUBFIELD)[0] == 'True':
                     main_pub_date = bibrecord.field_get_subfield_values(date, PUBL_DATE_SUBFIELD)[0]
                     main_pub_date_primary = 'True'
+                    done = True
                     break
         #if I'm not successful I try with a normal metadata
         if main_pub_date == None:
+            done = False
             for date_type in PUBL_DATE_TYPE_VAL_SUBFIELD:
+                if done:
+                    break
                 for date in all_dates:
                     if bibrecord.field_get_subfield_values(date, PUBL_DATE_TYPE_SUBFIELD)[0] == date_type:
                         main_pub_date = bibrecord.field_get_subfield_values(date, PUBL_DATE_SUBFIELD)[0]
+                        done = True
                         break
         #if I still don't have a main date it means that I have a date that is not in the list of expected dates
         #so I take the first one 
@@ -403,6 +404,38 @@ def _get_best_fields(fields1, fields2, tag):
     if len(fields1) == len(fields2) and all(bibrecord._compare_fields(field1, field2, strict=True) for field1, field2 in zip(fields1, fields2)):
         logger.info('      The two set of fields are exactly the same: picking the first one.')
         return (fields1, fields2)
+    #second check alfa: are the two sets the same excluding the temporary fields? if so I pick the one with primary=True or if there is anything the first one
+    if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=TEMP_SUBFIELDS_LIST) for field1, field2 in zip(fields1, fields2)):
+        logger.info('      The two set of fields are the same (temporary fields excluded): proceeding with primary check')
+        #if the two list are exactly the same even with the primary subfield, then I simply return one of the two
+        if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[CREATION_DATE_TMP_SUBFIELD, MODIFICATION_DATE_TMP_SUBFIELD]) for field1, field2 in zip(fields1, fields2)):
+            logger.info('        The two set of fields are the same (extraction and modification date excluded: picking the first one')
+            return (fields1, fields2)
+        else:
+            #otherwise I have to check if there is a set of fields with a primary and return this one
+            try:
+                #I count the occorrences of fields with primary true or false
+                primary_occurrences_field1 = [bibrecord.field_get_subfield_values(field, PRIMARY_METADATA_SUBFIELD)[0] for field in fields1]
+                primary_occurrences_field2 = [bibrecord.field_get_subfield_values(field, PRIMARY_METADATA_SUBFIELD)[0] for field in fields2]
+                #then I consider primary = true only if the majority of fields is true
+                if primary_occurrences_field1.count('True') > primary_occurrences_field1.count('False'):
+                    primary_field1 = 'True'
+                else:
+                    primary_field1 = 'False'
+                if primary_occurrences_field2.count('True') > primary_occurrences_field2.count('False'):
+                    primary_field2 = 'True'
+                else:
+                    primary_field2 = 'False'
+                #if one of the the two has priority true and the other has false I return the one with true
+                if primary_field1 == 'True' and primary_field2 == 'False':
+                    logger.info('        One set of fields has priority set to True: returning this one')
+                    return (fields1, fields2)
+                if primary_field1 == 'False' and primary_field2 == 'True':
+                    logger.info('        One set of fields has priority set to True: returning this one')
+                    return (fields2, fields1)
+            except IndexError:
+                pass
+        
     #second check: are them the same not considering the origin? If so I take the first one
     if len(fields1) == len(fields2) and all(compare_fields_exclude_subfiels(field1, field2, strict=False, exclude_subfields=[ORIGIN_SUBFIELD]+TEMP_SUBFIELDS_LIST) for field1, field2 in zip(fields1, fields2)):
         logger.info('      The two set of fields are the same (origin excluded): picking the first one.')
