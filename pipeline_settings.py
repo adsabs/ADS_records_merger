@@ -85,6 +85,6 @@ NUMBER_WORKERS = 16
 NUMBER_UPLOAD_WORKER = 8
 
 #maximum number of groups of bibcodes that each worker can process before dying
-MAX_NUMBER_OF_GROUP_TO_PROCESS = 3
+MAX_NUMBER_OF_GROUP_TO_PROCESS = 1
 
 
