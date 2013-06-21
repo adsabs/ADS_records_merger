@@ -228,6 +228,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                		<subfield code="m"><xsl:value-of select="."/></subfield>
 				                                	</xsl:for-each>
 				                                </xsl:if>
+				                                <!-- author_id -->
+				                                <xsl:if test="author_ids">
+				                                	<xsl:for-each select="author_ids/author_id">
+				                                		<subfield code="j"><xsl:value-of select="."/></subfield>
+				                                	</xsl:for-each>
+				                                </xsl:if>
 				                                <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
 				                                <subfield code="97"><xsl:value-of select="$creation_time"/></subfield>
 				                    			<subfield code="98"><xsl:value-of select="$modification_time"/></subfield>
@@ -259,6 +265,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				                                <xsl:if test="emails">
 				                                	<xsl:for-each select="emails/email">
 				                                		<subfield code="m"><xsl:value-of select="."/></subfield>
+				                                	</xsl:for-each>
+				                                </xsl:if>
+				                                <!-- author_id -->
+				                                <xsl:if test="author_ids">
+				                                	<xsl:for-each select="author_ids/author_id">
+				                                		<subfield code="j"><xsl:value-of select="."/></subfield>
 				                                	</xsl:for-each>
 				                                </xsl:if>
 				                                <subfield code="7"><xsl:value-of select="$origin_metadata"/></subfield>
