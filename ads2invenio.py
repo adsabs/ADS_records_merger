@@ -38,6 +38,7 @@ def parse_parameters():
     parser.add_option("-l", "--logtype", dest="logtype", help="Specify the type of logging you want (\"file\" or \"screen\"). If not specified \"file\" will be the default.", metavar="LOG_TIPE_VALUE")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help='Use this parameter if a verbose execution is needed ')
     parser.add_option("-u", "--uploadmode", dest="uploadmode", help="Specify the method of upload (\"concurrent\" or \"bibupload\") ", metavar="UPLOADMODE_VALUE")
+    parser.add_option("-n", "--norecover", dest="norecover", help="Don't try to recover from previous runs")
 
     # catch the parameters from the command line
     options, _ = parser.parse_args()
@@ -78,6 +79,8 @@ def parse_parameters():
     else:
         parameters['verbose'] = False
 
+    parameters['norecover'] = options.norecover and True or False
+    
     return parameters
 
 def main():
@@ -100,7 +103,7 @@ def main():
     if not parameters['verbose']:
         logger.setLevel(logging.WARNING)
     #I call the global manager
-    pipeline_manager.manage(parameters['mode'], parameters['uploadmode'])
+    pipeline_manager.manage(parameters['mode'], parameters['uploadmode'], parameters['norecover'])
 
 if __name__ == "__main__":
     main()

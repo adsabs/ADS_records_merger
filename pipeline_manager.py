@@ -54,7 +54,7 @@ DIRNAME = ''
 LATEST_EXTR_DIR = ''
 MODE = ''
 
-def manage(mode, upload_mode):
+def manage(mode, upload_mode, norecover=False):
     """public function"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
     
@@ -74,14 +74,17 @@ def manage(mode, upload_mode):
         pipeline_ads_record_extractor.extract(bibcodes_to_extract_list, bibcodes_to_delete_list, file_to_upload_list, DIRNAME, upload_mode)
         return
 
-def retrieve_bibcodes_to_extract():
+def retrieve_bibcodes_to_extract(norecover=False):
     """method that retrieves the bibcodes that need to be extracted from ADS"""
     logger.info("In function %s" % (inspect.stack()[0][3],))
 
     #check the status of the last extraction
-    status_last_extraction = check_last_extraction()
+    if norecover:
+        status_last_extraction = 'NORECOVER'
+    else:
+        status_last_extraction = check_last_extraction()
 
-    if status_last_extraction == 'OK' or status_last_extraction == 'NOTHING FOUND' or status_last_extraction == 'NOT VALID DIRECTORY CONTENT':
+    if status_last_extraction in ['OK','NOTHING FOUND','NOT VALID DIRECTORY CONTENT','NORECOVER']:
         logger.warning("Last extraction was fine: proceeding with a new one")
         #I create directory and files of bibcodes to extract
         global DIRNAME
