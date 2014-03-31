@@ -1,7 +1,0 @@
-ADS utility for merging records from multiple sources.
-Includes full pipeline to extract records from ADSClassic 
-and Upload them to INVENIO
-
-Authors:
-* Giovanni Di Milia <gdimilia@cfa.harvard.edu>;
-* Benoit Thiell <bthiell@cfa.harvard.edu>.

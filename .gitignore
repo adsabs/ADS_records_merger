@@ -1,14 +1,2 @@
-*$py.class
-*.py,v
-*.py.[0-9]+
-*.py.backup
-*.py.new
-*.py.old
-*.py.orig
-*.py.save
-*.py.tmp
-*.pyc
-*~
-.*.swp
-._*.py
-.nfs*
+*pyc
+logs/*log
