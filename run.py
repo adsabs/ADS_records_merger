@@ -23,6 +23,14 @@ def main():
     help='Which datasources should be updated'
     )
 
+  parser.add_argument(
+    '--bibcodes',
+    nargs='*',
+    default=None,
+    dest='targetBibcodes',
+    help='Only analyze the specified bibcodes'
+    )
+
   args = parser.parse_args()
   LOGGER.debug('Recieved args (%s)' % (args))
 
@@ -37,16 +45,23 @@ def main():
       records = [tuple(r.strip().split()) for r in fp.readlines() if r and not r.startswith('#')]
     LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))
 
+    if args.targetBibcodes:
+      records = [r for r in records if r[0] in args.targetBibcodes]
+
     s = time.time()
-    targetBibcodes = utils.findChangedRecords(records)
+    records = utils.findChangedRecords(records)
     LOGGER.debug('[%s] Generating list of records to update took %0.1fs' % (target,(time.time()-s)))
-    LOGGER.info('[%s] Found %s records to be updated' % (target,len(targetBibcodes)))
+    LOGGER.info('[%s] Found %s records to be updated' % (target,len(records)))
 
     #Eventually could send this list out on the queues as to be non-blocking
     #For now, just work on it here and measure performance
     s = time.time()
-    utils.updateRecords(targetBibcodes)
-    LOGGER.debug('[%s] Updating %s records took %0.1fs' % (target,len(targetBibcodes),(time.time()-s)))
+    records = utils.updateRecords(records)
+    LOGGER.debug('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
+
+    s = time.time()
+    utils.mongoCommit(records)
+    LOGGER.debug('Write to mongo took %0.1fs' % (time.time()-s))
 
 
 
