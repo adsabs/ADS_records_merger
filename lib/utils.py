@@ -3,6 +3,7 @@ import pymongo
 import time
 import itertools
 import json
+import copy
 
 from settings import (MONGO,LOGGER)
 from rules import merger
@@ -45,6 +46,9 @@ def findChangedRecords(records):
   if MONGO['COLLECTION'] not in db.collection_names():
     init_db(db)
   collection = db[MONGO['COLLECTION']]
+  z = list(collection.find({"bibcode": {"$in": [rec[0] for rec in records]}}))
+  print z[0].keys()
+  print z[-1].keys()
   currentRecords = [(r['bibcode'],r['JSON_fingerprint']) for r in collection.find({"bibcode": {"$in": [rec[0] for rec in records]}})]
   conn.close()
   return list(set(records).difference(currentRecords))
@@ -107,10 +111,23 @@ def updateRecords(records):
           needsMerging[field].append(record[field])
       cr.update({field:merge(needsMerging)})
     cr.update({'bibcode':bibcode,'JSON_fingerprint': targets[bibcode]})
-    completeRecords.append(cr)
+    completeRecords.append(enforceSchema(cr))
 
   LOGGER.debug('Added %s complete records' % len(completeRecords))
   return completeRecords
+
+def enforceSchema(d):
+  '''
+  translates field names from ADSRecords to alternative names
+  '''
+
+
+  dc = copy.deepcopy(d)
+
+
+
+  return
+
 
 def merge(fieldsDict):
   tag,fields = tuple(fieldsDict.items())[0]

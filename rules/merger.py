@@ -7,7 +7,7 @@ def dispatcher(f1,f2,tag,*args,**kwargs):
   Provides a first order security for string mappings via eval()
   '''
   if tag not in MERGER_RULES:
-    return
+    tag = 'default'
 
   if type(MERGER_RULES[tag])==types.FunctionType:
     return MERGER_RULES[tag](f1,f2,tag, *args, **kwargs)
@@ -16,15 +16,17 @@ def dispatcher(f1,f2,tag,*args,**kwargs):
     assert type(eval(MERGER_RULES[tag]))==types.FunctionType
     assert MERGER_RULES[tag] in dir(sys.modules[__name__])
 
-    return eval(MERGER_RULES[tag])(f1,f2,tag, *args, **kwargs)
+    return eval(MERGER_RULES[tag])(f1,f2,tag,*args,**kwargs)
 
 
 def takeAll(f1,f2,*args,**kwargs):
   #takeAll merger only makes sense with lists.
-
   #Remember: Understand why the previous merger compared trust values here
   assert(type(f1)==list and type(f2)==list)
   return list( set(f1).union(f2) )
+
+def stringConcatenate(f1,f2,*args,**kwargs):
+  return "<%s><%s>" % (f1,f2)
 
 def priorityMerger(f1,f2,*args,**kwargs):
   pass
@@ -42,6 +44,5 @@ def referencesMerger(f1,f2,*args,**kwargs):
 
 def _rankTrust(f1,f2,tag,*args,**kwargs):
   pass
-
 def _getBestFields(f1,f2,*args,**kwargs):
   pass

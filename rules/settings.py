@@ -31,6 +31,7 @@ MERGER_RULES = {
   'theses': 'takeAll',
   'timestamp': 'priorityMerger',
   'title translation': 'titleMerger',
+  'default': 'stringConcatenate',
 }
 
 __PRIORITIES_DEFAULT = {

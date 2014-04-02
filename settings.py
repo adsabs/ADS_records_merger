@@ -19,6 +19,17 @@ CLASSIC_BIBCODES = {
   'AST': 'ast.txt',
 }
 
+#ADSrecords->mongodb mapping
+SCHEMA = {
+  'id':           lambda d: str(d['_id']),
+  'recid':        lambda d: int(d['_id']),
+  'bibcode':      lambda d: d['bibcode'],
+  'identifier':   lambda d: d['identifier'], #What is identifier?
+  'bibstem':      lambda d: d['bibcode'],
+  'bibstem_facet':  lambda d: d['bibcode'],
+  'pub':          lambda d: d['pub'],
+}
+
 ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 
 MONGO = {
