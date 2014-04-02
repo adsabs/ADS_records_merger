@@ -42,7 +42,7 @@ def main():
     with open(CLASSIC_BIBCODES[target]) as fp:
       #Harder to perform set operations on dicts
       #records = [dict(zip(['bibcode','timestamp'],r.strip().split())) for r in fp.readlines() if r and not r.startswith('#')]
-      records = [tuple(r.strip().split()) for r in fp.readlines() if r and not r.startswith('#')]
+      records = [tuple(r.strip().split('\t')) for r in fp.readlines() if r and not r.startswith('#')]
     LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))
 
     if args.targetBibcodes:
@@ -61,15 +61,16 @@ def main():
 
     s = time.time()
     utils.mongoCommit(records)
-    LOGGER.debug('Write to mongo took %0.1fs' % (time.time()-s))
+    LOGGER.debug('Write %s records to mongo took %0.1fs' % (len(records),(time.time()-s)))
 
 
 
 if __name__ == '__main__':
   try:
+    s = time.time()
     LOGGER.debug('--Start--')
     main()
-    LOGGER.debug('--End--')
+    LOGGER.debug('--End-- (%0.1fs)' % (time.time()-s))
   except SystemExit:
     pass #this exception is raised by argparse if -h or wrong args given; we will ignore.
   except:

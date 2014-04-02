@@ -1,4 +1,4 @@
-MERGING_RULES = {
+MERGER_RULES = {
   'abstract': 'abstractMerger',
   'arxiv tags': 'priorityMerger',
   'associate papers': 'priorityMerger',

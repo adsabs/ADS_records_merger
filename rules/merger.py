@@ -1,21 +1,22 @@
 import sys,os
-from settings import MERGER_RULES
+from rules.settings import MERGER_RULES
 import types
-from ..settings import LOGGER
 
 def dispatcher(f1,f2,tag,*args,**kwargs):
   '''
   Provides a first order security for string mappings via eval()
   '''
+  if tag not in MERGER_RULES:
+    return
 
   if type(MERGER_RULES[tag])==types.FunctionType:
-    return MERGER_RULES[tag](f1,f2,tag)
+    return MERGER_RULES[tag](f1,f2,tag, *args, **kwargs)
   else:
     #Assert that the string maps to function defined within this module
     assert type(eval(MERGER_RULES[tag]))==types.FunctionType
     assert MERGER_RULES[tag] in dir(sys.modules[__name__])
 
-    return eval(MERGER_RULES[tag](f1,f2,tag))
+    return eval(MERGER_RULES[tag])(f1,f2,tag, *args, **kwargs)
 
 
 def takeAll(f1,f2,*args,**kwargs):
@@ -43,3 +44,4 @@ def _rankTrust(f1,f2,tag,*args,**kwargs):
   pass
 
 def _getBestFields(f1,f2,*args,**kwargs):
+  pass
