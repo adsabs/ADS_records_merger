@@ -135,7 +135,7 @@ def merge(metadataBlocks):
       if fieldName not in fields:
         fields[fieldName] = []
       fields[fieldName].append({
-        'origin':block['@origin'],
+        '@origin':block['@origin'],
         'content':data
       })
 
@@ -146,7 +146,7 @@ def merge(metadataBlocks):
     while len(data) > 1:
       f1 = data.pop()
       f2 = result if result else data.pop()
-      results = merger.dispatcher(f1,f2)
+      results = merger.dispatcher(f1,f2,fieldName)
     mergedResults[fieldName] = result
 
   #Combine all the pieces into the complete <metadata> block
