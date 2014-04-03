@@ -46,9 +46,7 @@ def findChangedRecords(records):
   if MONGO['COLLECTION'] not in db.collection_names():
     init_db(db)
   collection = db[MONGO['COLLECTION']]
-  z = list(collection.find({"bibcode": {"$in": [rec[0] for rec in records]}}))
-  print z[0].keys()
-  print z[-1].keys()
+  res = list(collection.find({"bibcode": {"$in": [rec[0] for rec in records]}}))
   currentRecords = [(r['bibcode'],r['JSON_fingerprint']) for r in collection.find({"bibcode": {"$in": [rec[0] for rec in records]}})]
   conn.close()
   return list(set(records).difference(currentRecords))
@@ -59,6 +57,7 @@ def updateRecords(records):
     return []
 
   targets = dict(records)
+
 
   s = time.time()
   records = ADSRecords('full','XML')
@@ -78,62 +77,82 @@ def updateRecords(records):
   LOGGER.info('ADSRecords took %0.1fs to query %s records (%0.1f rec/s)' % (ttc,len(targets),rate))
 
   records = xmltodict.parse(records.__str__())['records']['record']
-
-  #Reformat output to be in {'<bibcode>':[{'author':...}.],} format
-  formattedRecords = {}
-  for r in records:
-    bibcode = r['@bibcode']
-    if bibcode not in formattedRecords:
-      formattedRecords[bibcode] = []
-    formattedRecords[bibcode].extend(r['metadata'])
-  assert(len(formattedRecords)==len(targets)-len(failures))
+  assert(len(records)==len(targets)-len(failures))
 
   #Could send these tasks out on a queue
   completeRecords = []
-  for bibcode,records in formattedRecords.iteritems():
-    #Add fields that only show up once
-    cr = {}
-    fieldsHist = collections.Counter(list(itertools.chain(*records))).items()
-    singlyDefinedFields = [k for k,v in fieldsHist if v==1 and not k.startswith('@')]
-    for record in records:
-      for field in singlyDefinedFields:
-        if field in record.keys():
-          #Could add a translation layer here if we want to re-name the fields in our mongo collection
-          cr.update({field:record[field]})
+  for r in records:
+    #Define top-level schema
+    cr = {
+      'bibcode': r['@bibcode'],
+      'JSON_fingerprint': targets[r['@bibcode']],
+      'metadata' : {},
+    }
 
-    #Fields with more than one entry need merging.
-    multipleDefinedFields = [k for k,v in fieldsHist if v>1 and not k.startswith('@')]
-    needsMerging = {}
-    for field in multipleDefinedFields:
-      needsMerging[field] = []
-      for record in records:
-        if field in record.keys():
-          needsMerging[field].append(record[field])
-      cr.update({field:merge(needsMerging)})
-    cr.update({'bibcode':bibcode,'JSON_fingerprint': targets[bibcode]})
-    completeRecords.append(enforceSchema(cr))
+    #Find metadata blocks that need merging
+    metadataCounter = collections.Counter([entry['@type'] for entry in r['metadata']])
+    needsMerging = dict([(k,[]) for k,v in metadataCounter.iteritems() if v>1])
+
+    #Iterate over metadata blocks; directly input single defined blocks
+    #and build a 'needsMerging' list to merge in the next step
+    for entry in r['metadata']: 
+      if metadataCounter[entry['@type']] not in needsMerging:
+        cr['metadata'].update({entry['@type']:entry})
+      else: #If it shows up more than once, it needs merging.
+        needsMerging[entry['@type']].append(entry)
+
+    for entryType,data in needsMerging.iteritems():
+      cr['metadata'].update({entryType:merge(data)})
+
+    completeRecords.append(cr)
 
   LOGGER.debug('Added %s complete records' % len(completeRecords))
   return completeRecords
 
-def enforceSchema(d):
+def enforceSchema(records):
   '''
-  translates field names from ADSRecords to alternative names
+  translates schema from ADSRecords to alternative schema
   '''
 
+  return records
 
-  dc = copy.deepcopy(d)
+def merge(metadataBlocks):
+  '''
+  Merges multiply defined fields within a list of <metadata> blocks
+  Returns a single (merged) <metadata> block
+  '''
 
+  fieldsHist = collections.Counter([i for i in list(itertools.chain(*metadataBlocks)) if not i.startswith('@')])
+  singleDefinedFields = [k for k,v in fieldsHist.iteritems() if v==1]
+  multipleDefinedFields = [k for k,v in fieldsHist.iteritems() if v>1]
 
+  #Create intermediate data structure that lets us easily iterate over those fields that merging
+  fields = {}
+  for block in metadataBlocks:
+    for fieldName,content in block:
+      if fieldName not in multipleDefinedFields:
+        continue
+      if fieldName not in fields:
+        fields[fieldName] = []
+      fields[fieldName].append({
+        'origin':block['@origin'],
+        'content':data
+      })
 
-  return
+  #Merge those fields that are multiply defined      
+  mergedResults = {}
+  for fieldName,data in fields:
+    results = None
+    while len(data) > 1:
+      f1 = data.pop()
+      f2 = result if result else data.pop()
+      results = merger.dispatcher(f1,f2)
+    mergedResults[fieldName] = result
 
+  #Combine all the pieces into the complete <metadata> block
+  completeBlock = {}
+  singleDefined = dict([(k,v) for block in metadataBlocks for k,v in block.iteritems() if k in singleDefinedFields])
+  completeBlock.update(singleDefined)
+  completeBlock.update(mergedResults)
 
-def merge(fieldsDict):
-  tag,fields = tuple(fieldsDict.items())[0]
-  result = None
-  while len(fields) > 1:
-    f1 = fields.pop()
-    f2 = result if result else fields.pop()
-    result = merger.dispatcher(f1,f2,tag)
-  return result
+  return completeBlock
