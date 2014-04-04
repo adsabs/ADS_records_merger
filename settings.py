@@ -20,6 +20,7 @@ CLASSIC_BIBCODES = {
 }
 
 #ADSrecords->mongodb mapping
+# key: <how to get key from ADSExports dict>
 SCHEMA = {
   'id':           lambda d: str(d['_id']),
   'recid':        lambda d: int(d['_id']),
@@ -46,7 +47,7 @@ if MONGO['USER'] and MONGO['PASSWD']:
   auth =  '%s@' % (':'.join([MONGO['USER'],MONGO['PASSWD']]))
 MONGO['MONGO_URI'] = 'mongodb://%s%s:%s' % (auth,MONGO['HOST'],MONGO['PORT'])
 
-logfmt = '%(levelname)s %(process)d [%(asctime)s]:\t %(message)s'
+logfmt = '%(levelname)s\t%(process)d [%(asctime)s]:\t%(message)s'
 datefmt= '%m/%d/%Y %H:%M:%S'
 formatter = logging.Formatter(fmt=logfmt,datefmt=datefmt)
 LOGGER = logging.getLogger('ADS_records_merger')

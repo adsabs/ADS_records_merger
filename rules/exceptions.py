@@ -1,2 +1,0 @@
-class EqualOrigins(Exception):
-    pass

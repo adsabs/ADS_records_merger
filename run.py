@@ -57,11 +57,13 @@ def main():
     #For now, just work on it here and measure performance
     s = time.time()
     records = utils.updateRecords(records)
-    LOGGER.debug('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
+    LOGGER.info('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
+
+    records = utils.enforceSchema(records)
 
     s = time.time()
     utils.mongoCommit(records)
-    LOGGER.debug('Write %s records to mongo took %0.1fs' % (len(records),(time.time()-s)))
+    LOGGER.info('Write %s records to mongo took %0.1fs' % (len(records),(time.time()-s)))
 
 
 

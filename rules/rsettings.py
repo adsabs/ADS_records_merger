@@ -1,38 +1,58 @@
 MERGER_RULES = {
-  'abstract':             'originTrustMerger',
-  'arxivcategories':      'originTrustMerger',
-  'associate papers':     'originTrustMerger',
-  'collaboration':        'originTrustMerger',
-  'collection':           'originTrustMerger',
-  'comment':              'takeAll',
-  'conference_metadata':  'originTrustMerger',
-  'controlled keywords':  'takeAll',
-  'copyright':            'originTrustMerger',
-  'creation_time':        'takeAll',
-  'modification_time':    'takeAll',
-  'DOI':                  'originTrustMerger',
-  'instruments':          'takeAll',
-  'first author':         'authorMerger',
-  'free keyword':         'takeAll',
-  'identifiers':          'takeAll',
-  'isbns' :                'takeAll',
-  'issns' :                'takeAll',
-  'journal':              'originTrustMerger',
-  'language code':        'originTrustMerger',
-  'link':                 'originTrustMerger',
-  'number of pages':      'originTrustMerger',
-  'objects' :             'takeAll',
-  'origin' :              'originTrustMerger',
-  'original title':       'originTrustMerger',
-  'other author':         'authorMerger',
-  'other journal':        'takeAll',
-  'publication date':     'pubdateMerger',
-  'reference':           'referencesMerger',
-  'system number':        'originTrustMerger',
-  'theses':               'takeAll',
-  'timestamp':            'originTrustMerger',
-  'title translation':    'originTrustMerger',
   'default':              'stringConcatenateMerger',
+
+  #<metadata type="general">
+  'creation_time':        'stringConcatenateMerger', #Also in <metadata type="references">
+  'modification_time':    'stringConcatenateMerger', #Also in <metadata type="references">
+  'arxivcategories':      'originTrustMerger',
+  'keywords':             'originTrustMerger',
+  'title':                'originTrustMerger',
+  'abstract':             'originTrustMerger',
+  'author':               'authorMerger',
+  'pagenumber':           'originTrustMerger',
+  'journal':              'originTrustMerger',
+  'canonical_journal':    'originTrustMerger',
+  'volume':               'originTrustMerger',
+  'issue':                'originTrustMerger',
+  'dates':                'pubdateMerger',
+  'page_range':           'originTrustMerger',
+  'page':                 'originTrustMerger',
+  'lastpage':             'originTrustMerger',
+  'electronic_id':        'originTrustMerger',
+  'conf_metadata':        'originTrustMerger',
+  'isbns':                'takeAll',
+  'issns':                'takeAll',
+  'DOI':                  'originTrustMerger',
+  'origin':               'originTrustMerger',
+  'instruments':          'takeAll',
+  'copyright':            'originTrustMerger',
+  'objects':              'takeAll',
+  'language':             'originTrustMerger',
+
+  #<metadata type="properties">
+  'databases':            'takeAll',
+  'JSON_timestamp':       'stringConcatenateMerger',
+  'pubtype':              'originTrustMerger',
+  'bibgroups':            'takeAll',
+  'openaccess':           'originTrustMerger',
+  'private':              'originTrustMerger',
+  'pubtype':              'originTrustMerger',
+  'bibgroups':            'takeAll',
+  'openaccess':           'originTrustMerger',
+  'nonarticle':           'originTrustMerger',
+  'ocrabstract':          'originTrustMerger',
+  'openaccess':           'originTrustMerger',
+  'private':              'originTrustMerger',
+  'refereed':             'originTrustMerger',
+
+  #<metadata type="references">
+  'reference':            'referencesMerger',
+
+  #<metadata type="relations">
+  'preprintid':           'takeAll',
+  'alternatives':         'takeAll',
+  'associates':           'takeAll',
+  'links':                'takeAll',
 }
 
 __PRIORITIES_DEFAULT = {
@@ -270,13 +290,10 @@ PRIORITIES = {
   'journal': dict((source, score)
     for score, sources in __PRIORITIES_JOURNAL.iteritems()
     for source in sources),
-  'other journal': dict((source, score)
+  'canonical_journal': dict((source, score)
     for score, sources in __PRIORITIES_JOURNAL.iteritems()
     for source in sources),
-  'first author': dict((source, score)
-    for score, sources in __PRIORITIES_AUTHOR.iteritems()
-    for source in sources),
-  'other author': dict((source, score)
+  'author': dict((source, score)
     for score, sources in __PRIORITIES_AUTHOR.iteritems()
     for source in sources),
   'reference': dict((source, score)
@@ -286,6 +303,10 @@ PRIORITIES = {
     for score, sources in __PRIORITIES_ABSTRACT.iteritems()
     for source in sources),
 }
+
+
+
+#vss -- what is this??
 
 #list of origins for which we have to apply the take_all
 #for all the others will be applied the priority_merging
