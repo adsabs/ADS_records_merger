@@ -1,5 +1,5 @@
 import sys,os
-from rules.rsettings import (MERGER_RULES,PRIORITIES)
+from rules.rsettings import (MERGER_RULES,PRIORITIES,REFERENCES_ALWAYS_APPEND)
 from settings import LOGGER
 import datetime
 import settings
@@ -66,14 +66,20 @@ def stringConcatenateMerger(f1,f2,*args,**kwargs):
   return "<%s><%s>" % (f1['content'],f2['content'])
 
 
-def authorMerger(f1,f2,*args,**kwargs):
-  pass
-def pubdateMerger(f1,f2,*args,**kwargs):
-  pass
+# def authorMerger(f1,f2,*args,**kwargs):
+#   #originTrustMerger used instead
+#   pass
+
+# def pubdateMerger(f1,f2,*args,**kwargs):
+#   #originTrustMerger used instead
+#   pass
 
 def referencesMerger(f1,f2,*args,**kwargs):
-  #assert type(f1['content'])==type(f2['content'])
-  pass
+  assert type(f1['content'])==type(f2['content'])==list
+  if f1['@origin'] in REFERENCES_ALWAYS_APPEND or f1['@origin'] in REFERENCES_ALWAYS_APPEND:
+    return takeAll(f1,f2)
+  return originTrustMerger(f1,f2,'reference')
+
 
 
 def originTrustMerger(f1,f2,fieldName,*args,**kwargs):

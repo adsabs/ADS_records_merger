@@ -41,10 +41,11 @@ def ensureLanguageSchema(item):
       '#text': item
     }]
   else:
-    L = __ensureList(item)
+    L = ensureList(item)
     for i in L:
       if '@lang' not in i:
         i['@lang'] = 'en'
+  return L
 
 def ensureList(item):
   return item if isinstance(item,list) else [item]
@@ -113,7 +114,8 @@ def updateRecords(records):
     LOGGER.warning('ADSRecords failed to retrieve %s records' % len(failures))
   LOGGER.info('ADSRecords took %0.1fs to query %s records (%0.1f rec/s)' % (ttc,len(targets),rate))
 
-  records = xmltodict.parse(records.__str__())['records']['record']
+  records = ensureList(xmltodict.parse(records.__str__())['records']['record'])
+  print len(records),len(targets),len(failures)
   assert(len(records)==len(targets)-len(failures))
 
   #Could send these tasks out on a queue
@@ -165,7 +167,7 @@ def merge(metadataBlocks,bibcode,entryType):
   fieldsHist = collections.Counter([i for i in list(itertools.chain(*metadataBlocks)) if not i.startswith('@')])
   singleDefinedFields = [k for k,v in fieldsHist.iteritems() if v==1]
   multipleDefinedFields = [k for k,v in fieldsHist.iteritems() if v>1]
-  #LOGGER.debug('%s entries in [%s] (type: %s) need merging' % (len(multipleDefinedFields),bibcode,entryType))
+  LOGGER.debug('%s entries in [%s] (type: %s) need merging' % (len(multipleDefinedFields),bibcode,entryType))
   
   #Create intermediate data structure that lets us easily iterate over those fields that merging, and
   #store the necessary metadata for mergingfg

@@ -8,13 +8,13 @@ MERGER_RULES = {
   'keywords':             'originTrustMerger',
   'title':                'originTrustMerger',
   'abstract':             'originTrustMerger',
-  'author':               'authorMerger',
+  'author':               'originTrustMerger',
   'pagenumber':           'originTrustMerger',
   'journal':              'originTrustMerger',
   'canonical_journal':    'originTrustMerger',
   'volume':               'originTrustMerger',
   'issue':                'originTrustMerger',
-  'dates':                'pubdateMerger',
+  'dates':                'originTrustMerger',
   'page_range':           'originTrustMerger',
   'page':                 'originTrustMerger',
   'lastpage':             'originTrustMerger',
@@ -306,9 +306,5 @@ PRIORITIES = {
 
 
 
-#vss -- what is this??
-
-#list of origins for which we have to apply the take_all
-#for all the others will be applied the priority_merging
-#the two groups will be merged with a take all
-REFERENCES_MERGING_TAKE_ALL_ORIGINS = ['ISI', 'AUTHOR', 'OTHER', 'CROSSREF']
+#References with these origins will always be added to merged reference metadata blocks.
+REFERENCES_ALWAYS_APPEND = ['ISI', 'AUTHOR', 'OTHER', 'CROSSREF']
