@@ -5,7 +5,6 @@ import itertools
 import json
 import copy
 
-from settings import (MONGO,LOGGER)
 from rules import merger
 from lib import xmltodict
 from lib import collections
@@ -50,16 +49,16 @@ def ensureLanguageSchema(item):
 def ensureList(item):
   return item if isinstance(item,list) else [item]
 
-def init_db(db):
+def init_db(db,LOGGER,MONGO):
   db[MONGO['COLLECTION']].ensure_index('bibcode',unique=True)
 
-def mongoCommit(records):
+def mongoCommit(records,LOGGER,MONGO):
   if not records:
     return False
   conn = pymongo.MongoClient(host=MONGO['MONGO_URI'])
   db = conn[MONGO['DATABASE']]
   if MONGO['COLLECTION'] not in db.collection_names():
-    init_db(db)
+    init_db(db,LOGGER,MONGO)
   collection = db[MONGO['COLLECTION']]
   for r in records:
     assert(r['bibcode'])
@@ -70,7 +69,7 @@ def mongoCommit(records):
     collection.update(query,r,upsert=True,w=1,multi=False) #w=1 means block all write requests until it has written to the primary
   conn.close()
 
-def findChangedRecords(records):
+def findChangedRecords(records,LOGGER,MONGO):
   if not records:
     LOGGER.debug("No records given")
     return []
@@ -79,14 +78,14 @@ def findChangedRecords(records):
   db = conn[MONGO['DATABASE']]
 
   if MONGO['COLLECTION'] not in db.collection_names():
-    init_db(db)
+    init_db(db,LOGGER,MONGO)
   collection = db[MONGO['COLLECTION']]
   res = list(collection.find({"bibcode": {"$in": [rec[0] for rec in records]}}))
   currentRecords = [(r['bibcode'],r['JSON_fingerprint']) for r in collection.find({"bibcode": {"$in": [rec[0] for rec in records]}})]
   conn.close()
   return list(set(records).difference(currentRecords))
 
-def updateRecords(records):
+def updateRecords(records,LOGGER):
   if not records:
     LOGGER.debug("No records given")
     return []
@@ -115,7 +114,6 @@ def updateRecords(records):
   LOGGER.info('ADSRecords took %0.1fs to query %s records (%0.1f rec/s)' % (ttc,len(targets),rate))
 
   records = ensureList(xmltodict.parse(records.__str__())['records']['record'])
-  print len(records),len(targets),len(failures)
   assert(len(records)==len(targets)-len(failures))
 
   #Could send these tasks out on a queue
@@ -144,7 +142,7 @@ def updateRecords(records):
         needsMerging[metadataBlock['@type']].append(metadataBlock)
     #Now merge the multiply defined metadataBlocks
     for entryType,data in needsMerging.iteritems():
-      cr['metadata'].update({entryType:merge(data,r['@bibcode'],entryType)})
+      cr['metadata'].update({entryType:merge(data,r['@bibcode'],entryType,LOGGER)})
     
     #Finally, we have a complete record
     completeRecords.append(cr)
@@ -152,14 +150,14 @@ def updateRecords(records):
   LOGGER.info('Added %s complete records' % len(completeRecords))
   return completeRecords
 
-def enforceSchema(records):
+def enforceSchema(records,LOGGER):
   '''
   translates schema from ADSRecords to alternative schema
   '''
 
   return records
 
-def merge(metadataBlocks,bibcode,entryType):
+def merge(metadataBlocks,bibcode,entryType,LOGGER):
   '''
   Merges multiply defined fields within a list of <metadata> blocks
   Returns a single (merged) <metadata> block
