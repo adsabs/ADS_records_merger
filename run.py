@@ -6,6 +6,8 @@ import time
 from lib import xmltodict
 from lib import utils
 
+from async import tasks
+
 try:
   import argparse
 except ImportError: #argparse not in python2.6, careful!
@@ -36,6 +38,14 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
     help='Only analyze the specified bibcodes'
     )
 
+  parser.add_argument(
+    '--async',
+    default=False,
+    action='store_true',
+    dest='async',
+    help='start in async mode'
+    )
+
   args = parser.parse_args()
   LOGGER.debug('Recieved args (%s)' % (args))
   for target in args.updateTargets:
@@ -43,31 +53,25 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
     LOGGER.info('Working on bibcodes in %s' % target)
     
     s = time.time() #Let's eventually use statsd for these timers :)
+    records = []
     with open(CLASSIC_BIBCODES[target]) as fp:
-      #Harder to perform set operations on dicts
-      #records = [dict(zip(['bibcode','timestamp'],r.strip().split())) for r in fp.readlines() if r and not r.startswith('#')]
-      if args.targetBibcodes:
-        records = [tuple(r.strip().split('\t')) for r in fp.readlines() if r and not r.startswith('#') and r.strip().split('\t')[0] in args.targetBibcodes]
-      else:
-        records = [tuple(r.strip().split('\t')) for r in fp.readlines() if r and not r.startswith('#')]
-    LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))
-
-    s = time.time()
-    records = utils.findChangedRecords(records,LOGGER,MONGO)
-    LOGGER.debug('[%s] Generating list of records to update took %0.1fs' % (target,(time.time()-s)))
-    LOGGER.info('[%s] Found %s records to be updated' % (target,len(records)))
-
-    #Eventually could send this list out on the queues as to be non-blocking
-    #For now, just work on it here and measure performance
-    s = time.time()
-    records = utils.updateRecords(records,LOGGER)
-    LOGGER.info('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
-
-    records = utils.enforceSchema(records,LOGGER)
-
-    s = time.time()
-    utils.mongoCommit(records,LOGGER,MONGO)
-    LOGGER.info('Write %s records to mongo took %0.1fs' % (len(records),(time.time()-s)))
+      for line in fp:
+        if not line or line.startswith("#"):
+          continue
+        r = tuple(line.strip().split('\t'))
+        if args.targetBibcodes:
+          if r[0] in args.targetBibcodes:
+            records.append(r)
+        else:
+          records.append(r)  
+        if args.async:
+          pass
+          #check if queue has X jobs already
+          #if so, poll queue until it has a free spot
+          #add n bibcodes to queue for processing. A worker should take it off the queue.
+    LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))      
+    if not args.async:
+      tasks.processRecords(records,LOGGER,MONGO)
   
   LOGGER.debug('--End-- (%0.1fs)' % (time.time()-start))
   return records

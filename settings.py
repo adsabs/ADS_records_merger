@@ -4,6 +4,17 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 
+#-----------------------------------
+#async settings
+#these have no effect unless the script is run in async mode
+BIBCODES_PER_JOB = 5000
+
+
+
+
+#-----------------------------------
+
+
 PROJECT_HOME = os.path.abspath(os.path.dirname(__file__))
 LOGFILE = os.path.join(PROJECT_HOME,'logs','merger.log')
 LOG_LEVEL = logging.DEBUG
@@ -22,6 +33,7 @@ CLASSIC_BIBCODES = {
 
 #ADSrecords->mongodb mapping
 # key: <how to get key from ADSExports dict>
+# Not yet implemented; does nothing
 SCHEMA = {
   'id':           lambda d: str(d['_id']),
   'recid':        lambda d: int(d['_id']),
