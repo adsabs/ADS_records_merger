@@ -36,10 +36,10 @@ ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 MONGO = {
   'HOST': os.environ.get('MONGO_HOST','localhost'),
   'PORT': os.environ.get('MONGO_PORT',27017),
-  'DATABASE': os.environ.get('MONGO_DATABSE','invenio'),
+  'DATABASE': os.environ.get('MONGO_DATABSE','ads'),
   'USER': None,    #May be set to None
   'PASSWD': None,  #May be set to None
-  'COLLECTION': 'marc',
+  'COLLECTION': 'classic',
 
 }
 auth = ''
