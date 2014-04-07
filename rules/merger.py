@@ -47,13 +47,15 @@ def takeAll(f1,f2,*args,**kwargs):
       L = L if isinstance(L,list) else [L]
       for D in L:
         for k,v in D.iteritems():
+          v = v if isinstance(v,list) else [v]
           if k not in result:
             result[k] = []
           if v not in result[k]:
             result[k].append(v)
     for k,v in result.iteritems():
       #Flatten the values of the dict
-      result[k] = list(itertools.chain(*v))
+      if not isinstance(v,basestring):
+        result[k] = list(itertools.chain(*v))
   return result
 
   #If elements are neither, we have a problem!
@@ -76,7 +78,7 @@ def stringConcatenateMerger(f1,f2,*args,**kwargs):
 
 def referencesMerger(f1,f2,*args,**kwargs):
   assert type(f1['content'])==type(f2['content'])==list
-  if f1['@origin'] in REFERENCES_ALWAYS_APPEND or f1['@origin'] in REFERENCES_ALWAYS_APPEND:
+  if f1['@origin'] in REFERENCES_ALWAYS_APPEND or f2['@origin'] in REFERENCES_ALWAYS_APPEND:
     return takeAll(f1,f2)
   return originTrustMerger(f1,f2,'reference')
 
@@ -89,6 +91,10 @@ def originTrustMerger(f1,f2,fieldName,*args,**kwargs):
   if fieldName not in PRIORITIES:
     fieldName = 'default'
   
+  #Maybe we should pick the one with the highest origin instead of the first one...
+  f1['@origin'] = f1['@origin'] if f1['@origin'] in PRIORITIES[fieldName] else f1['@origin'].split(';')[0]
+  f2['@origin'] = f2['@origin'] if f2['@origin'] in PRIORITIES[fieldName] else f2['@origin'].split(';')[0]
+
   if PRIORITIES[fieldName][f1['@origin']] == PRIORITIES[fieldName][f2['@origin']]:
     return equalTrustFallback(f1,f2)
 

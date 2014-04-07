@@ -9,15 +9,16 @@ LOGFILE = os.path.join(PROJECT_HOME,'logs','merger.log')
 LOG_LEVEL = logging.DEBUG
 #LOG_LEVEL = logging.INFO
 
-# CLASSIC_BIBCODES = {
-#   'AST': '/proj/ads/abstracts/ast/load/current/index.status',
-#   'PHY': '/proj/ads/abstracts/phy/load/current/index.status',
-#   'GEN': '/proj/ads/abstracts/gen/load/current/index.status',
-#   'PRE': '/proj/ads/abstracts/pre/load/current/index.status'
-# }
+ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 CLASSIC_BIBCODES = {
-  'AST': 'ast.txt',
+  'AST': '/proj/ads/abstracts/ast/load/current/index.status',
+  'PHY': '/proj/ads/abstracts/phy/load/current/index.status',
+  'GEN': '/proj/ads/abstracts/gen/load/current/index.status',
+  'PRE': '/proj/ads/abstracts/pre/load/current/index.status',
 }
+# CLASSIC_BIBCODES = {
+#   'AST': 'ast.txt',
+# }
 
 #ADSrecords->mongodb mapping
 # key: <how to get key from ADSExports dict>
@@ -30,8 +31,6 @@ SCHEMA = {
   'bibstem_facet':  lambda d: d['bibcode'],
   'pub':          lambda d: d['pub'],
 }
-
-ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 
 MONGO = {
   'HOST': os.environ.get('MONGO_HOST','localhost'),
