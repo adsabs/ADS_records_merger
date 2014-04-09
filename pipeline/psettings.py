@@ -58,7 +58,8 @@ WORKERS = {
     'concurrency': 1,
     'qos_prefetch': 10,
     'publish': [
-      {'exchange': 'MergerPipelineExchange', 'routing_key': 'MongoWriteRoute',},
+      #{'exchange': 'MergerPipelineExchange', 'routing_key': 'UpdateRecordsRoute',},
+      {'exchange': 'MergerPipelineExchange', 'routing_key': 'FindNewRecordsRoute',},
     ],
     'subscribe': [
       {'queue': 'FindNewRecordsQueue',},
@@ -79,9 +80,7 @@ WORKERS = {
   'MongoWriteWorker': {
     'concurrency': 1,
     'qos_prefetch': 10,
-    'publish': [
-      {'exchange': 'MergerPipelineExchange','routing_key':  'MongoWriteRoute',},
-    ],
+    'publish': [],
     'subscribe': [
       {'queue':'FindNewRecordsQueue',},
     ],
