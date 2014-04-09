@@ -4,32 +4,21 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 
-#-----------------------------------
-#async settings
-#these have no effect unless the script is run in async mode
-BIBCODES_PER_JOB = 5000
-
-
-
-
-#-----------------------------------
-
-
 PROJECT_HOME = os.path.abspath(os.path.dirname(__file__))
 LOGFILE = os.path.join(PROJECT_HOME,'logs','merger.log')
 LOG_LEVEL = logging.DEBUG
 #LOG_LEVEL = logging.INFO
 
 ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
-CLASSIC_BIBCODES = {
-  'AST': '/proj/ads/abstracts/ast/load/current/index.status',
-  'PHY': '/proj/ads/abstracts/phy/load/current/index.status',
-  'GEN': '/proj/ads/abstracts/gen/load/current/index.status',
-  'PRE': '/proj/ads/abstracts/pre/load/current/index.status',
-}
 # CLASSIC_BIBCODES = {
-#   'AST': 'ast.txt',
+#   'AST': '/proj/ads/abstracts/ast/load/current/index.status',
+#   'PHY': '/proj/ads/abstracts/phy/load/current/index.status',
+#   'GEN': '/proj/ads/abstracts/gen/load/current/index.status',
+#   'PRE': '/proj/ads/abstracts/pre/load/current/index.status',
 # }
+CLASSIC_BIBCODES = {
+  'AST': 'ast2.txt',
+}
 
 #ADSrecords->mongodb mapping
 # key: <how to get key from ADSExports dict>

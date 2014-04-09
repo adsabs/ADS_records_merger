@@ -53,6 +53,9 @@ def init_db(db,LOGGER,MONGO):
   db[MONGO['COLLECTION']].ensure_index('bibcode',unique=True)
 
 def mongoCommit(records,LOGGER,MONGO):
+  '''
+  Commits records(@type dict) to a mongo
+  '''
   if not records:
     return False
   conn = pymongo.MongoClient(host=MONGO['MONGO_URI'])
@@ -70,6 +73,10 @@ def mongoCommit(records,LOGGER,MONGO):
   conn.close()
 
 def findChangedRecords(records,LOGGER,MONGO):
+  '''
+  Finds records in mongodb that need updating.
+  Update criteria: JSON_fingerprint field different from the input records
+  '''
   if not records:
     LOGGER.debug("No records given")
     return []
@@ -80,7 +87,6 @@ def findChangedRecords(records,LOGGER,MONGO):
   if MONGO['COLLECTION'] not in db.collection_names():
     init_db(db,LOGGER,MONGO)
   collection = db[MONGO['COLLECTION']]
-  res = list(collection.find({"bibcode": {"$in": [rec[0] for rec in records]}}))
   currentRecords = [(r['bibcode'],r['JSON_fingerprint']) for r in collection.find({"bibcode": {"$in": [rec[0] for rec in records]}})]
   conn.close()
   return list(set(records).difference(currentRecords))
@@ -165,7 +171,7 @@ def merge(metadataBlocks,bibcode,entryType,LOGGER):
   fieldsHist = collections.Counter([i for i in list(itertools.chain(*metadataBlocks)) if not i.startswith('@')])
   singleDefinedFields = [k for k,v in fieldsHist.iteritems() if v==1]
   multipleDefinedFields = [k for k,v in fieldsHist.iteritems() if v>1]
-  LOGGER.debug('%s entries in [%s] (type: %s) need merging' % (len(multipleDefinedFields),bibcode,entryType))
+  #LOGGER.debug('%s entries in [%s] (type: %s) need merging' % (len(multipleDefinedFields),bibcode,entryType))
   
   #Create intermediate data structure that lets us easily iterate over those fields that merging, and
   #store the necessary metadata for mergingfg

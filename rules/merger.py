@@ -54,8 +54,7 @@ def takeAll(f1,f2,*args,**kwargs):
             result[k].append(v)
     for k,v in result.iteritems():
       #Flatten the values of the dict
-      if not isinstance(v,basestring):
-        result[k] = list(itertools.chain(*v))
+      result[k] = list(itertools.chain(*v))
   return result
 
   #If elements are neither, we have a problem!

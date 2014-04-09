@@ -1,6 +1,6 @@
 import os, sys
 import pymongo
-from settings import (CLASSIC_BIBCODES, ARXIV2PUB, MONGO, LOGGER)
+from settings import (CLASSIC_BIBCODES, ARXIV2PUB, MONGO, LOGGER, BIBCODES_PER_JOB)
 
 import time
 from lib import xmltodict
@@ -63,18 +63,32 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
           if r[0] in args.targetBibcodes:
             records.append(r)
         else:
-          records.append(r)  
-        if args.async:
+          records.append(r)
+        if args.async and len(records) >= BIBCODES_PER_JOB:
           pass
           #check if queue has X jobs already
           #if so, poll queue until it has a free spot
+          #... OR poll workers for a free one?
           #add n bibcodes to queue for processing. A worker should take it off the queue.
+
+
     LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))      
     if not args.async:
-      tasks.processRecords(records,LOGGER,MONGO)
-  
-  LOGGER.debug('--End-- (%0.1fs)' % (time.time()-start))
-  return records
+      s = time.time()
+      records = utils.findChangedRecords(records,LOGGER,MONGO)
+      LOGGER.info('[%s] Found %s records to be updated in %0.1fs' % (target,len(records),(time.time()-s)))
+
+      s = time.time()
+      records = utils.updateRecords(records,LOGGER)
+      LOGGER.info('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
+
+      records = utils.enforceSchema(records,LOGGER)
+
+      s = time.time()
+      utils.mongoCommit(records,LOGGER,MONGO)
+      LOGGER.info('Wrote %s records to mongo in %0.1fs' % (len(records),(time.time()-s)))
+      
+      LOGGER.debug('--End-- (%0.1fs)' % (time.time()-start))
 
 if __name__ == '__main__':
   try:
