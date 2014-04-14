@@ -20,6 +20,8 @@ CLASSIC_BIBCODES = {
   'AST': 'ast2.txt',
 }
 
+BIBCODES_PER_JOB = 5
+
 #ADSrecords->mongodb mapping
 # key: <how to get key from ADSExports dict>
 # Not yet implemented; does nothing

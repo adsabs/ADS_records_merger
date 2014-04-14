@@ -5,15 +5,16 @@ import itertools
 import json
 import copy
 
+import settings
 from rules import merger
 from lib import xmltodict
 from lib import collections
-
 try:
   from ads.ADSExports import ADSRecords
 except ImportError:
   sys.path.append('/proj/ads/soft/python/lib/site-packages')
   from ads.ADSExports import ADSRecords
+
 
 #This is not in settings because it normalizes the XML schema coming directly from ADSExports;
 #Changing this will break the merger logic, as it expects a consistent schema.
@@ -52,7 +53,7 @@ def ensureList(item):
 def init_db(db,LOGGER,MONGO):
   db[MONGO['COLLECTION']].ensure_index('bibcode',unique=True)
 
-def mongoCommit(records,LOGGER,MONGO):
+def mongoCommit(records,LOGGER=settings.LOGGER,MONGO=settings.MONGO):
   '''
   Commits records(@type dict) to a mongo
   '''
@@ -72,7 +73,7 @@ def mongoCommit(records,LOGGER,MONGO):
     collection.update(query,r,upsert=True,w=1,multi=False) #w=1 means block all write requests until it has written to the primary
   conn.close()
 
-def findChangedRecords(records,LOGGER,MONGO):
+def findChangedRecords(records,LOGGER=settings.LOGGER,MONGO=settings.MONGO):
   '''
   Finds records in mongodb that need updating.
   Update criteria: JSON_fingerprint field different from the input records
@@ -89,9 +90,10 @@ def findChangedRecords(records,LOGGER,MONGO):
   collection = db[MONGO['COLLECTION']]
   currentRecords = [(r['bibcode'],r['JSON_fingerprint']) for r in collection.find({"bibcode": {"$in": [rec[0] for rec in records]}})]
   conn.close()
-  return list(set(records).difference(currentRecords))
+  return list(set([(r[0],r[1]) for r in records]).difference(currentRecords))
 
-def updateRecords(records,LOGGER):
+def updateRecords(records,LOGGER=settings.LOGGER):
+
   if not records:
     LOGGER.debug("No records given")
     return []
@@ -156,14 +158,14 @@ def updateRecords(records,LOGGER):
   LOGGER.info('Added %s complete records' % len(completeRecords))
   return completeRecords
 
-def enforceSchema(records,LOGGER):
+def enforceSchema(records,LOGGER=settings.LOGGER):
   '''
   translates schema from ADSRecords to alternative schema
   '''
 
   return records
 
-def merge(metadataBlocks,bibcode,entryType,LOGGER):
+def merge(metadataBlocks,bibcode,entryType,LOGGER=settings.LOGGER):
   '''
   Merges multiply defined fields within a list of <metadata> blocks
   Returns a single (merged) <metadata> block

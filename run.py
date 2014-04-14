@@ -1,20 +1,34 @@
 import os, sys
 import pymongo
+import pika
+import json
 from settings import (CLASSIC_BIBCODES, ARXIV2PUB, MONGO, LOGGER, BIBCODES_PER_JOB)
 
 import time
 from lib import xmltodict
 from lib import utils
-
-from async import tasks
+from pipeline import psettings
+from pipeline.workers import RabbitMQWorker
 
 try:
   import argparse
 except ImportError: #argparse not in python2.6, careful!
   from lib import argparse
 
+class cd:
+    """Context manager for changing the current working directory"""
+    def __init__(self, newPath):
+        self.newPath = newPath
+
+    def __enter__(self):
+        self.savedPath = os.getcwd()
+        os.chdir(self.newPath)
+
+    def __exit__(self, etype, value, traceback):
+        os.chdir(self.savedPath)
 
 def main(LOGGER=LOGGER,MONGO=MONGO,*args):
+  PROJECT_HOME = os.path.abspath(os.path.dirname(__file__))
   start = time.time()
   LOGGER.debug('--Start--') 
   if args:
@@ -54,22 +68,27 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
     
     s = time.time() #Let's eventually use statsd for these timers :)
     records = []
-    with open(CLASSIC_BIBCODES[target]) as fp:
-      for line in fp:
-        if not line or line.startswith("#"):
-          continue
-        r = tuple(line.strip().split('\t'))
-        if args.targetBibcodes:
-          if r[0] in args.targetBibcodes:
+    with cd(PROJECT_HOME):
+      with open(CLASSIC_BIBCODES[target]) as fp:
+        for line in fp:
+          if not line or line.startswith("#"):
+            continue
+          r = tuple(line.strip().split('\t'))
+          if args.targetBibcodes:
+            if r[0] in args.targetBibcodes:
+              records.append(r)
+          else:
             records.append(r)
-        else:
-          records.append(r)
-        if args.async and len(records) >= BIBCODES_PER_JOB:
-          pass
-          #check if queue has X jobs already
-          #if so, poll queue until it has a free spot
-          #... OR poll workers for a free one?
-          #add n bibcodes to queue for processing. A worker should take it off the queue.
+          if args.async and len(records) >= BIBCODES_PER_JOB:
+            w = RabbitMQWorker()
+            w.connect(psettings.RABBITMQ_URL)
+            w.channel.basic_publish('MergerPipelineExchange','FindNewRecordsRoute',json.dumps(records))
+            w.connection.close()
+            records = []
+            #check if queue has X jobs already
+            #if so, poll queue until it has a free spot
+            #... OR poll workers for a free one?
+            #add n bibcodes to queue for processing. A worker should take it off the queue.
 
 
     LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))      

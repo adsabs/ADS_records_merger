@@ -8,10 +8,10 @@
 #RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/%2F?backpressure_detection=t'
 RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/%2F'
 
-PIDFILE = '/tmp/ADSimportpipeline.pid'
+PIDFILE = '/tmp/ADSimportpipeline.lock'
 POLL_INTERVAL = 3 #how many seconds to poll each worker to make sure it is alive.
 
-RABBITMQ_SETTINGS = {
+RABBITMQ_ROUTES = {
   'EXCHANGES':[
     {
       'exchange': 'MergerPipelineExchange',
@@ -58,8 +58,7 @@ WORKERS = {
     'concurrency': 1,
     'qos_prefetch': 10,
     'publish': [
-      #{'exchange': 'MergerPipelineExchange', 'routing_key': 'UpdateRecordsRoute',},
-      {'exchange': 'MergerPipelineExchange', 'routing_key': 'FindNewRecordsRoute',},
+      {'exchange': 'MergerPipelineExchange', 'routing_key': 'UpdateRecordsRoute',},
     ],
     'subscribe': [
       {'queue': 'FindNewRecordsQueue',},

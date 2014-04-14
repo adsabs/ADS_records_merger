@@ -339,7 +339,6 @@ class DaemonContext(object):
         redirect_stream(sys.stdin, self.stdin)
         redirect_stream(sys.stdout, self.stdout)
         redirect_stream(sys.stderr, self.stderr)
-
         if self.pidfile is not None:
             self.pidfile.__enter__()
 
@@ -582,7 +581,6 @@ def detach_process_context():
     os.setsid()
     fork_then_exit_parent(error_message="Failed second fork")
 
-
 def is_process_started_by_init():
     """ Determine if the current process is started by `init`.
 

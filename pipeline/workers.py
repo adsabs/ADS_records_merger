@@ -1,13 +1,15 @@
+
 import os,sys
 import time
 import pika
+import json
 
 sys.path.append(os.path.join(os.path.dirname(__file__),'..'))
-from lib import utils
 
-class RabbitMQConsumer:
+
+class RabbitMQWorker:
   '''
-  Base consumer class. Defines the plumbing to communicate with rabbitMQ
+  Base worker class. Defines the plumbing to communicate with rabbitMQ
   '''
   def __init__(self,params=None):
     self.params = params
@@ -28,6 +30,10 @@ class RabbitMQConsumer:
       self.channel.basic_consume(callback,queue=e['queue'],**kwargs)
     self.channel.start_consuming()
 
+  def stop(self):
+    self.channel.close()
+    self.connection.close()
+
   def declare_all(self,exchanges,queues,bindings):
     #todo: are these declarations blocking? Shouldn't matter either way, but would be nice to know.
     [self.channel.exchange_declare(**e) for e in exchanges]
@@ -35,35 +41,29 @@ class RabbitMQConsumer:
     [self.channel.queue_bind(**b) for b in bindings]
 
 
-class FindNewRecordsWorker(RabbitMQConsumer):
+class FindNewRecordsWorker(RabbitMQWorker):
   def __init__(self,params):
     self.params=params
+    from lib import utils #Hack to avoid loading ADSRecords until it is necessary
+    self.f = utils.findChangedRecords
 
   def on_message(self, channel, method_frame, header_frame, body):
-    #time.sleep(5)
+    records = json.loads(body)
+    self.publish(json.dumps(self.f(records)))
     self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-    self.publish(body)
 
   def run(self):
     self.connect(self.params['RABBITMQ_URL'])
     self.subscribe(self.on_message)
 
 
-
-
-
-
-
-
-
-
-class UpdateRecordsWorker(RabbitMQConsumer):
+class UpdateRecordsWorker(RabbitMQWorker):
   def __init__(self,params):
     pass
   def run(self):
     pass
 
-class MongoWriteWorker(RabbitMQConsumer):
+class MongoWriteWorker(RabbitMQWorker):
   def __init__(self,params):
     pass
   def run(self):
