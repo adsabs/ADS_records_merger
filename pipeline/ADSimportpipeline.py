@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 Controller script for the rabbitMQ consumers. rabbitMQ and worker settings defined in psettings.py.
 
@@ -10,6 +11,7 @@ import multiprocessing
 import time
 import signal
 import pika
+import subprocess
 import argparse
 
 import psettings
@@ -44,7 +46,7 @@ def status():
     print "Main controller.py process seems to be running with pid=%s" % L.old_pid
     send_signal(signal.SIGUSR1,L.old_pid)
   else:
-    print "No master instances of controller.py could be found."
+    print "No master instances could be found."
 
 @command
 def stop():
@@ -53,7 +55,7 @@ def stop():
     print "Shutting down master process=%s and its workers" % L.old_pid
     send_signal(signal.SIGHUP,L.old_pid)
   else:
-    print "No master instances of controller.py could be found."
+    print "No master instances could be found."
 
 @command
 def start():
@@ -134,6 +136,8 @@ class Lockfile(Singleton):
 
 
 class TaskMaster(Singleton):
+  '''TODO: Since this class is run as a daemon, the print statments dont make any sense. 
+  Should re-factor to write to a logfile or some other strategy'''
   def __init__(self,rabbitmq_url,rabbitmq_routes,workers):
     self.rabbitmq_url = rabbitmq_url
     self.rabbitmq_routes = rabbitmq_routes
@@ -170,13 +174,14 @@ class TaskMaster(Singleton):
     w.declare_all(*[self.rabbitmq_routes[i] for i in ['EXCHANGES','QUEUES','BINDINGS']])
     w.connection.close()
 
-  def poll_loop(self,loop_interval=10,ttl=15):
+  def poll_loop(self,poll_interval=psettings.POLL_INTERVAL,ttl=None):
     while self.running:
-      time.sleep(loop_interval)
-      for workers,params in self.workers.iteritems():
+      time.sleep(poll_interval)
+      for worker,params in self.workers.iteritems():
         current = params['active']
         for active in current:
           if not active['proc'].is_alive():
+            print active['proc'],"is not alive, restarting:",worker
             #This is seemingly required by multiprocessing to remove from the OS process list
             active['proc'].terminate()
             active['proc'].is_alive()
@@ -187,9 +192,9 @@ class TaskMaster(Singleton):
               active['proc'].terminate()
               active['proc'].is_alive()
               params['active'].remove(active)
-      self.start_workers()
+      self.start_workers(verbose=False)
 
-  def start_workers(self):
+  def start_workers(self,verbose=True):
     for worker,params in self.workers.iteritems():
       params['active'] = params.get('active',[])
       params['RABBITMQ_URL'] = psettings.RABBITMQ_URL
@@ -199,7 +204,8 @@ class TaskMaster(Singleton):
         w = eval('workers.%s' % worker)(params)
         proc = multiprocessing.Process(target=w.run)
         proc.start()
-        print "Started %s-%s" % (worker,proc.name)
+        if verbose:
+          print "Started %s-%s" % (worker,proc.name)
         params['active'].append({
           'proc': proc,
           'start': time.time(),

@@ -17,10 +17,10 @@ ARXIV2PUB = '/proj/ads/abstracts/config/links/preprint/arxiv2pub.list'
 #   'PRE': '/proj/ads/abstracts/pre/load/current/index.status',
 # }
 CLASSIC_BIBCODES = {
-  'AST': 'ast2.txt',
+  'AST': 'ast.txt',
 }
 
-BIBCODES_PER_JOB = 5
+BIBCODES_PER_JOB = 200
 
 #ADSrecords->mongodb mapping
 # key: <how to get key from ADSExports dict>

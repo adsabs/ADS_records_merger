@@ -6,10 +6,10 @@
 #Push expected in 0.9.14 release
 #see https://github.com/pika/pika/issues/347
 #RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/%2F?backpressure_detection=t'
-RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/%2F'
+RABBITMQ_URL = 'amqp://guest:guest@localhost:5672/%2F?socket_timeout=10&frame_max=5120000' #Max message size = 500kb
 
 PIDFILE = '/tmp/ADSimportpipeline.lock'
-POLL_INTERVAL = 3 #how many seconds to poll each worker to make sure it is alive.
+POLL_INTERVAL = 15 #how many seconds to poll each worker to make sure it is alive.
 
 RABBITMQ_ROUTES = {
   'EXCHANGES':[
@@ -72,7 +72,7 @@ WORKERS = {
       {'exchange': 'MergerPipelineExchange','routing_key': 'MongoWriteRoute',},
     ],
     'subscribe': [
-      {'queue': 'FindNewRecordsQueue',},
+      {'queue': 'UpdateRecordsQueue',},
     ],
   },
   
@@ -81,7 +81,7 @@ WORKERS = {
     'qos_prefetch': 10,
     'publish': [],
     'subscribe': [
-      {'queue':'FindNewRecordsQueue',},
+      {'queue':'MongoWriteQueue',},
     ],
   },
 }

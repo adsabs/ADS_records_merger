@@ -80,6 +80,8 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
           else:
             records.append(r)
           if args.async and len(records) >= BIBCODES_PER_JOB:
+            #TODO...refactor this, it will miss the last batch of records unless it the total is evently divisible by BIBCODES_PER_JOB
+
             w = RabbitMQWorker()
             w.connect(psettings.RABBITMQ_URL)
             w.channel.basic_publish('MergerPipelineExchange','FindNewRecordsRoute',json.dumps(records))

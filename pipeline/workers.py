@@ -35,7 +35,6 @@ class RabbitMQWorker:
     self.connection.close()
 
   def declare_all(self,exchanges,queues,bindings):
-    #todo: are these declarations blocking? Shouldn't matter either way, but would be nice to know.
     [self.channel.exchange_declare(**e) for e in exchanges]
     [self.channel.queue_declare(**q) for q in queues]
     [self.channel.queue_bind(**b) for b in bindings]
@@ -44,11 +43,13 @@ class RabbitMQWorker:
 class FindNewRecordsWorker(RabbitMQWorker):
   def __init__(self,params):
     self.params=params
-    from lib import utils #Hack to avoid loading ADSRecords until it is necessary
-    self.f = utils.findChangedRecords
+    from lib.utils import findChangedRecords #Hack to avoid loading ADSRecords until it is necessary
+    self.f = findChangedRecords
 
   def on_message(self, channel, method_frame, header_frame, body):
+    #print self.__class__,"Recieved message:",channel,method_frame
     records = json.loads(body)
+    #print self._class__,"published to",self.params['publish']
     self.publish(json.dumps(self.f(records)))
     self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
@@ -57,14 +58,37 @@ class FindNewRecordsWorker(RabbitMQWorker):
     self.subscribe(self.on_message)
 
 
+
 class UpdateRecordsWorker(RabbitMQWorker):
   def __init__(self,params):
-    pass
+    self.params=params
+    from lib.utils import updateRecords #Hack to avoid loading ADSRecords until it is necessary
+    self.f = updateRecords
+
+  def on_message(self, channel, method_frame, header_frame, body):
+    #print self.__class__,"Recieved message:",channel,method_frame
+    records = json.loads(body)
+    self.publish(json.dumps(self.f(records)))
+    #print self._class__,"published to",self.params['publish']
+    self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+
   def run(self):
-    pass
+    self.connect(self.params['RABBITMQ_URL'])
+    self.subscribe(self.on_message)
+
 
 class MongoWriteWorker(RabbitMQWorker):
   def __init__(self,params):
-    pass
+    self.params=params
+    from lib.utils import mongoCommit #Hack to avoid loading ADSRecords until it is necessary
+    self.f = mongoCommit
+  
+  def on_message(self, channel, method_frame, header_frame, body):
+    #print self.__class__,"Recieved message:",channel,method_frame
+    records = json.loads(body)
+    self.f(records)
+    self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+
   def run(self):
-    pass
+    self.connect(self.params['RABBITMQ_URL'])
+    self.subscribe(self.on_message)
