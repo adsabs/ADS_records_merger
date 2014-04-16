@@ -27,6 +27,15 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self.savedPath)
 
+def publish(records,url=psettings.RABBITMQ_URL,exchange='MergerPipelineExchange',routing_key='FindNewRecordsRoute'):
+  #Its ok that we create/tear down this connection many times within this script; it is not a bottleneck
+  #and likely slightly increases stability of the workflow
+  w = RabbitMQWorker()
+  w.connect(psettings.RABBITMQ_URL)
+  w.channel.basic_publish('MergerPipelineExchange','FindNewRecordsRoute',json.dumps(records))
+  w.connection.close()
+
+
 def main(LOGGER=LOGGER,MONGO=MONGO,*args):
   PROJECT_HOME = os.path.abspath(os.path.dirname(__file__))
   start = time.time()
@@ -67,9 +76,9 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
     LOGGER.info('Working on bibcodes in %s' % target)
     
     s = time.time() #Let's eventually use statsd for these timers :)
-    records = []
     with cd(PROJECT_HOME):
       with open(CLASSIC_BIBCODES[target]) as fp:
+        records = []
         for line in fp:
           if not line or line.startswith("#"):
             continue
@@ -80,21 +89,18 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
           else:
             records.append(r)
           if args.async and len(records) >= BIBCODES_PER_JOB:
-            #TODO...refactor this, it will miss the last batch of records unless it the total is evently divisible by BIBCODES_PER_JOB
-
-            w = RabbitMQWorker()
-            w.connect(psettings.RABBITMQ_URL)
-            w.channel.basic_publish('MergerPipelineExchange','FindNewRecordsRoute',json.dumps(records))
-            w.connection.close()
+            #We will miss the last batch of records unless it the total is evenly divisible by BIBCODES_PER_JOB
+            publish(records)
             records = []
-            #check if queue has X jobs already
-            #if so, poll queue until it has a free spot
-            #... OR poll workers for a free one?
-            #add n bibcodes to queue for processing. A worker should take it off the queue.
+            #TODO: Throttling?
 
 
-    LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))      
-    if not args.async:
+    LOGGER.debug('[%s] Read took %0.1fs' % (target,(time.time()-s)))
+    #Publish any leftovers in case the total was not evenly divisibly
+    if args.async:
+      if records:
+        publish(records)
+    else:
       s = time.time()
       records = utils.findChangedRecords(records,LOGGER,MONGO)
       LOGGER.info('[%s] Found %s records to be updated in %0.1fs' % (target,len(records),(time.time()-s)))
@@ -102,8 +108,6 @@ def main(LOGGER=LOGGER,MONGO=MONGO,*args):
       s = time.time()
       records = utils.updateRecords(records,LOGGER)
       LOGGER.info('[%s] Updating %s records took %0.1fs' % (target,len(records),(time.time()-s)))
-
-      records = utils.enforceSchema(records,LOGGER)
 
       s = time.time()
       utils.mongoCommit(records,LOGGER,MONGO)
