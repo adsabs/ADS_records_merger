@@ -66,7 +66,7 @@ WORKERS = {
   },
 
   'UpdateRecordsWorker': {
-    'concurrency': 1,
+    'concurrency': 3,
     'qos_prefetch': 10,
     'publish': [
       {'exchange': 'MergerPipelineExchange','routing_key': 'MongoWriteRoute',},

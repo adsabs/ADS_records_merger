@@ -47,9 +47,7 @@ class FindNewRecordsWorker(RabbitMQWorker):
     self.f = findChangedRecords
 
   def on_message(self, channel, method_frame, header_frame, body):
-    #print self.__class__,"Recieved message:",channel,method_frame
     records = json.loads(body)
-    #print self._class__,"published to",self.params['publish']
     self.publish(json.dumps(self.f(records)))
     self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
@@ -66,10 +64,8 @@ class UpdateRecordsWorker(RabbitMQWorker):
     self.f = updateRecords
 
   def on_message(self, channel, method_frame, header_frame, body):
-    #print self.__class__,"Recieved message:",channel,method_frame
     records = json.loads(body)
     self.publish(json.dumps(self.f(records)))
-    #print self._class__,"published to",self.params['publish']
     self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
   def run(self):
@@ -84,7 +80,6 @@ class MongoWriteWorker(RabbitMQWorker):
     self.f = mongoCommit
   
   def on_message(self, channel, method_frame, header_frame, body):
-    #print self.__class__,"Recieved message:",channel,method_frame
     records = json.loads(body)
     self.f(records)
     self.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
